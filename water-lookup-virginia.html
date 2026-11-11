@@ -296,7 +296,7 @@ body { min-height: 100vh; }
       <p class="chat-hint">Run the local server with `npm start` for AI chat; opening this HTML file directly will not connect to the assistant. It does not provide live monitoring or predict unmeasured concentrations.</p>
       <p class="chat-evidence-note">No source links on a reply means no study record was cited for that response. The reply may be a general unit explanation or a note that this prototype has no verified measurement for the question.</p>
     </section>
-  <button class="chat-launcher" id="openResearchChat" type="button" aria-controls="researchChatPanel" aria-expanded="false">Ask about the data</button>
+  <button class="chat-launcher" id="openResearchChat" hidden type="button" aria-controls="researchChatPanel" aria-expanded="false">Ask about the data</button>
   <script>
     const selectedBrowseIds=new Set();
     const browseRecords=[
@@ -1793,9 +1793,8 @@ body { min-height: 100vh; }
     chatLauncher.addEventListener("click",()=>setChatPanelOpen(true,true));
     chatCloser.addEventListener("click",()=>setChatPanelOpen(false,true));
     document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!chatPanel.hidden&&chatPanel.contains(document.activeElement)){setChatPanelOpen(false,true)}});
-    const chatDesktop=window.matchMedia("(min-width:1100px)");
-    setChatPanelOpen(chatDesktop.matches);
-    chatDesktop.addEventListener("change",event=>setChatPanelOpen(event.matches));
+    setChatPanelOpen(false);
+    chatLauncher.hidden = true;
 
     const chatHistory=[];
     const chatScopeNote=document.createElement("p");chatScopeNote.className="chat-hint";chatScopeNote.textContent="Answers use this state’s study records and the active search and filters. Clear filters to broaden the evidence. Exact cited lookups work without an API key; optional AI explanations require the local server setup.";chatForm.before(chatScopeNote);

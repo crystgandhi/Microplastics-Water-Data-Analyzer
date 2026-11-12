@@ -105,7 +105,7 @@ body { min-height: 100vh; }
     </li>
     <li><strong>Contamination controls.</strong> Look for field or laboratory blanks and check whether the authors adjusted counts using them. Treat any missing detail as unknown.</li>
   </ul>
-  <p><a href="https://www.polygonesystems.com/microplastic-testing">PolyGone laboratory methods</a> · <a href="https://water.waterboards.ca.gov/drinking_water/certlic/drinkingwater/microplastics.html">California Water Boards: Drinking-water microplastics methods</a>
+  <p><a href="https://www.polygonesystems.com/microplastic-laboratory-analysis">PolyGone microplastic testing services</a> · <a href="https://water.waterboards.ca.gov/drinking_water/certlic/drinkingwater/microplastics.html">California Water Boards: Drinking-water microplastics methods</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/35283150/">Interlaboratory study (PubMed)</a>
     </p>
 </details>
 
@@ -169,6 +169,8 @@ body { min-height: 100vh; }
       <div class="compare-control"><label for="compareMetric">Sample type and unit</label><select id="compareMetric"></select></div>
       <p class="compare-note">This is a contextual review, not a pollution ranking. Matching units and sample types alone do not make studies comparable: check particle size, collection method, result statistic, sampling dates and evidence source. No units are converted here.</p>
       <div id="compareChart" aria-live="polite"></div>
+      <h3>Can these records be compared?</h3>
+      <div id="selectedComparison" aria-live="polite"></div>
     </section>
     <section class="explorer" aria-labelledby="regionalTitle">
       <h2 id="regionalTitle">State research summary</h2>
@@ -270,7 +272,7 @@ body { min-height: 100vh; }
       </div>
       <div class="pathway-destination"><svg viewBox="0 0 40 30" aria-hidden="true"><path d="M0 17 Q10 10 20 17 T40 17 V30 H0Z" fill="#6cb4a5"/><path d="M0 12 Q10 5 20 12 T40 12" fill="none" stroke="#176b58" stroke-width="2"/><circle cx="12" cy="21" r="2" fill="#bf8a4c"/><circle cx="27" cy="25" r="2" fill="#bf8a4c"/></svg><span>Water flows can carry particles downstream. Depending on particle properties and water conditions, they may float, remain suspended, or settle into sediment.</span></div>
       <p class="pathway-caveat"><b>Important:</b> this overview describes general pathways reported by NOAA and EPA. It does not identify which source contributed particles to a particular river or prove a source for any concentration record in this app.</p>
-      <p class="pathway-sources"><b>Sources:</b> <a href="https://marinedebris.noaa.gov/what-marine-debris/microplastics" target="_blank" rel="noopener">NOAA Marine Debris Program: Microplastics</a> · <a href="https://www.epa.gov/plastics/about-plastic-products-and-plastic-pollution" target="_blank" rel="noopener">U.S. EPA: Plastic products and pollution</a> · <a href="https://www.epa.gov/nutrientpollution/sources-and-solutions-stormwater" target="_blank" rel="noopener">U.S. EPA: Stormwater</a> · <a href="https://pubs.usgs.gov/publication/cir1521/full" target="_blank" rel="noopener">USGS: Microplastic transport and fate</a></p>
+      <p class="pathway-sources"><b>Sources:</b> <a href="https://marinedebris.noaa.gov/what-marine-debris/microplastics" target="_blank" rel="noopener">NOAA Marine Debris Program: Microplastics</a> · <a href="https://www.epa.gov/plastics/impacts-plastic-pollution" target="_blank" rel="noopener">U.S. EPA: Impacts of plastic pollution</a> · <a href="https://www.epa.gov/nutrientpollution/sources-and-solutions-stormwater" target="_blank" rel="noopener">U.S. EPA: Stormwater</a> · <a href="https://pubs.usgs.gov/publication/cir1521/full" target="_blank" rel="noopener">USGS: Microplastic transport and fate</a></p>
     </section>
     <section class="project" aria-labelledby="studentTitle">
       <div class="projecthead"><div><h2 id="studentTitle">Related treatment prototype: Mia Heller’s ferrofluid system</h2><p>A 2025 science-fair project tested a magnetic-liquid approach for capturing microplastics.</p></div><span class="tag">Student project result</span></div>
@@ -1040,7 +1042,7 @@ body { min-height: 100vh; }
       for(const site of uniqueSorted(matching.map(r=>r.site))){const option=new Option(site.length>110?site.slice(0,107)+"…":site,site);option.title=site;filterSite.add(option)}
       filterSite.disabled=!matching.length;
     }
-    function updateState(){
+    function updateState(render=true){
       for(const filter of [filterYear,filterMatrix,filterUnit,filterResultType,filterEvidence])filter.value="";
       filterRiver.replaceChildren(new Option(filterState.value && !["Maryland","North Carolina","Virginia","Washington, D.C."].includes(filterState.value) ? "No river list available yet" : "All water bodies", ""));
       for(const value of uniqueSorted(listedWaterBodies())){const matching=stateRecords().filter(r=>r.river===value);const tag=matching.some(r=>r.resultType==="concentration")?"concentration available":matching.length?(matching.every(r=>r.source.startsWith("Research status"))?"research pending":"study details only"):"not added yet";filterRiver.add(new Option(value+" · "+tag,value));}
@@ -1057,7 +1059,7 @@ body { min-height: 100vh; }
       document.getElementById("stateNotice").textContent=filterState.value==="Maryland" ? "Maryland: water bodies with existing study records are listed. The Anacostia watershed record covers Maryland and Washington, D.C.; see the source for individual sites." : filterState.value==="North Carolina" ? "Choose a North Carolina river. Some records summarize watersheds, including tributaries; other rivers are still being researched." : filterState.value==="Virginia" ? "Virginia: major rivers and selected tributaries are listed. Four Mile Run has a published mixed-water concentration range. Lafayette River has a conference-study reference; its concentration is not verified. York River and James River have oyster-tissue records, separate from water data. James River has a seven-park watershed summary and two separate mainstem park records (2022 sampling). Holliday Lake and the sampled Pocahontas State Park lake have separate lake records. New River has measured water records at Kentland Farm and Radford Municipal Park. Stroubles Creek and Toms Creek have separate 2023 water and sediment measurements. Elizabeth River has a published suspected-piece abundance with size and identification limitations. Occoquan River has a student conference study lead pending source verification. Potomac, Rappahannock and Roanoke have additional study records or research leads. Shenandoah and Dan have research-status entries with no verified microplastic concentration. Clinch, Powell, South Fork Holston and Rivanna have research-status entries; Appomattox has an unverified university project report. Pamunkey and Mattaponi have monitoring-framework records; Chickahominy has a planned biota project; Nansemond has related facility research only; Blackwater (Chowan Basin) has a research-gap entry. Jackson, Maury, Meherrin, Nottoway and Piankatank have research-gap entries without verified concentrations. Other rivers are being researched." : filterState.value==="Washington, D.C." ? "Existing Washington, D.C. records are shown; the Anacostia watershed summary also covers Maryland." : filterState.value ? "The river list and study records for "+filterState.value+" have not been added yet." : "Select Maryland to browse its available study water bodies. Other states will be added one at a time.";
       document.querySelector(".map-card").hidden=!!filterState.value && filterState.value!=="Maryland";
       document.querySelector(".explorer-layout").style.gridTemplateColumns=filterState.value && filterState.value!=="Maryland"?"minmax(0,1fr)":"";
-      renderBrowseRecords();
+      if(render)renderBrowseRecords();
     }
     for(const value of uniqueSorted(browseRecords.map(r=>r.evidence)))filterEvidence.add(new Option(value,value));
     for(const value of uniqueSorted(browseRecords.flatMap(r=>r.years))){const option=document.createElement("option");option.value=value;option.textContent=value;filterYear.append(option)}
@@ -1066,7 +1068,40 @@ body { min-height: 100vh; }
     function methodsText(methods){return [methods.samplingVolume,methods.sizeRange,methods.identification,methods.qualityChecks].join(" ")}
     const downloadCsv=document.getElementById("downloadCsv"),downloadSelectedCsv=document.getElementById("downloadSelectedCsv"),downloadSelectedRis=document.getElementById("downloadSelectedRis"),selectionStatus=document.getElementById("selectionStatus"),selectVisible=document.getElementById("selectVisible");
     function renderExactSamplingLocations(){const box=document.getElementById("exactSamplingLocations"),points=[...new Map(browseRecords.filter(r=>Number.isFinite(Number(r.latitude))&&Number.isFinite(Number(r.longitude))&&r.coordinateSource).map(r=>[r.latitude+","+r.longitude,r])).values()];if(!points.length){box.innerHTML="<b>Exact sample points:</b> no coordinates are published in the linked record summaries.";return}box.innerHTML="<b>Exact sample points published by studies</b>"+points.map(r=>'<div class="exact-location">'+esc(r.river)+" · "+esc(r.latitude)+", "+esc(r.longitude)+" · "+esc(r.coordinateSource)+' · <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat='+encodeURIComponent(r.latitude)+'&mlon='+encodeURIComponent(r.longitude)+'#map=15/'+encodeURIComponent(r.latitude)+'/'+encodeURIComponent(r.longitude)+'">Open point on map</a></div>').join("")}
-    function updateSelectionControls(){const visible=visibleBrowseRecords(),selected=selectedBrowseIds.size;selectionStatus.textContent=selected+" record"+(selected===1?"":"s")+" selected · "+visible.length+" currently visible (selection includes records hidden by filters)";downloadSelectedCsv.disabled=!selected;downloadSelectedRis.disabled=!selected;selectVisible.checked=visible.length>0&&visible.every(r=>selectedBrowseIds.has(r.id));selectVisible.indeterminate=visible.some(r=>selectedBrowseIds.has(r.id))&&!selectVisible.checked}
+    function renderSelectedComparison(){
+      const panel=document.getElementById("selectedComparison");
+      if(selectedBrowseIds.size!==2){
+        panel.textContent="Select exactly two records using the table checkboxes to see how they compare.";
+        return;
+      }
+      const [left,right]=browseRecords.filter(record=>selectedBrowseIds.has(record.id));
+      const dimensions=[
+        ["Sample type",left.matrix,right.matrix],
+        ["Reporting unit",left.unit,right.unit],
+        ["Result and statistic",left.metric,right.metric],
+        ["Particle size range",left.methods.sizeRange,right.methods.sizeRange],
+        ["Identification method",left.methods.identification,right.methods.identification],
+        ["Quality checks",left.methods.qualityChecks,right.methods.qualityChecks]
+      ];
+      const unavailable=value=>!value?.trim() || /not stated|not reported|not specified|unknown|unavailable|not applicable|not provided|^n\/a$/i.test(value);
+      const rows=dimensions.map(([label,a,b])=>{
+        const status=unavailable(a)||unavailable(b)?"Check source":a.trim()===b.trim()?"Same recorded detail":"Different recorded details";
+        return {label,a,b,status};
+      });
+      const measured=[left,right].every(record=>record.resultType==="concentration");
+      const sameBasis=left.matrix===right.matrix && left.unit===right.unit && !unavailable(left.matrix) && !unavailable(left.unit);
+      let verdict="Matching recorded details. Review site scope and sampling dates before interpreting differences.";
+      if(rows.some(row=>row.status!=="Same recorded detail")) verdict="Compare with caution. Review the differences and missing details below.";
+      if(!sameBasis) verdict="Different or unverified sample types or reporting units. Review both original values.";
+      if(!measured) verdict="A concentration comparison requires two concentration or abundance records.";
+      panel.innerHTML=`<p><strong>${esc(verdict)}</strong></p>
+        <div style="overflow-x:auto"><table class="record-meta">
+          <thead><tr><th scope="col">Detail</th><th scope="col">${esc(left.river)} · ${esc(left.site)}</th><th scope="col">${esc(right.river)} · ${esc(right.site)}</th><th scope="col">Comparison</th></tr></thead>
+          <tbody><tr><th scope="row">Reported value</th><td>${esc(left.value)}</td><td>${esc(right.value)}</td><td></td></tr>
+          ${rows.map(({label,a,b,status})=>`<tr><th scope="row">${esc(label)}</th><td>${esc(a||"Not recorded")}</td><td>${esc(b||"Not recorded")}</td><td>${esc(status)}</td></tr>`).join("")}
+          </tbody></table></div>`;
+    }
+    function updateSelectionControls(){renderSelectedComparison();const visible=visibleBrowseRecords(),selected=selectedBrowseIds.size;selectionStatus.textContent=selected+" record"+(selected===1?"":"s")+" selected · "+visible.length+" currently visible (selection includes records hidden by filters)";downloadSelectedCsv.disabled=!selected;downloadSelectedRis.disabled=!selected;selectVisible.checked=visible.length>0&&visible.every(r=>selectedBrowseIds.has(r.id));selectVisible.indeterminate=visible.some(r=>selectedBrowseIds.has(r.id))&&!selectVisible.checked}
     function renderCoverage(){
       const names=listedWaterBodies();
       const rows=names.map(name=>{const matching=stateRecords().filter(r=>r.river===name),c=matching.filter(r=>r.resultType==="concentration").length;return [name,c,matching.length-c]});
@@ -1087,10 +1122,16 @@ body { min-height: 100vh; }
       box.innerHTML='<p class="record-meta">'+rows.length+' record'+(rows.length===1?' — one record is available; a comparison needs additional compatible records.':'s — each row retains its own study scope and statistic.')+'</p><div style="overflow-x:auto"><table class="record-meta" style="width:100%;text-align:left;border-collapse:collapse"><thead><tr><th>Water body / state</th><th>Reported value</th><th>Result and method</th><th>Site / scope</th><th>Source</th></tr></thead><tbody>'+rows.map(r=>'<tr><td style="padding:10px 8px;border-top:1px solid var(--line)">'+esc(r.river)+'<br>'+esc(r.state)+'</td><td style="padding:10px 8px;border-top:1px solid var(--line)"><b>'+esc(r.value)+'</b></td><td style="padding:10px 8px;border-top:1px solid var(--line)">'+esc(r.metric)+'<br>'+esc(r.method)+'<br>'+esc(r.period)+'</td><td style="padding:10px 8px;border-top:1px solid var(--line)">'+esc(r.site)+'</td><td style="padding:10px 8px;border-top:1px solid var(--line)">'+esc(r.evidence)+'<br>'+r.links.map(([label,url])=>'<a target="_blank" rel="noopener" href="'+esc(url)+'">'+esc(label)+'</a>').join('<br>')+'</td></tr>').join('')+'</tbody></table></div>';
     }
     function renderStudyTable(title, items){
-      const columns = ['Export', 'Water body / study region', 'Sampling period', 'Sample type', 'Reported result', 'Unit', 'Source and details'];
+      const columns = ['Select', 'Water body / study region', 'Sampling date or period', 'Reported result', 'Unit', 'Study details'];
       const rows = items.map(r=>{
         const unitSuffix = ' '+r.unit;
         const result = r.unit && r.value.endsWith(unitSuffix) ? r.value.slice(0,-unitSuffix.length) : r.value;
+        const [samplingPeriod,...dateNotes] = r.period.split('; ');
+        const publicationNote = dateNotes.find(note=>/^(?:(?:thesis|study|abstract) )?published\b|^reported\b|^conference (?:poster|abstract)\b/i.test(note));
+        const citationYear = r.source.match(/\(((?:19|20)\d{2})\)/)?.[1]
+          ?? r.source.match(/\. ((?:19|20)\d{2});/)?.[1];
+        const publication = publicationNote || citationYear || 'See source for publication date';
+        const sampling = [samplingPeriod,...dateNotes.filter(note=>note!==publicationNote)].join('; ');
         const coordinates = r.latitude!=null && r.longitude!=null
           ? 'Published coordinates: '+esc(r.latitude)+', '+esc(r.longitude)+(r.coordinateSource?' · '+esc(r.coordinateSource):'')
           : 'Coordinates: not recorded in this app; consult the original study.';
@@ -1098,14 +1139,15 @@ body { min-height: 100vh; }
         return `<tr>
           <td><input type="checkbox" data-record-id="${esc(r.id)}" aria-label="Include ${esc(r.river)} — ${esc(r.matrix)} — ${esc(r.metric)} in export" ${selectedBrowseIds.has(r.id)?'checked':''}></td>
           <th scope="row">${esc(r.river)}<br><span class="record-meta">${esc(r.state)}</span></th>
-          <td>${esc(r.period)}</td>
-          <td>${esc(r.matrix)}</td>
+          <td>${esc(sampling)}</td>
           <td><b>${esc(result)}</b><br><span class="record-meta">${esc(r.metric)}</span></td>
           <td>${esc(r.unit)}</td>
-          <td>${links}
+          <td>
             <details class="record-methods">
               <summary>Study details</summary>
               <div class="record-meta"><b>${esc(r.resultLabel)}</b> · ${esc(r.evidence)}<br>
+              <b>Sample type:</b> ${esc(r.matrix)}<br>
+              <b>Publication or release:</b> ${esc(publication)}<br>
               <b>Site and scope:</b> ${esc(r.site)}<br>
               <b>Method:</b> ${esc(r.method)}<br>
               <b>Sampling volume / mass:</b> ${esc(r.methods.samplingVolume)}<br>
@@ -1113,6 +1155,7 @@ body { min-height: 100vh; }
               <b>Identification:</b> ${esc(r.methods.identification)}<br>
               <b>Quality checks:</b> ${esc(r.methods.qualityChecks)}<br>
               <b>Study:</b> ${esc(r.source)}<br>
+              <b>Source links:</b> ${links || "No source link recorded"}<br>
               <b>Full reference:</b> ${esc(r.citation)}<br>
               ${coordinates}</div>
             </details>
@@ -1127,13 +1170,13 @@ body { min-height: 100vh; }
         </table>
       </div>`;
     }
-    function renderBrowseRecords(){const found=visibleBrowseRecords();renderCoverage();renderComparison();const measured=found.filter(r=>r.resultType==="concentration").length;recordCount.textContent=measured+" concentration / abundance records · "+(found.length-measured)+" other records";downloadCsv.disabled=!found.length;if(!found.length){recordList.innerHTML='<div class="filter-empty">'+(filterState.value==="Virginia" && filterRiver.value && !stateRecords().some(r=>r.river===filterRiver.value) ? 'No verified microplastic data added yet for this river. This does not mean the river is free of microplastics.' : searchInput.value.trim() ? 'No matching records have been added yet for this search and active filters. Try another name or clear the filters; this does not indicate an absence of microplastics.' : filterState.value==="North Carolina" ? 'No records match the selected river and filters. A study record may not have been added yet.' : filterState.value && !["Maryland","Virginia","Washington, D.C."].includes(filterState.value) ? 'River lists and study records for this state have not been added yet.' : 'No records match these filters. Try a different year, sample type, or unit.')+'</div>';updateSelectionControls();return}const grouped=[['concentration','Concentrations and surface abundance'],['study','Other study details — not concentrations'],['other','Other particle measurements']];recordList.innerHTML=grouped.map(([kind,title])=>{const items=found.filter(r=>r.resultType===kind);return items.length ? renderStudyTable(title, items) : ''}).join('');recordList.querySelectorAll('[data-record-id]').forEach(box=>box.addEventListener('change',()=>{const id=Number(box.dataset.recordId);if(box.checked)selectedBrowseIds.add(id);else selectedBrowseIds.delete(id);updateSelectionControls()}));updateSelectionControls()}
+    function renderBrowseRecords(){saveBrowseFilters();const found=visibleBrowseRecords();renderCoverage();renderComparison();const measured=found.filter(r=>r.resultType==="concentration").length;recordCount.textContent=measured+" concentration / abundance records · "+(found.length-measured)+" other records";downloadCsv.disabled=!found.length;if(!found.length){recordList.innerHTML='<div class="filter-empty">'+(filterState.value==="Virginia" && filterRiver.value && !stateRecords().some(r=>r.river===filterRiver.value) ? 'No verified microplastic data added yet for this river. This does not mean the river is free of microplastics.' : searchInput.value.trim() ? 'No matching records have been added yet for this search and active filters. Try another name or clear the filters; this does not indicate an absence of microplastics.' : filterState.value==="North Carolina" ? 'No records match the selected river and filters. A study record may not have been added yet.' : filterState.value && !["Maryland","Virginia","Washington, D.C."].includes(filterState.value) ? 'River lists and study records for this state have not been added yet.' : 'No records match these filters. Try a different year, sample type, or unit.')+'</div>';updateSelectionControls();return}const grouped=[['concentration','Concentrations and surface abundance'],['study','Other study details — not concentrations'],['other','Other particle measurements']];recordList.innerHTML=grouped.map(([kind,title])=>{const items=found.filter(r=>r.resultType===kind);return items.length ? renderStudyTable(title, items) : ''}).join('');recordList.querySelectorAll('[data-record-id]').forEach(box=>box.addEventListener('change',()=>{const id=Number(box.dataset.recordId);if(box.checked)selectedBrowseIds.add(id);else selectedBrowseIds.delete(id);updateSelectionControls()}));updateSelectionControls()}
     function csvCell(value){return '"'+String(value??"").replace(/"/g,'""')+'"'}
     function downloadBlob(filename,content,type){const blob=new Blob(["\uFEFF"+content],{type}),url=URL.createObjectURL(blob),link=document.createElement("a");link.href=url;link.download=filename;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
     function exportCsv(found,filename){const headers=["Water body","State / study region","Result type","Evidence source type","Study site/scope","Sampling period","Sampling year(s)","Sample type","Metric","Reported value","Unit","Method","Sampling volume or mass","Particle size range","Identification method","Quality checks","Latitude","Longitude","Coordinate source","Full reference","Source links"],rows=[headers,...found.map(r=>[r.river,r.state,r.resultLabel,r.evidence,r.site,r.period,r.years.length?r.years.join("; "):"Not stated in current summary",r.matrix,r.metric,r.value,r.unit,r.method,r.methods.samplingVolume,r.methods.sizeRange,r.methods.identification,r.methods.qualityChecks,r.latitude??"",r.longitude??"",r.coordinateSource||"",r.citation,r.links.map(a=>a[0]+": "+a[1]).join(" | ")])].map(row=>row.map(csvCell).join(","));downloadBlob(filename,rows.join("\r\n"),"text/csv;charset=utf-8")}
     function exportRis(found){const ris=found.map(r=>["TY  - GEN","TI  - "+r.river+" — "+r.metric,"N1  - "+r.citation,"N1  - Result type: "+r.resultLabel,"N1  - Evidence source: "+r.evidence,"N1  - Sample type: "+r.matrix,"N1  - Scope: "+r.site,...r.links.flatMap(a=>["UR  - "+a[1],"N1  - "+a[0]]),...(r.latitude!=null&&r.longitude!=null?["N1  - Published coordinates: "+r.latitude+", "+r.longitude+(r.coordinateSource?" ("+r.coordinateSource+")":"")]:[]),"ER  - "].join("\r\n")).join("\r\n\r\n");downloadBlob("microplastics-selected-records.ris",ris,"application/x-research-info-systems;charset=utf-8")}
     document.getElementById("compareMetric").addEventListener("change",renderComparison);
-    filterState.addEventListener("change",updateState);
+    filterState.addEventListener("change",()=>updateState());
     filterRiver.addEventListener("change",()=>{updateSiteOptions();renderBrowseRecords()});
     [filterSite,filterYear,filterMatrix,filterUnit,filterResultType,filterEvidence].forEach(select=>select.addEventListener("change",renderBrowseRecords));
     selectVisible.addEventListener("change",()=>{for(const r of visibleBrowseRecords()){if(selectVisible.checked)selectedBrowseIds.add(r.id);else selectedBrowseIds.delete(r.id)}renderBrowseRecords()});
@@ -1143,7 +1186,27 @@ body { min-height: 100vh; }
     downloadSelectedRis.addEventListener("click",()=>exportRis(browseRecords.filter(r=>selectedBrowseIds.has(r.id))));
     filterState.value="Maryland";
     renderExactSamplingLocations();
-    updateState();
+    const shareableFilters=[
+      ["state",filterState],["waterBody",filterRiver],["year",filterYear],["sampleType",filterMatrix]
+    ];
+    function saveBrowseFilters(){
+      const url=new URL(location.href);
+      for(const [key,filter] of shareableFilters){
+        if(filter.value)url.searchParams.set(key,filter.value);
+        else url.searchParams.delete(key);
+      }
+      if(url.href!==location.href && location.protocol!=="file:")history.replaceState(history.state,"",url);
+    }
+    const sharedParams=new URLSearchParams(location.search);
+    function restoreFilter(key,filter){
+      const value=sharedParams.get(key);
+      if(Array.from(filter.options).some(option=>option.value===value))filter.value=value;
+    }
+    restoreFilter("state",filterState);
+    updateState(false);
+    for(const [key,filter] of shareableFilters.slice(1))restoreFilter(key,filter);
+    updateSiteOptions();
+    renderBrowseRecords();
     function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
     document.getElementById("searchForm").addEventListener("submit",event=>{
       event.preventDefault();

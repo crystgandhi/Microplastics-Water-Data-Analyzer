@@ -76,6 +76,7 @@ body { min-height: 100vh; }
     .study-results-table .record-methods{min-width:160px}
     #openResearchChat, #researchChatPanel { display: none !important; }
 </style>
+<style>.particle-properties{margin:0 0 16px;padding:12px 16px;border:1px solid #b8d4e6;border-radius:10px;background:#f4faff}.particle-properties summary{cursor:pointer}.particle-properties p:last-child{margin-bottom:0}</style>
 </head>
 <body>
   <main class="shell">
@@ -88,11 +89,11 @@ body { min-height: 100vh; }
       <h1 id="title">Explore microplastics studies in Maryland.</h1>
       <p>Choose a river or water body and a sampling site or study scope in Maryland. Review historical measurements, study methods, research gaps and source links. Shared-watershed records retain their original geographic scope.</p>
     </section>
- <details class="particle-properties"></details>
+<details class="particle-properties">
  <summary><strong>Why particle properties matter</strong></summary>
   <p>When comparing concentrations, check the polymer type, particle size range, and surface condition (such as weathering) when the study reports them. Two samples with the same particle count per liter can contain different kinds of particles. Different minimum particle sizes can also affect which particles each study counts.</p>
   <p>In laboratory tests, Qian and colleagues found that tested microplastics generated reactive oxygen species at their surfaces in water. More water-repellent surfaces showed greater activity under the study conditions. River particle counts alone cannot tell us how reactive those particles are.</p>
-  <p><a href="https://doi.org/10.1038/s41586-026-11141-y">Qian et al. (2026), Nature · Microplastic–water interfaces</a></p>
+  <p><a href="https://doi.org/10.1038/s41586-026-11141-y" target="_blank" rel="noopener">Qian et al. (2026), Nature · Microplastic–water interfaces</a></p>
 </details>
 <details class="particle-properties">
   <summary><strong>Can I compare these records?</strong></summary>
@@ -101,11 +102,12 @@ body { min-height: 100vh; }
     <li><strong>Sample type and reporting basis.</strong> Compare like samples, such as surface water with surface water. Particles per liter measures count, while micrograms per liter measures mass. Compare results on the same basis after converting compatible units.</li>
     <li><strong>Particle size range.</strong> Check both limits, especially the smallest particle counted. A study that counts particles down to 50 µm can include particles that a study starting at 300 µm misses. Compare a shared size range if both studies report results for it.</li>
     <li><strong>Analytical method.</strong> Nile Red staining screens for suspected plastic particles. FTIR can identify the polymer of individual particles analyzed. Pyrolysis GC–MS measures polymer mass in the sample and does not provide individual particle counts or sizes.
-     <a href="https://www.openspecy.org/pkgdown/">Open Specy</a> is an open-source tool for matching FTIR and Raman spectra to reference spectra.
+     <a href="https://www.openspecy.org/pkgdown/" target="_blank" rel="noopener">Open Specy</a> is an open-source tool for matching FTIR and Raman spectra to reference spectra.
     </li>
     <li><strong>Contamination controls.</strong> Look for field or laboratory blanks and check whether the authors adjusted counts using them. Treat any missing detail as unknown.</li>
   </ul>
-  <p><a href="https://www.polygonesystems.com/microplastic-laboratory-analysis">PolyGone microplastic testing services</a> · <a href="https://water.waterboards.ca.gov/drinking_water/certlic/drinkingwater/microplastics.html">California Water Boards: Drinking-water microplastics methods</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/35283150/">Interlaboratory study (PubMed)</a>
+  <p><a href="https://www.polygonesystems.com/microplastic-laboratory-analysis" target="_blank" rel="noopener">PolyGone microplastic testing services</a> · <a href="https://water.waterboards.ca.gov/drinking_water/certlic/drinkingwater/microplastics.html" target="_blank" rel="noopener">California Water Boards: Drinking-water microplastics methods</a> · 
+    <a href="https://pubmed.ncbi.nlm.nih.gov/35283150/" target="_blank" rel="noopener">Interlaboratory study (PubMed)</a>
     </p>
 </details>
 

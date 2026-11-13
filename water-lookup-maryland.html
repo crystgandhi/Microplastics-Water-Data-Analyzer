@@ -138,6 +138,8 @@ body { min-height: 100vh; }
               </p>
             <p><a href="#recordList">Go to study records</a></p>
           </details>
+          <h3>Can these records be compared?</h3>
+          <div id="selectedComparison" aria-live="polite"></div>
           <div id="recordList" tabindex="-1" class="record-list" aria-live="polite"></div>
         </div>
       </div>
@@ -173,8 +175,6 @@ body { min-height: 100vh; }
       <div class="compare-control"><label for="compareMetric">Sample type and unit</label><select id="compareMetric"></select></div>
       <p class="compare-note">This is a contextual review, not a pollution ranking. Matching units and sample types alone do not make studies comparable: check particle size, collection method, result statistic, sampling dates and evidence source. No units are converted here.</p>
       <div id="compareChart" aria-live="polite"></div>
-      <h3>Can these records be compared?</h3>
-      <div id="selectedComparison" aria-live="polite"></div>
     </section>
     <section class="explorer" aria-labelledby="regionalTitle">
       <h2 id="regionalTitle">State research summary</h2>

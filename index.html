@@ -32,7 +32,7 @@ section[aria-labelledby="snowfallStudyTitle"] {
 <style>.particle-properties{margin:0 0 16px;padding:12px 16px;border:1px solid #b8d4e6;border-radius:10px;background:#f4faff}.particle-properties summary{cursor:pointer}.particle-properties p:last-child{margin-bottom:0}</style>
 </head>
 <body>
-<header><div><h1>Microplastics Water Data Analyzer</h1><p>Browse Records · v0.1.0</p><p>One research app · studies organized by state</p></div><label for="state">State or district <select id="state"><option value="maryland">Maryland</option><option value="virginia" selected>Virginia</option><option value="north-carolina">North Carolina</option><option value="washington-dc">Washington, D.C.</option></select></label></header>
+<header><div><h1>Microplastics Water Data Analyzer</h1><p>Browse Records · v0.1.0</p><p>One research app · studies organized by state</p></div><label for="state">State or district <select id="state"><option value="maryland">Maryland</option><option value="virginia" selected>Virginia</option><option value="north-carolina">North Carolina</option><option value="texas">Texas</option><option value="washington-dc">Washington, D.C.</option></select></label></header>
 <nav class="app-nav" aria-label="App sections"><button id="browseTab" type="button" aria-pressed="true">Browse records</button><button id="treatmentTab" type="button" aria-pressed="false">Treatment Methodologies</button></nav><main><p class="notice" id="scope" aria-live="polite">Virginia study records. <a id="direct" href="water-lookup-virginia.html" target="_blank" rel="noopener">Open state view separately</a></p><iframe id="stateView" title="Virginia microplastic study records" src="water-lookup-virginia.html"></iframe><section id="treatmentPanel" class="ml-panel" aria-labelledby="treatmentTitle" hidden>
 <h2 id="treatmentTitle" tabindex="-1">Treatment Technologies</h2>
 <p>Case studies on capturing and processing microplastics in water and wastewater.</p>
@@ -85,7 +85,7 @@ section[aria-labelledby="snowfallStudyTitle"] {
 </section>
 </main>
 <script>
-const states={maryland:'Maryland',virginia:'Virginia','north-carolina':'North Carolina','washington-dc':'Washington, D.C.'};
+const states={maryland:'Maryland',virginia:'Virginia','north-carolina':'North Carolina',texas:'Texas','washington-dc':'Washington, D.C.'};
 const select=document.getElementById('state'),frame=document.getElementById('stateView'),scope=document.getElementById('scope');
 function showState(key){if(!Object.hasOwn(states,key))key='virginia';select.value=key;const name=states[key],file='water-lookup-'+key+'.html';frame.src=file;frame.title=name+' microplastic study records';scope.replaceChildren(document.createTextNode(name+' study records. '));const link=document.createElement('a');link.href=file;link.target='_blank';link.rel='noopener';link.textContent='Open state view separately';scope.append(link);history.replaceState(null,'','#'+key)}
 select.addEventListener('change',()=>showState(select.value));

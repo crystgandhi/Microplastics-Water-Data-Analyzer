@@ -92,6 +92,21 @@ body { min-height: 100vh; }
   <p>In laboratory tests, Qian and colleagues found that tested microplastics generated reactive oxygen species at their surfaces in water. More water-repellent surfaces showed greater activity under the study conditions. River particle counts alone cannot tell us how reactive those particles are.</p>
   <p><a href="https://doi.org/10.1038/s41586-026-11141-y" target="_blank" rel="noopener">Qian et al. (2026), Nature · Microplastic–water interfaces</a></p>
 </details>
+<details class="particle-properties">
+  <summary><strong>Can I compare these records?</strong></summary>
+  <p>Check these details in each study before comparing concentrations:</p>
+  <ul>
+    <li><strong>Sample type and reporting basis.</strong> Compare like samples, such as surface water with surface water. Particles per liter measures count, while micrograms per liter measures mass. Compare results on the same basis after converting compatible units.</li>
+    <li><strong>Particle size range.</strong> Check both limits, especially the smallest particle counted. A study that counts particles down to 50 µm can include particles that a study starting at 300 µm misses. Compare a shared size range if both studies report results for it.</li>
+    <li><strong>Analytical method.</strong> Nile Red staining screens for suspected plastic particles. FTIR can identify the polymer of individual particles analyzed. Pyrolysis GC–MS measures polymer mass in the sample and does not provide individual particle counts or sizes.
+     <a href="https://www.openspecy.org/pkgdown/" target="_blank" rel="noopener">Open Specy</a> is an open-source tool for matching FTIR and Raman spectra to reference spectra.
+    </li>
+    <li><strong>Contamination controls.</strong> Look for field or laboratory blanks and check whether the authors adjusted counts using them. Treat any missing detail as unknown.</li>
+  </ul>
+  <p><a href="https://www.polygonesystems.com/microplastic-laboratory-analysis" target="_blank" rel="noopener">PolyGone microplastic testing services</a> · <a href="https://water.waterboards.ca.gov/drinking_water/certlic/drinkingwater/microplastics.html" target="_blank" rel="noopener">California Water Boards: Drinking-water microplastics methods</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/35283150/" target="_blank" rel="noopener">Interlaboratory study (PubMed)</a>
+    </p>
+  <p><a href="#recordList">Go to study records</a></p>
+</details>
     <p><a href="#recordList">Jump to study records</a></p>
 
 
@@ -120,21 +135,6 @@ body { min-height: 100vh; }
 
         <div class="record-results">
           <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled>Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled>Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div>
-          <details class="particle-properties">
-            <summary><strong>Can I compare these records?</strong></summary>
-            <p>Check these details in each study before comparing concentrations:</p>
-            <ul>
-              <li><strong>Sample type and reporting basis.</strong> Compare like samples, such as surface water with surface water. Particles per liter measures count, while micrograms per liter measures mass. Compare results on the same basis after converting compatible units.</li>
-              <li><strong>Particle size range.</strong> Check both limits, especially the smallest particle counted. A study that counts particles down to 50 µm can include particles that a study starting at 300 µm misses. Compare a shared size range if both studies report results for it.</li>
-              <li><strong>Analytical method.</strong> Nile Red staining screens for suspected plastic particles. FTIR can identify the polymer of individual particles analyzed. Pyrolysis GC–MS measures polymer mass in the sample and does not provide individual particle counts or sizes.
-               <a href="https://www.openspecy.org/pkgdown/" target="_blank" rel="noopener">Open Specy</a> is an open-source tool for matching FTIR and Raman spectra to reference spectra.
-              </li>
-              <li><strong>Contamination controls.</strong> Look for field or laboratory blanks and check whether the authors adjusted counts using them. Treat any missing detail as unknown.</li>
-            </ul>
-            <p><a href="https://www.polygonesystems.com/microplastic-laboratory-analysis" target="_blank" rel="noopener">PolyGone microplastic testing services</a> · <a href="https://water.waterboards.ca.gov/drinking_water/certlic/drinkingwater/microplastics.html" target="_blank" rel="noopener">California Water Boards: Drinking-water microplastics methods</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/35283150/" target="_blank" rel="noopener">Interlaboratory study (PubMed)</a>
-              </p>
-            <p><a href="#recordList">Go to study records</a></p>
-          </details>
           <h3>Can these records be compared?</h3>
           <div id="selectedComparison" aria-live="polite"></div>
           <div id="recordList" tabindex="-1" class="record-list" aria-live="polite"></div>

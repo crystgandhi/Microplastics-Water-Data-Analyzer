@@ -74,6 +74,17 @@ body { min-height: 100vh; }
     .study-results-table thead th{background:#edf5fb}
     .study-results-table .record-methods{min-width:160px}
 </style>
+<style>
+.compare-float{position:fixed;right:22px;bottom:22px;z-index:9998;border:0;border-radius:999px;background:#155d8c;color:#fff;font:700 14px/1.2 system-ui,sans-serif;padding:13px 18px;box-shadow:0 8px 24px #12385638;cursor:pointer}
+.compare-float:hover{background:#0b6ea8}.compare-float:focus-visible,.compare-dialog button:focus-visible{outline:3px solid #f2bd4c;outline-offset:3px}
+.compare-backdrop{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:16px;background:#102c40a8}
+.compare-float[hidden],.compare-backdrop[hidden]{display:none!important}
+.compare-dialog{width:min(960px,100%);max-height:min(88vh,780px);overflow:auto;background:#fff;border:1px solid #c9deec;border-radius:16px;box-shadow:0 20px 60px #102c4055;padding:20px}
+.compare-dialog-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:12px}.compare-dialog-head h2{margin:0;color:#17364c;font-size:21px}.compare-dialog-head p{margin:4px 0;color:#536f82;font-size:13px}.compare-dialog-close{flex:0 0 auto;border:1px solid #b7cedd;border-radius:8px;background:#f5faff;color:#17364c;font:600 13px system-ui,sans-serif;padding:8px 11px;cursor:pointer}
+#selectedComparison{overflow-x:auto}#selectedComparison>p:first-child{padding:10px 12px;background:#edf6fb;border:1px solid #c9deec;border-radius:9px;color:#17364c;font-size:13px}#selectedComparison table{min-width:650px}
+@media(max-width:620px){.compare-float{right:14px;bottom:14px;font-size:13px;padding:12px 15px}.compare-dialog{padding:15px;border-radius:12px;max-height:90vh}.compare-dialog-head h2{font-size:18px}}
+</style>
+<style>.export-help{margin:0 0 12px;padding:9px 11px;border:1px solid #c9deec;border-radius:8px;background:#f5faff;color:#425d70;font-size:11px;line-height:1.45}.export-help strong{color:#17364c}</style>
 </head>
 <body>
   <main class="shell">
@@ -136,9 +147,7 @@ body { min-height: 100vh; }
       <div class="explorer-layout">
 
         <div class="record-results">
-          <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled>Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled>Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div>
-          <h3>Can these records be compared?</h3>
-          <div id="selectedComparison" aria-live="polite"></div>
+          <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button" title="Download all records matching the current filters as a CSV spreadsheet">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled title="Download the records you checked as a CSV spreadsheet">Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled title="Download citation details for the records you checked; this does not include measurement data">Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div><p class="export-help"><strong>Which download?</strong> Filtered CSV = all matching records; selected CSV = checked records; RIS = citations only. CSV includes reported values, units, study details, and source links.</p>
           <div id="recordList" tabindex="-1" class="record-list" aria-live="polite"></div>
         </div>
       </div>
@@ -300,6 +309,13 @@ body { min-height: 100vh; }
     </section>
     <footer><span>Prototype only · historical study records and research status</span><span>No live monitoring or predicted values</span><p>Measurements are historical and source-specific; they do not represent current or river-wide conditions.</p></footer>
   </main>
+<button type="button" id="openSelectedComparison" class="compare-float" aria-haspopup="dialog" aria-controls="comparisonDialog" hidden>Compare selected (2)</button>
+<div id="comparisonDialog" class="compare-backdrop" hidden>
+  <section class="compare-dialog" role="dialog" aria-modal="true" aria-labelledby="comparisonDialogTitle" tabindex="-1">
+    <div class="compare-dialog-head"><div><h2 id="comparisonDialogTitle">Compare selected records</h2><p>Review reported values, methods, sample types, and missing details side by side.</p></div><button type="button" id="closeSelectedComparison" class="compare-dialog-close">Close</button></div>
+    <div id="selectedComparison" aria-live="polite"></div>
+  </section>
+</div>
     <section class="ai-chat side-chat" id="researchChatPanel" aria-labelledby="aiChatTitle" hidden>
       <div class="chat-panel-head"><h2 id="aiChatTitle">Microplastics Assist</h2><button type="button" class="chat-close" id="closeResearchChat" aria-label="Close research chat panel">Close</button></div>
       <p class="ai-chat-intro">Ask about the curated study records. Factual answers show source links; when the records have no verified measurement for your question, the assistant says so.</p>
@@ -536,7 +552,13 @@ body { min-height: 100vh; }
           ${rows.map(({label,a,b,status})=>`<tr><th scope="row">${esc(label)}</th><td>${esc(a||"Not recorded")}</td><td>${esc(b||"Not recorded")}</td><td>${esc(status)}</td></tr>`).join("")}
           </tbody></table></div>`;
     }
-    function updateSelectionControls(){renderSelectedComparison();const visible=visibleBrowseRecords(),selected=selectedBrowseIds.size;selectionStatus.textContent=selected+" record"+(selected===1?"":"s")+" selected · "+visible.length+" currently visible (selection includes records hidden by filters)";downloadSelectedCsv.disabled=!selected;downloadSelectedRis.disabled=!selected;selectVisible.checked=visible.length>0&&visible.every(r=>selectedBrowseIds.has(r.id));selectVisible.indeterminate=visible.some(r=>selectedBrowseIds.has(r.id))&&!selectVisible.checked}
+    const comparisonLauncher=document.getElementById("openSelectedComparison"),comparisonDialog=document.getElementById("comparisonDialog"),closeComparisonButton=document.getElementById("closeSelectedComparison");
+    function closeSelectedComparisonDialog(){comparisonDialog.hidden=true;comparisonLauncher.focus()}
+    comparisonLauncher.addEventListener("click",()=>{if(selectedBrowseIds.size!==2)return;comparisonDialog.hidden=false;closeComparisonButton.focus()});
+    closeComparisonButton.addEventListener("click",closeSelectedComparisonDialog);
+    comparisonDialog.addEventListener("click",event=>{if(event.target===comparisonDialog)closeSelectedComparisonDialog()});
+    document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!comparisonDialog.hidden)closeSelectedComparisonDialog()});
+    function updateSelectionControls(){renderSelectedComparison();const visible=visibleBrowseRecords(),selected=selectedBrowseIds.size;comparisonLauncher.hidden=selected!==2;selectionStatus.textContent=selected+" record"+(selected===1?"":"s")+" selected"+(selected===2?" · Use Compare selected to review them":selected>2?" · Select exactly two records to compare":"")+" · "+visible.length+" currently visible (selection may include filtered records)";downloadSelectedCsv.disabled=!selected;downloadSelectedRis.disabled=!selected;selectVisible.checked=visible.length>0&&visible.every(r=>selectedBrowseIds.has(r.id));selectVisible.indeterminate=visible.some(r=>selectedBrowseIds.has(r.id))&&!selectVisible.checked}
     function renderCoverage(){
       const names=listedWaterBodies();
       const rows=names.map(name=>{const matching=stateRecords().filter(r=>r.river===name),c=matching.filter(r=>r.resultType==="concentration").length;return [name,c,matching.length-c]});

@@ -33,7 +33,7 @@ section[aria-labelledby="snowfallStudyTitle"] {
 </head>
 <body>
 <header><div><h1>Microplastics Water Data Analyzer</h1><p>Browse Records · v0.1.0</p><p>One research app · studies organized by state</p></div><label for="state">State or district <select id="state"><option value="maryland">Maryland</option><option value="virginia" selected>Virginia</option><option value="north-carolina">North Carolina</option><option value="texas">Texas</option><option value="washington-dc">Washington, D.C.</option></select></label></header>
-<nav class="app-nav" aria-label="App sections"><button id="browseTab" type="button" aria-pressed="true">Browse records</button><button id="treatmentTab" type="button" aria-pressed="false">Treatment Methodologies</button><button id="calculatorTab" type="button" aria-pressed="false">Plastic-use calculator</button><button id="comparisonTab" type="button" aria-pressed="false">U.S. comparison context</button></nav><main><p class="notice" id="scope" aria-live="polite">Virginia study records. <a id="direct" href="water-lookup-virginia.html" target="_blank" rel="noopener">Open state view separately</a></p><iframe id="stateView" title="Virginia microplastic study records" src="water-lookup-virginia.html"></iframe><section id="treatmentPanel" class="ml-panel" aria-labelledby="treatmentTitle" hidden>
+<nav class="app-nav" aria-label="App sections"><button id="browseTab" type="button" aria-pressed="true">Browse records</button><button id="treatmentTab" type="button" aria-pressed="false">Treatment Methodologies</button><button id="calculatorTab" type="button" aria-pressed="false">Plastic-use calculator</button><button id="comparisonTab" type="button" aria-pressed="false">U.S. comparison context</button><button id="sourcesTab" type="button" aria-pressed="false">Methods &amp; policy sources</button></nav><main><p class="notice" id="scope" aria-live="polite">Virginia study records. <a id="direct" href="water-lookup-virginia.html" target="_blank" rel="noopener">Open state view separately</a></p><iframe id="stateView" title="Virginia microplastic study records" src="water-lookup-virginia.html"></iframe><section id="treatmentPanel" class="ml-panel" aria-labelledby="treatmentTitle" hidden>
 <h2 id="treatmentTitle" tabindex="-1">Treatment Technologies</h2>
 <p>Case studies on capturing and processing microplastics in water and wastewater.</p>
 <article aria-labelledby="ceramicTitle">
@@ -95,6 +95,17 @@ section[aria-labelledby="snowfallStudyTitle"] {
 <article><h3>Galveston Bay · polymer mass</h3><p>A 2026 Gulf estuary study reports 0.82–19.8 micrograms per liter, with higher mass concentrations at the Houston Ship Channel. These are mass-based results and cannot be ranked directly against particle counts per liter or the existing Texas record reported in particles per cubic meter.</p><a href="https://pubs.acs.org/doi/full/10.1021/acsestwater.5c01196" target="_blank" rel="noopener">Read the 2026 study</a></article>
 <article><h3>Chesapeake watershed · presence and particle types</h3><p>The 2026 report describes plastic particles at all 15 sampled sites and reports particle types, but provides no concentration values. It supports a presence finding for those sampled sites, not a quantitative pollution ranking.</p><a href="https://publicinterestnetwork.org/wp-content/uploads/2026/11/Microplastics-in-the-Chesapeake-Bay-Watershed-2.pdf" target="_blank" rel="noopener">Read the original report (PDF)</a></article>
 </section>
+<section id="sourcesPanel" class="ml-panel comparison-context" aria-labelledby="sourcesTitle" hidden>
+<h2 id="sourcesTitle" tabindex="-1">Methods &amp; policy sources</h2>
+<p>These resources add measurement-method guidance, federal policy context, and local program information. They do not all provide river concentration records. Only enter measured values in Browse records when a source reports a defined sample, method, location, result, and unit.</p>
+<article><h3>Raman methods for microplastic analysis · HORIBA</h3><p>HORIBA describes a laboratory workflow covering sample preparation, filtration, particle imaging, Raman analysis, and polymer identification. Use this manufacturer resource to explain why analytical method, filter properties, and size cutoff matter when interpreting records. It does not provide U.S. river measurements; instrument claims are vendor information.</p><a href="https://www.horiba.com/int/scientific/products/raman-imaging-and-spectrometers/raman-microplastic-analysis/" target="_blank" rel="noopener">HORIBA: Raman microplastic analysis</a> · <a href="https://www.horiba.com/int/materials/material-types/polymers/microplastics/" target="_blank" rel="noopener">HORIBA: Microplastics analysis workflow</a></article>
+<article><h3>Water and wastewater treatment overview · Hazen &amp; Sawyer</h3><p>This engineering perspective discusses analytical size limits, treatment of detectable particles, and possible transfer of captured microplastics into sludge and biosolids. It also raises questions about treatment materials and particle fragmentation. Treat these as technical context and reported concerns, not as site-specific measurements or settled conclusions. The article provides no river concentration dataset.</p><a href="https://www.hazenandsawyer.com/horizons/microplastics-in-water-and-wastewater" target="_blank" rel="noopener">Read Hazen &amp; Sawyer’s overview</a></article>
+<article><h3>Federal drinking-water policy and research · EPA and HHS</h3><p>On April 1, 2026, EPA and HHS announced microplastics’ inclusion in the draft Sixth Contaminant Candidate List (CCL 6) and ARPA-H’s STOMP program. The CCL is a research and regulatory-priority list; inclusion alone does not create a drinking-water standard or monitoring requirement. EPA lists the CCL 6 process as in progress; the draft comment period closed June 5, 2026. STOMP focuses on measurement, health effects, and potential removal of microplastics from the human body, not river monitoring.</p><a href="https://www.epa.gov/newsreleases/epa-hhs-announce-historic-actions-protect-americans-microplastics-and-safeguard" target="_blank" rel="noopener">EPA–HHS announcement (April 1, 2026)</a> · <a href="https://www.epa.gov/ccl/draft-contaminant-candidate-list-6-ccl-6" target="_blank" rel="noopener">EPA CCL 6 status and documents</a> · <a href="https://arpa-h.gov/explore-funding/programs/stomp" target="_blank" rel="noopener">ARPA-H STOMP program</a></article>
+<article><h3>Great Lakes tributaries · USGS interactive visualization</h3><p>The USGS visualization communicates results from 29 tributaries sampled during 2014–2015. Fibers made up an average 71% of particles. The study found urban-watershed associations for fragments, films, and foams; fibers did not show the same association. The visualization is useful for exploring the findings, while the older sampling dates should remain visible.</p><p><a href="https://water.usgs.gov/vizlab/microplastics/index.html" target="_blank" rel="noopener">Open USGS microplastics visualization</a> · <a href="https://doi.org/10.5066/F7ZC80ZP" target="_blank" rel="noopener">USGS 2014–2015 data release</a> · <a href="https://doi.org/10.1021/acs.est.6b02917" target="_blank" rel="noopener">Baldwin et al. (2016) study</a></p></article>
+<article><h3>Philadelphia waterways · local monitoring and response</h3><p>Philadelphia Water Department reports collecting and characterizing microplastics in city rivers and streams since 2017, with future work planned on amounts, spatial and seasonal patterns, and particle types. The page also reports that in FY 2025 the department removed nearly 35 tons of trash, recyclables, and debris, including about 4.6 tons of plastics. Those cleanup totals describe larger collected material, not measured microplastic concentrations.</p><a href="https://water.phila.gov/sustainability/watershed-protection/microplastics/" target="_blank" rel="noopener">Philadelphia Water Department: Microplastics</a> · <a href="https://pubs.usgs.gov/fs/2020/3071/fs20203071.pdf" target="_blank" rel="noopener">USGS: Microplastics in the Delaware River</a></article>
+<article><h3>Penn State Extension · sources and pathways</h3><p>This educational overview discusses how plastic litter breaks into microplastics and describes possible pathways through stormwater, wastewater, and sewage sludge. It was updated June 2, 2025. It is background reading, not a Pennsylvania water-sampling dataset. Its bottled-water and tap-water figures cite a 2018 study, so they are not presented as current local measurements in this app.</p><a href="https://extension.psu.edu/microplastics-in-our-waters-an-unquestionable-concern" target="_blank" rel="noopener">Read Penn State Extension’s overview</a></article>
+<p class="ml-muted">Resource status checked November 23, 2026. Linked pages may be updated by their publishers. Background and operational statistics are kept separate from measured concentration records.</p>
+</section>
 <section id="snowfallSection" class="particle-properties" aria-labelledby="snowfallStudyTitle">
   <h2 id="snowfallStudyTitle">Sierra Nevada snowfall study</h2>
   <p>Karapetrova et al. (2026) used FTIR spectroscopy to identify microplastics in fresh snowfall. Coauthor Win Cowger lists the Moore Institute for Plastic Pollution Research and UC Riverside as affiliations.</p>
@@ -114,25 +125,29 @@ const browseTab = document.getElementById('browseTab');
 const treatmentTab = document.getElementById('treatmentTab');
 const calculatorTab = document.getElementById('calculatorTab');
 const comparisonTab = document.getElementById('comparisonTab');
+const sourcesTab = document.getElementById('sourcesTab');
 const treatmentPanel = document.getElementById('treatmentPanel');
 const calculatorPanel = document.getElementById('calculatorPanel');
 const comparisonPanel = document.getElementById('comparisonPanel');
+const sourcesPanel = document.getElementById('sourcesPanel');
 const snowfallSection = document.getElementById('snowfallSection');
-const sectionTabs = [[browseTab,'browse'],[treatmentTab,'treatment'],[calculatorTab,'calculator'],[comparisonTab,'comparison']];
+const sectionTabs = [[browseTab,'browse'],[treatmentTab,'treatment'],[calculatorTab,'calculator'],[comparisonTab,'comparison'],[sourcesTab,'sources']];
 function showSection(section) {
   const browse = section === 'browse';
   frame.hidden = !browse; scope.hidden = !browse; select.disabled = !browse;
   treatmentPanel.hidden = section !== 'treatment';
   calculatorPanel.hidden = section !== 'calculator';
   comparisonPanel.hidden = section !== 'comparison';
+  sourcesPanel.hidden = section !== 'sources';
   snowfallSection.hidden = !browse;
   for (const [tab,key] of sectionTabs) tab.setAttribute('aria-pressed',String(key===section));
-  if (!browse) document.getElementById(section === 'treatment' ? 'treatmentTitle' : section === 'calculator' ? 'calculatorTitle' : 'comparisonTitle').focus();
+  if (!browse) document.getElementById(section === 'treatment' ? 'treatmentTitle' : section === 'calculator' ? 'calculatorTitle' : section === 'comparison' ? 'comparisonTitle' : 'sourcesTitle').focus();
 }
 browseTab.addEventListener('click', () => showSection('browse'));
 treatmentTab.addEventListener('click', () => showSection('treatment'));
 calculatorTab.addEventListener('click', () => showSection('calculator'));
 comparisonTab.addEventListener('click', () => showSection('comparison'));
+sourcesTab.addEventListener('click', () => showSection('sources'));
 
 function updateCalculator() {
   const groups = [['bagsWeekly','bagsSwap','bagsMass'],['bottlesWeekly','bottlesSwap','bottlesMass'],['containersWeekly','containersSwap','containersMass']];

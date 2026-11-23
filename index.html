@@ -6,7 +6,7 @@
 <style>
 *{box-sizing:border-box}html,body{margin:0;height:100%;font:15px/1.5 system-ui,sans-serif;color:#17364c;background:#e7f4fc}body{display:flex;flex-direction:column}header{padding:16px 24px;background:#103d60;color:white;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}h1{font-size:19px;margin:0}header p{margin:2px 0 0;color:#cde8f7;font-size:12px}label{font-size:13px;display:flex;align-items:center;gap:10px}select{font:inherit;border:1px solid #789eb8;border-radius:8px;padding:9px 12px;color:#17364c;background:white;min-width:190px}main{flex:1;min-height:0;display:flex;flex-direction:column}iframe{display:block;width:100%;flex:1;border:0;min-height:70vh}.notice{margin:0;padding:7px 24px;font-size:12px;color:#3f6077;border-bottom:1px solid #d0e5f2}a{color:#155d8c}select:focus-visible,a:focus-visible{outline:3px solid #0b6ea8;outline-offset:3px}@media(max-width:600px){header{padding:12px 16px}h1{font-size:16px}label{width:100%}select{flex:1}.notice{padding:7px 16px}}
 
-[hidden]{display:none!important}.app-nav{display:flex;gap:8px;padding:10px 24px;background:#deeff9;border-bottom:1px solid #c3ddec}.app-nav button, .ml-panel button{font:inherit;cursor:pointer;border:1px solid #789eb8;border-radius:8px;padding:8px 14px;background:white;color:#17364c}.app-nav button[aria-pressed="true"]{background:#155d8c;color:white;border-color:#155d8c}.ml-panel{padding:24px;max-width:1280px;width:100%;margin:auto;overflow:auto}.ml-panel h2{margin:0;font-size:25px}.ml-panel h3{font-size:17px;margin:20px 0 10px}.ml-panel p{max-width:900px}.ml-status{background:#fff3d8;border:1px solid #dbc18b;border-radius:10px;padding:14px 18px}.ml-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.ml-card{background:white;border:1px solid #c9deec;padding:16px;border-radius:12px}.ml-card strong{display:block;font-size:26px}.ml-card span{font-size:13px}.ml-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:18px 0}.ml-scroll{overflow:auto;border:1px solid #c9deec;background:white;border-radius:10px}.ml-panel table{border-collapse:collapse;width:100%;font-size:13px;white-space:nowrap}.ml-panel th,.ml-panel td{padding:10px 12px;text-align:left;border-bottom:1px solid #dbe9f3}.ml-panel th{background:#deeff9}.ml-panel .number{text-align:right;font-variant-numeric:tabular-nums}.ml-chart{width:100%;max-width:680px;height:auto;background:white;border:1px solid #c9deec;border-radius:10px}.ml-muted{font-size:13px;color:#3f6077}.ml-panel summary{cursor:pointer;font-weight:600}.ml-panel a{overflow-wrap:anywhere}@media(max-width:600px){.ml-panel{padding:16px}.ml-metrics{grid-template-columns:1fr}.app-nav{padding:10px 16px}.ml-toolbar select{min-width:0;max-width:100%}}
+[hidden]{display:none!important}.app-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 24px;background:#deeff9;border-bottom:1px solid #c3ddec}.app-nav button, .ml-panel button{font:inherit;cursor:pointer;border:1px solid #789eb8;border-radius:8px;padding:8px 14px;background:white;color:#17364c}.app-nav button[aria-pressed="true"]{background:#155d8c;color:white;border-color:#155d8c}.calculator-panel{max-width:1000px}.calculator-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}.calculator-item{background:#fff;border:1px solid #c9deec;border-radius:12px;padding:16px}.calculator-item label{display:block;font-weight:650;margin-bottom:10px}.calculator-item input[type=number]{width:100%;padding:10px;border:1px solid #789eb8;border-radius:8px;font:inherit;color:#17364c}.calculator-item .swap{display:flex;align-items:center;gap:8px;margin:10px 0 14px;font-size:13px}.calculator-output{background:#eaf5fc;border:1px solid #b8d4e6;border-radius:12px;padding:18px;margin:14px 0}.calculator-output strong{font-size:24px}.calculator-note{font-size:13px;color:#3f6077}.comparison-context article{background:white;border:1px solid #c9deec;padding:16px;border-radius:12px;margin:12px 0}.comparison-context h3{margin:0 0 8px}.ml-panel{padding:24px;max-width:1280px;width:100%;margin:auto;overflow:auto}.ml-panel h2{margin:0;font-size:25px}.ml-panel h3{font-size:17px;margin:20px 0 10px}.ml-panel p{max-width:900px}.ml-status{background:#fff3d8;border:1px solid #dbc18b;border-radius:10px;padding:14px 18px}.ml-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}.ml-card{background:white;border:1px solid #c9deec;padding:16px;border-radius:12px}.ml-card strong{display:block;font-size:26px}.ml-card span{font-size:13px}.ml-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:18px 0}.ml-scroll{overflow:auto;border:1px solid #c9deec;background:white;border-radius:10px}.ml-panel table{border-collapse:collapse;width:100%;font-size:13px;white-space:nowrap}.ml-panel th,.ml-panel td{padding:10px 12px;text-align:left;border-bottom:1px solid #dbe9f3}.ml-panel th{background:#deeff9}.ml-panel .number{text-align:right;font-variant-numeric:tabular-nums}.ml-chart{width:100%;max-width:680px;height:auto;background:white;border:1px solid #c9deec;border-radius:10px}.ml-muted{font-size:13px;color:#3f6077}.ml-panel summary{cursor:pointer;font-weight:600}.ml-panel a{overflow-wrap:anywhere}@media(max-width:700px){.calculator-grid{grid-template-columns:1fr}}@media(max-width:600px){.ml-panel{padding:16px}.ml-metrics{grid-template-columns:1fr}.app-nav{padding:10px 16px}.ml-toolbar select{min-width:0;max-width:100%}}
 #nePanel .ml-scroll{max-height:65vh}#nePanel table th{position:sticky;top:0;z-index:2}#nePanel table th:first-child,#nePanel table td:first-child{position:sticky;left:0;background:#fff;z-index:1;white-space:normal;min-width:240px;max-width:300px}#nePanel table th:first-child{background:#deeff9;z-index:3}#nePanel table td:last-child{white-space:normal;min-width:250px;max-width:360px}#nePanel tr.ne-flagged td{background:#fff3d8}#nePanel tr.ne-flagged td:first-child{background:#fff3d8}#nePanel tr.ne-flagged td:nth-last-child(2){font-weight:700;color:#714d0b}
 
 body {
@@ -33,7 +33,7 @@ section[aria-labelledby="snowfallStudyTitle"] {
 </head>
 <body>
 <header><div><h1>Microplastics Water Data Analyzer</h1><p>Browse Records · v0.1.0</p><p>One research app · studies organized by state</p></div><label for="state">State or district <select id="state"><option value="maryland">Maryland</option><option value="virginia" selected>Virginia</option><option value="north-carolina">North Carolina</option><option value="texas">Texas</option><option value="washington-dc">Washington, D.C.</option></select></label></header>
-<nav class="app-nav" aria-label="App sections"><button id="browseTab" type="button" aria-pressed="true">Browse records</button><button id="treatmentTab" type="button" aria-pressed="false">Treatment Methodologies</button></nav><main><p class="notice" id="scope" aria-live="polite">Virginia study records. <a id="direct" href="water-lookup-virginia.html" target="_blank" rel="noopener">Open state view separately</a></p><iframe id="stateView" title="Virginia microplastic study records" src="water-lookup-virginia.html"></iframe><section id="treatmentPanel" class="ml-panel" aria-labelledby="treatmentTitle" hidden>
+<nav class="app-nav" aria-label="App sections"><button id="browseTab" type="button" aria-pressed="true">Browse records</button><button id="treatmentTab" type="button" aria-pressed="false">Treatment Methodologies</button><button id="calculatorTab" type="button" aria-pressed="false">Plastic-use calculator</button><button id="comparisonTab" type="button" aria-pressed="false">U.S. comparison context</button></nav><main><p class="notice" id="scope" aria-live="polite">Virginia study records. <a id="direct" href="water-lookup-virginia.html" target="_blank" rel="noopener">Open state view separately</a></p><iframe id="stateView" title="Virginia microplastic study records" src="water-lookup-virginia.html"></iframe><section id="treatmentPanel" class="ml-panel" aria-labelledby="treatmentTitle" hidden>
 <h2 id="treatmentTitle" tabindex="-1">Treatment Technologies</h2>
 <p>Case studies on capturing and processing microplastics in water and wastewater.</p>
 <article aria-labelledby="ceramicTitle">
@@ -77,7 +77,25 @@ section[aria-labelledby="snowfallStudyTitle"] {
 <p><a href="https://cordis.europa.eu/project/id/101306851">European Commission project fact sheet</a></p>
 </article>
 </section>
-<section class="particle-properties" aria-labelledby="snowfallStudyTitle">
+<section id="calculatorPanel" class="ml-panel calculator-panel" aria-labelledby="calculatorTitle" hidden>
+<h2 id="calculatorTitle" tabindex="-1">Plastic-use reduction calculator</h2>
+<p>Estimate how many single-use items your selected reusable swaps could avoid over one year.</p>
+<div class="calculator-grid">
+  <article class="calculator-item"><label for="bagsWeekly">Single-use bags used in a typical week</label><input id="bagsWeekly" type="number" min="0" step="1" value="0"><label class="swap"><input id="bagsSwap" type="checkbox"> I will use a reusable bag instead</label><label for="bagsMass">Average weight per bag (grams, optional)</label><input id="bagsMass" type="number" min="0" step="0.1" placeholder="Enter if known"></article>
+  <article class="calculator-item"><label for="bottlesWeekly">Single-use bottles used in a typical week</label><input id="bottlesWeekly" type="number" min="0" step="1" value="0"><label class="swap"><input id="bottlesSwap" type="checkbox"> I will use a refillable bottle instead</label><label for="bottlesMass">Average weight per bottle (grams, optional)</label><input id="bottlesMass" type="number" min="0" step="0.1" placeholder="Enter if known"></article>
+  <article class="calculator-item"><label for="containersWeekly">Takeaway cups or containers used in a typical week</label><input id="containersWeekly" type="number" min="0" step="1" value="0"><label class="swap"><input id="containersSwap" type="checkbox"> I will use my own cup or container</label><label for="containersMass">Average weight per item (grams, optional)</label><input id="containersMass" type="number" min="0" step="0.1" placeholder="Enter if known"></article>
+</div>
+<div class="calculator-output" aria-live="polite"><div>Estimated single-use items avoided per year</div><strong id="itemsAvoided">0 items</strong><p id="massAvoided" class="calculator-note">Add item weights to estimate plastic mass avoided.</p></div>
+<p class="calculator-note">This is an educational estimate based on your entries and 52 weeks per year. It estimates single-use items avoided through the selected swaps; it does not measure microplastic pollution, water concentrations, or microplastics removed from waterways. Mass is estimated only when you enter an average item weight. Results stay in this browser and are not saved.</p>
+</section>
+<section id="comparisonPanel" class="ml-panel comparison-context" aria-labelledby="comparisonTitle" hidden>
+<h2 id="comparisonTitle" tabindex="-1">U.S. comparison context</h2>
+<p>Current records do not support a defensible ranking of U.S. states by microplastic pollution. Studies differ in sample type, particle-size cutoffs, collection dates, and analytical methods, and nationwide coverage is incomplete.</p>
+<article><h3>Alabama River · particle count</h3><p>A 2025 study reports 12–135 microplastic particles per liter across sampled Alabama River sites and seasons. This is a result from one study, not evidence that Alabama has the highest pollution in the United States.</p><a href="https://doi.org/10.1016/j.jhazmat.2025.138813" target="_blank" rel="noopener">Read the 2025 study</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/40513158/" target="_blank" rel="noopener">PubMed record</a></article>
+<article><h3>Galveston Bay · polymer mass</h3><p>A 2026 Gulf estuary study reports 0.82–19.8 micrograms per liter, with higher mass concentrations at the Houston Ship Channel. These are mass-based results and cannot be ranked directly against particle counts per liter or the existing Texas record reported in particles per cubic meter.</p><a href="https://pubs.acs.org/doi/full/10.1021/acsestwater.5c01196" target="_blank" rel="noopener">Read the 2026 study</a></article>
+<article><h3>Chesapeake watershed · presence and particle types</h3><p>The 2026 report describes plastic particles at all 15 sampled sites and reports particle types, but provides no concentration values. It supports a presence finding for those sampled sites, not a quantitative pollution ranking.</p><a href="https://publicinterestnetwork.org/wp-content/uploads/2026/11/Microplastics-in-the-Chesapeake-Bay-Watershed-2.pdf" target="_blank" rel="noopener">Read the original report (PDF)</a></article>
+</section>
+<section id="snowfallSection" class="particle-properties" aria-labelledby="snowfallStudyTitle">
   <h2 id="snowfallStudyTitle">Sierra Nevada snowfall study</h2>
   <p>Karapetrova et al. (2026) used FTIR spectroscopy to identify microplastics in fresh snowfall. Coauthor Win Cowger lists the Moore Institute for Plastic Pollution Research and UC Riverside as affiliations.</p>
   <p>Reported average concentrations in melted fresh snowfall ranged from 11.8 to 37.5 particles/L at remote sites and from 68.3 to 92.9 particles/L at the site affected by human activity. Compare these snowfall measurements with other snowfall studies using compatible methods and particle size ranges.</p>
@@ -94,19 +112,45 @@ showState(location.hash.slice(1)||'virginia');
 
 const browseTab = document.getElementById('browseTab');
 const treatmentTab = document.getElementById('treatmentTab');
+const calculatorTab = document.getElementById('calculatorTab');
+const comparisonTab = document.getElementById('comparisonTab');
 const treatmentPanel = document.getElementById('treatmentPanel');
-
-function showTreatment(open) {
-  frame.hidden = open;
-  scope.hidden = open;
-  select.disabled = open;
-  treatmentPanel.hidden = !open;
-  browseTab.setAttribute('aria-pressed', String(!open));
-  treatmentTab.setAttribute('aria-pressed', String(open));
-  if (open) document.getElementById('treatmentTitle').focus();
+const calculatorPanel = document.getElementById('calculatorPanel');
+const comparisonPanel = document.getElementById('comparisonPanel');
+const snowfallSection = document.getElementById('snowfallSection');
+const sectionTabs = [[browseTab,'browse'],[treatmentTab,'treatment'],[calculatorTab,'calculator'],[comparisonTab,'comparison']];
+function showSection(section) {
+  const browse = section === 'browse';
+  frame.hidden = !browse; scope.hidden = !browse; select.disabled = !browse;
+  treatmentPanel.hidden = section !== 'treatment';
+  calculatorPanel.hidden = section !== 'calculator';
+  comparisonPanel.hidden = section !== 'comparison';
+  snowfallSection.hidden = !browse;
+  for (const [tab,key] of sectionTabs) tab.setAttribute('aria-pressed',String(key===section));
+  if (!browse) document.getElementById(section === 'treatment' ? 'treatmentTitle' : section === 'calculator' ? 'calculatorTitle' : 'comparisonTitle').focus();
 }
+browseTab.addEventListener('click', () => showSection('browse'));
+treatmentTab.addEventListener('click', () => showSection('treatment'));
+calculatorTab.addEventListener('click', () => showSection('calculator'));
+comparisonTab.addEventListener('click', () => showSection('comparison'));
 
-browseTab.addEventListener('click', () => showTreatment(false));
-treatmentTab.addEventListener('click', () => showTreatment(true));
+function updateCalculator() {
+  const groups = [['bagsWeekly','bagsSwap','bagsMass'],['bottlesWeekly','bottlesSwap','bottlesMass'],['containersWeekly','containersSwap','containersMass']];
+  let totalItems=0, totalMass=0, completeMass=true;
+  for (const [weeklyId,swapId,massId] of groups) {
+    const weekly=Math.floor(Math.max(0,Number(document.getElementById(weeklyId).value)||0));
+    if (!document.getElementById(swapId).checked) continue;
+    const annual=weekly*52; totalItems+=annual;
+    if (annual === 0) continue;
+    const massInput=document.getElementById(massId);
+    if (massInput.value.trim()==='') completeMass=false;
+    else totalMass+=annual*Math.max(0,Number(massInput.value)||0)/1000;
+  }
+  document.getElementById('itemsAvoided').textContent=new Intl.NumberFormat().format(totalItems)+' items';
+  document.getElementById('massAvoided').textContent=totalItems===0 ? 'Select a reusable swap to see an annual estimate.' : completeMass ? 'Estimated plastic mass avoided: '+new Intl.NumberFormat(undefined,{maximumFractionDigits:2}).format(totalMass)+' kg per year' : 'Add the average weight for every selected item type to estimate kilograms.';
+}
+document.querySelectorAll('#calculatorPanel input').forEach(input=>input.addEventListener('input',updateCalculator));
+document.querySelectorAll('#calculatorPanel input[type="checkbox"]').forEach(input=>input.addEventListener('change',updateCalculator));
+updateCalculator();
 </script>
 </body></html>

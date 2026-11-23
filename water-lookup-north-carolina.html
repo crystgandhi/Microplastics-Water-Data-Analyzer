@@ -105,7 +105,10 @@ body { min-height: 100vh; }
   </ul>
   <p><a href="https://www.polygonesystems.com/microplastic-laboratory-analysis" target="_blank" rel="noopener">PolyGone microplastic testing services</a> · <a href="https://water.waterboards.ca.gov/drinking_water/certlic/drinkingwater/microplastics.html" target="_blank" rel="noopener">California Water Boards: Drinking-water microplastics methods</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/35283150/" target="_blank" rel="noopener">Interlaboratory study (PubMed)</a>
     </p>
+  <p>Further reading: <a href="https://www.epa.gov/sciencematters/assessing-methods-measuring-microplastics-water" target="_blank" rel="noopener">EPA: Assessing Methods of Measuring Microplastics in Water</a> · <a href="https://www.sciencedirect.com/science/article/pii/S221133982400087X" target="_blank" rel="noopener">Lukose et al.: Optical methods for detecting microplastics</a></p>
+  <p><a href="#recordList">Go to study records</a></p>
 </details>
+    <p><a href="#recordList">Jump to study records</a></p>
 
 
 
@@ -134,7 +137,9 @@ body { min-height: 100vh; }
 
         <div class="record-results">
           <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled>Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled>Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div>
-          <div id="recordList" class="record-list" aria-live="polite"></div>
+          <h3>Can these records be compared?</h3>
+          <div id="selectedComparison" aria-live="polite"></div>
+          <div id="recordList" tabindex="-1" class="record-list" aria-live="polite"></div>
         </div>
       </div>
       <details class="refine-filters" id="studyMapPanel"><summary>Optional map: Maryland study water bodies</summary>        <aside class="map-card" aria-labelledby="mapTitle">
@@ -168,6 +173,7 @@ body { min-height: 100vh; }
       <p class="explorer-intro" id="regionalNotice">Choose a state above to view its research context.</p>
       <div class="maryland-evidence" id="mdStudySummary">
         <h3>What Maryland and Chesapeake studies report</h3>
+        <article class="maryland-finding"><b>Chesapeake watershed sampling · 2024–2026</b><p>A 2026 PennEnvironment / Environment America report describes samples collected at 15 selected Chesapeake Bay watershed sites from April 2024 to October 2026. It reports plastic particles at all 15 sites and particle types (including fibers and fragments), but does not report microplastic concentrations. This is presence/type evidence for the sampled sites, not a concentration record or a ranking of rivers or states.</p><a href="https://publicinterestnetwork.org/wp-content/uploads/2026/11/Microplastics-in-the-Chesapeake-Bay-Watershed-2.pdf" target="_blank" rel="noopener">Read the original watershed report (PDF)</a> · <a href="https://www.cbf.org/news/microplastics-found-in-100-of-sample-sites-in-the-chesapeake-bay-watershed/" target="_blank" rel="noopener">Chesapeake Bay Foundation summary</a></article>
         <article class="maryland-finding"><b>Chesapeake Bay background · education and prevention</b><p>“Small plastics are a big problem” (Chesapeake Bay Program, December 12, 2019) summarizes a regional scientific workshop, potential inputs from wastewater, stormwater and synthetic fibers, and concerns about wildlife exposure. It is a dated regional overview, not a river-specific concentration dataset. Its numerical claims are not imported into the app’s measurement comparisons.</p><a href="https://www.chesapeakebay.net/news/blog/small-plastics-are-a-big-problem" target="_blank" rel="noopener">Read the Chesapeake Bay Program overview</a></article>
 
         <p class="record-meta"><b>Related issue—PFAS in biosolids:</b> Waterkeepers Chesapeake’s “Protecting Farmlands &amp; Water from PFAS in Sewage Sludge” discusses a Maryland legislative proposal. PFAS are a separate contaminant class; the page is not evidence of microplastic concentration in a river and is not used in the measurement comparisons. This background link does not assert the proposal’s current legal status. <a href="https://waterkeeperschesapeake.org/pfas-sewage-sludge-bill-2026/" target="_blank" rel="noopener">Read the PFAS background resource</a></p>
@@ -181,6 +187,7 @@ body { min-height: 100vh; }
       </div>
       <div class="maryland-evidence" id="vaStudySummary" hidden>
         <h3>Virginia: initial coverage</h3>
+        <article class="maryland-finding"><b>Virginia Marine Debris Reduction Plan · 2026–2030</b><p>The statewide plan identifies microplastic research and monitoring in waterways and drinking water as priorities. It is a policy and research roadmap; it does not provide river-specific microplastic concentrations and is not included in measured-record comparisons.</p><a href="https://www.cleanvirginiawaterways.org/2026-2030-vmdrp" target="_blank" rel="noopener">Read the Virginia plan</a></article>
         <article class="maryland-finding"><b>Chesapeake Bay background · education and prevention</b><p>“Small plastics are a big problem” (Chesapeake Bay Program, December 12, 2019) summarizes a regional scientific workshop, potential inputs from wastewater, stormwater and synthetic fibers, and concerns about wildlife exposure. It is a dated regional overview, not a river-specific concentration dataset. Its numerical claims are not imported into the app’s measurement comparisons.</p><a href="https://www.chesapeakebay.net/news/blog/small-plastics-are-a-big-problem" target="_blank" rel="noopener">Read the Chesapeake Bay Program overview</a></article>
 
         <article class="maryland-finding"><b>Central Virginia crayfish · undergraduate thesis</b><p>Alexandra Reddy’s 2020 thesis reports microplastics in crayfish digestive tracts and gill filaments from two Central Virginia streams. This is biological-occurrence evidence, not a water concentration. The abstract does not identify the streams or provide a particles/L value; those details are not assigned to any river in this app.</p><a href="https://digitalcommons.liberty.edu/honors/986/" target="_blank" rel="noopener">Surveillance of Microplastic Pollution in Central Virginia Freshwater Ecosystems · Liberty University</a></article>
@@ -202,6 +209,7 @@ body { min-height: 100vh; }
       <details class="maryland-evidence" id="ncStudySummary" hidden>
         <summary><b>North Carolina studies: particle types and possible pathways</b></summary>
         <p class="explorer-intro">These summaries describe study areas and sample types; they are not measurements for every river or proof of individual pollution sources.</p>
+        <article class="maryland-finding"><b>Haw River Basin monitoring · research lead</b><p>Haw River Assembly describes ongoing collaborative monitoring of surface water and sediment at multiple basin locations. The page does not provide numerical microplastic concentrations, so this is a research lead rather than a measured record.</p><a href="https://www.hawriver.org/plastic-pollution" target="_blank" rel="noopener">Haw River Assembly: plastic pollution</a></article>
         <div class="maryland-findings">
           <article class="maryland-finding"><b>Neuse River Basin · water and sediment</b><p>For particles larger than 335 μm in water, polyethylene, polypropylene and polystyrene were common in FTIR analysis. PET was common among smaller particles examined by Raman spectroscopy. Runoff, wastewater and degraded litter are possible inputs; the study does not identify a source for each particle.</p><a href="https://doi.org/10.1016/j.scitotenv.2023.162940" target="_blank" rel="noopener">Kurki-Fox et al. (2023): read study</a></article>
           <article class="maryland-finding"><b>Blue Ridge headwater streams · water</b><p>Fibers comprised about 90% of suspected particles in the Richland Creek and Cullasaja tributary samples. The study also examined polymer composition and atmospheric deposition; atmospheric inputs and development were investigated as possible contributors.</p><a href="https://doi.org/10.3390/environments11110240" target="_blank" rel="noopener">Miller et al. (2024): read study</a></article>
@@ -220,8 +228,6 @@ body { min-height: 100vh; }
       <div class="compare-control"><label for="compareMetric">Sample type and unit</label><select id="compareMetric"></select></div>
       <p class="compare-note">This is a contextual review, not a pollution ranking. Matching units and sample types alone do not make studies comparable: check particle size, collection method, result statistic, sampling dates and evidence source. No units are converted here.</p>
       <div id="compareChart" aria-live="polite"></div>
-      <h3>Can these records be compared?</h3>
-      <div id="selectedComparison" aria-live="polite"></div>
     </section>
     <section class="sampling-guide" aria-labelledby="samplingTitle">
       <h2 id="samplingTitle">How the measurements are collected</h2>
@@ -343,7 +349,8 @@ body { min-height: 100vh; }
     "id": 0,
     "resultType": "concentration",
     "resultLabel": "Concentration / surface abundance",
-    "evidence": "Journal article"
+    "evidence": "Journal article",
+    "polymerComposition": "Among FTIR-analyzed trawl particles (>335 μm), polyethylene (PE) was about 30%, polypropylene (PP) 18%, and polystyrene (PS) 15%. Percentages describe the analyzed particles, not particles per volume; composition varied among sites and sampling times. (Kurki-Fox et al., 2023)."
   },
   {
     "state": "North Carolina",
@@ -711,7 +718,8 @@ body { min-height: 100vh; }
     "id": 11,
     "resultType": "concentration",
     "resultLabel": "Concentration / surface abundance",
-    "evidence": "Journal article"
+    "evidence": "Journal article",
+    "polymerComposition": "For the composite water samples analyzed by Raman in the smaller fraction (>64 μm; 64–335 μm), PET was the most common identified polymer (42%), followed by PP (23%). This describes polymer shares among the analyzed particles, not water concentration. (Kurki-Fox et al., 2023)."
   },
   {
     "state": "North Carolina",
@@ -1117,6 +1125,7 @@ body { min-height: 100vh; }
               <b>Sampling volume / mass:</b> ${esc(r.methods.samplingVolume)}<br>
               <b>Particle size:</b> ${esc(r.methods.sizeRange)}<br>
               <b>Identification:</b> ${esc(r.methods.identification)}<br>
+              ${r.polymerComposition ? `<b>Polymer composition (share of analyzed particles):</b> ${esc(r.polymerComposition)}<br>` : ''}
               <b>Quality checks:</b> ${esc(r.methods.qualityChecks)}<br>
               <b>Study:</b> ${esc(r.source)}<br>
               <b>Source links:</b> ${links || (r.links?.length ? "Shared links listed above." : "No source link recorded")}<br>

@@ -84,7 +84,6 @@ body { min-height: 100vh; }
 #selectedComparison{overflow-x:auto}#selectedComparison>p:first-child{padding:10px 12px;background:#edf6fb;border:1px solid #c9deec;border-radius:9px;color:#17364c;font-size:13px}#selectedComparison table{min-width:650px}
 @media(max-width:620px){.compare-float{right:14px;bottom:14px;font-size:13px;padding:12px 15px}.compare-dialog{padding:15px;border-radius:12px;max-height:90vh}.compare-dialog-head h2{font-size:18px}}
 </style>
-<style>.export-help{margin:0 0 12px;padding:9px 11px;border:1px solid #c9deec;border-radius:8px;background:#f5faff;color:#425d70;font-size:11px;line-height:1.45}.export-help strong{color:#17364c}</style>
 </head>
 <body>
   <main class="shell">
@@ -147,7 +146,7 @@ body { min-height: 100vh; }
       <div class="explorer-layout">
 
         <div class="record-results">
-          <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button" title="Download all records matching the current filters as a CSV spreadsheet">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled title="Download the records you checked as a CSV spreadsheet">Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled title="Download citation details for the records you checked; this does not include measurement data">Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div><p class="export-help"><strong>Which download?</strong> Filtered CSV = all matching records; selected CSV = checked records; RIS = citations only. CSV includes reported values, units, study details, and source links.</p>
+          <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled>Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled>Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div>
           <div id="recordList" tabindex="-1" class="record-list" aria-live="polite"></div>
         </div>
       </div>
@@ -1023,49 +1022,44 @@ body { min-height: 100vh; }
     function renderExactSamplingLocations(){const box=document.getElementById("exactSamplingLocations"),points=[...new Map(browseRecords.filter(r=>Number.isFinite(Number(r.latitude))&&Number.isFinite(Number(r.longitude))&&r.coordinateSource).map(r=>[r.latitude+","+r.longitude,r])).values()];if(!points.length){box.innerHTML="<b>Exact sample points:</b> no coordinates are published in the linked record summaries.";return}box.innerHTML="<b>Exact sample points published by studies</b>"+points.map(r=>'<div class="exact-location">'+esc(r.river)+" · "+esc(r.latitude)+", "+esc(r.longitude)+" · "+esc(r.coordinateSource)+' · <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat='+encodeURIComponent(r.latitude)+'&mlon='+encodeURIComponent(r.longitude)+'#map=15/'+encodeURIComponent(r.latitude)+'/'+encodeURIComponent(r.longitude)+'">Open point on map</a></div>').join("")}
     function renderSelectedComparison(){
       const panel=document.getElementById("selectedComparison");
-      const selected=browseRecords.filter(record=>selectedBrowseIds.has(record.id));
-      if(selected.length<2||selected.length>5){
-        panel.textContent="Select 2 to 5 records using the table checkboxes to compare them.";
+      if(selectedBrowseIds.size!==2){
+        panel.textContent="Select exactly two records using the table checkboxes to see how they compare.";
         return;
       }
+      const [left,right]=browseRecords.filter(record=>selectedBrowseIds.has(record.id));
       const dimensions=[
-        ["Reported value",record=>record.value],
-        ["Sample type",record=>record.matrix],
-        ["Reporting unit",record=>record.unit],
-        ["Result and statistic",record=>record.metric],
-        ["Particle size range",record=>record.methods?.sizeRange],
-        ["Identification method",record=>record.methods?.identification],
-        ["Quality checks",record=>record.methods?.qualityChecks]
+        ["Sample type",left.matrix,right.matrix],
+        ["Reporting unit",left.unit,right.unit],
+        ["Result and statistic",left.metric,right.metric],
+        ["Particle size range",left.methods.sizeRange,right.methods.sizeRange],
+        ["Identification method",left.methods.identification,right.methods.identification],
+        ["Quality checks",left.methods.qualityChecks,right.methods.qualityChecks]
       ];
-      const unavailable=value=>!String(value||"").trim() || /not stated|not reported|not specified|unknown|unavailable|not applicable|not provided|^n\/a$/i.test(String(value));
-      const values=dimension=>selected.map(dimension[1]);
-      const rows=dimensions.map(([label,getValue])=>{
-        const rowValues=selected.map(getValue);
-        const missing=rowValues.some(unavailable);
-        const same=rowValues.every(value=>!unavailable(value)&&String(value).trim()===String(rowValues[0]).trim());
-        const status=missing?"Check source":same?"Same recorded detail":"Different recorded details";
-        return {label,rowValues,status};
+      const unavailable=value=>!value?.trim() || /not stated|not reported|not specified|unknown|unavailable|not applicable|not provided|^n\/a$/i.test(value);
+      const rows=dimensions.map(([label,a,b])=>{
+        const status=unavailable(a)||unavailable(b)?"Check source":a.trim()===b.trim()?"Same recorded detail":"Different recorded details";
+        return {label,a,b,status};
       });
-      const allMeasured=selected.every(record=>record.resultType==="concentration");
-      const compatibleBasis=selected.every(record=>record.matrix===selected[0].matrix&&record.unit===selected[0].unit&&!unavailable(record.matrix)&&!unavailable(record.unit));
-      let verdict="Review site scope, dates, particle sizes, and methods before interpreting differences.";
-      if(!compatibleBasis) verdict="Different or unverified sample types or units are selected; do not treat these values as directly comparable.";
-      else if(!allMeasured) verdict="At least one selection is not a concentration record; review its result type before comparing values.";
-      else if(rows.slice(1).some(row=>row.status!=="Same recorded detail")) verdict="Compare with caution. Review the differences and missing details below.";
-      const columns=selected.map(record=>`<th scope="col">${esc(record.river)}<br><span>${esc(record.site)}</span></th>`).join("");
+      const measured=[left,right].every(record=>record.resultType==="concentration");
+      const sameBasis=left.matrix===right.matrix && left.unit===right.unit && !unavailable(left.matrix) && !unavailable(left.unit);
+      let verdict="Matching recorded details. Review site scope and sampling dates before interpreting differences.";
+      if(rows.some(row=>row.status!=="Same recorded detail")) verdict="Compare with caution. Review the differences and missing details below.";
+      if(!sameBasis) verdict="Different or unverified sample types or reporting units. Review both original values.";
+      if(!measured) verdict="A concentration comparison requires two concentration or abundance records.";
       panel.innerHTML=`<p><strong>${esc(verdict)}</strong></p>
         <div style="overflow-x:auto"><table class="record-meta">
-          <thead><tr><th scope="col">Detail</th>${columns}<th scope="col">Comparison</th></tr></thead>
-          <tbody>${rows.map(({label,rowValues,status})=>`<tr><th scope="row">${esc(label)}</th>${rowValues.map(value=>`<td>${esc(value||"Not recorded")}</td>`).join("")}<td>${esc(status)}</td></tr>`).join("")}
+          <thead><tr><th scope="col">Detail</th><th scope="col">${esc(left.river)} · ${esc(left.site)}</th><th scope="col">${esc(right.river)} · ${esc(right.site)}</th><th scope="col">Comparison</th></tr></thead>
+          <tbody><tr><th scope="row">Reported value</th><td>${esc(left.value)}</td><td>${esc(right.value)}</td><td></td></tr>
+          ${rows.map(({label,a,b,status})=>`<tr><th scope="row">${esc(label)}</th><td>${esc(a||"Not recorded")}</td><td>${esc(b||"Not recorded")}</td><td>${esc(status)}</td></tr>`).join("")}
           </tbody></table></div>`;
     }
     const comparisonLauncher=document.getElementById("openSelectedComparison"),comparisonDialog=document.getElementById("comparisonDialog"),closeComparisonButton=document.getElementById("closeSelectedComparison");
     function closeSelectedComparisonDialog(){comparisonDialog.hidden=true;comparisonLauncher.focus()}
-    comparisonLauncher.addEventListener("click",()=>{if(selectedBrowseIds.size<2||selectedBrowseIds.size>5)return;comparisonDialog.hidden=false;closeComparisonButton.focus()});
+    comparisonLauncher.addEventListener("click",()=>{if(selectedBrowseIds.size!==2)return;comparisonDialog.hidden=false;closeComparisonButton.focus()});
     closeComparisonButton.addEventListener("click",closeSelectedComparisonDialog);
     comparisonDialog.addEventListener("click",event=>{if(event.target===comparisonDialog)closeSelectedComparisonDialog()});
     document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!comparisonDialog.hidden)closeSelectedComparisonDialog()});
-    function updateSelectionControls(){renderSelectedComparison();const visible=visibleBrowseRecords(),selected=selectedBrowseIds.size;comparisonLauncher.hidden=selected<2||selected>5;comparisonLauncher.textContent="Compare selected ("+selected+")";selectionStatus.textContent=selected+" record"+(selected===1?"":"s")+" selected"+(selected>=2&&selected<=5?" · Use Compare selected to compare them":selected>5?" · Select 5 or fewer records to compare":" · Select at least 2 records to compare")+" · "+visible.length+" currently visible (selection may include filtered records)";downloadSelectedCsv.disabled=!selected;downloadSelectedRis.disabled=!selected;selectVisible.checked=visible.length>0&&visible.every(r=>selectedBrowseIds.has(r.id));selectVisible.indeterminate=visible.some(r=>selectedBrowseIds.has(r.id))&&!selectVisible.checked}
+    function updateSelectionControls(){renderSelectedComparison();const visible=visibleBrowseRecords(),selected=selectedBrowseIds.size;comparisonLauncher.hidden=selected!==2;selectionStatus.textContent=selected+" record"+(selected===1?"":"s")+" selected"+(selected===2?" · Use Compare selected to review them":selected>2?" · Select exactly two records to compare":"")+" · "+visible.length+" currently visible (selection may include filtered records)";downloadSelectedCsv.disabled=!selected;downloadSelectedRis.disabled=!selected;selectVisible.checked=visible.length>0&&visible.every(r=>selectedBrowseIds.has(r.id));selectVisible.indeterminate=visible.some(r=>selectedBrowseIds.has(r.id))&&!selectVisible.checked}
     function renderCoverage(){
       const names=listedWaterBodies();
       const rows=names.map(name=>{const matching=stateRecords().filter(r=>r.river===name),c=matching.filter(r=>r.resultType==="concentration").length;return [name,c,matching.length-c]});

@@ -87,7 +87,6 @@ body { min-height: 100vh; }
 #selectedComparison{overflow-x:auto}#selectedComparison>p:first-child{padding:10px 12px;background:#edf6fb;border:1px solid #c9deec;border-radius:9px;color:#17364c;font-size:13px}#selectedComparison table{min-width:650px}
 @media(max-width:620px){.compare-float{right:14px;bottom:14px;font-size:13px;padding:12px 15px}.compare-dialog{padding:15px;border-radius:12px;max-height:90vh}.compare-dialog-head h2{font-size:18px}}
 </style>
-<style>.export-help{margin:0 0 12px;padding:9px 11px;border:1px solid #c9deec;border-radius:8px;background:#f5faff;color:#425d70;font-size:11px;line-height:1.45}.export-help strong{color:#17364c}</style>
 </head>
 <body>
   <main class="shell">
@@ -150,7 +149,7 @@ body { min-height: 100vh; }
       <div class="explorer-layout">
 
         <div class="record-results">
-          <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button" title="Download all records matching the current filters as a CSV spreadsheet">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled title="Download the records you checked as a CSV spreadsheet">Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled title="Download citation details for the records you checked; this does not include measurement data">Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div><p class="export-help"><strong>Which download?</strong> Filtered CSV = all matching records; selected CSV = checked records; RIS = citations only. CSV includes reported values, units, study details, and source links.</p>
+          <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled>Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled>Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div>
           <div id="recordList" tabindex="-1" class="record-list" aria-live="polite"></div>
         </div>
       </div>

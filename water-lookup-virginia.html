@@ -64,6 +64,7 @@ body {
   background-attachment: fixed;
 }
 body { min-height: 100vh; }
+  #selectedComparison{overflow-x:auto}#selectedComparison table{min-width:980px}
 </style>
 <style>.particle-properties{margin:0 0 16px;padding:12px 16px;border:1px solid #b8d4e6;border-radius:10px;background:#f4faff}.particle-properties summary{cursor:pointer}.particle-properties p:last-child{margin-bottom:0}</style>
 <style>
@@ -75,14 +76,44 @@ body { min-height: 100vh; }
     .study-results-table .record-methods{min-width:160px}
 </style>
 <style>
-.compare-float{position:fixed;right:22px;bottom:22px;z-index:9998;border:0;border-radius:999px;background:#155d8c;color:#fff;font:700 14px/1.2 system-ui,sans-serif;padding:13px 18px;box-shadow:0 8px 24px #12385638;cursor:pointer}
-.compare-float:hover{background:#0b6ea8}.compare-float:focus-visible,.compare-dialog button:focus-visible{outline:3px solid #f2bd4c;outline-offset:3px}
-.compare-backdrop{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:16px;background:#102c40a8}
-.compare-float[hidden],.compare-backdrop[hidden]{display:none!important}
-.compare-dialog{width:min(960px,100%);max-height:min(88vh,780px);overflow:auto;background:#fff;border:1px solid #c9deec;border-radius:16px;box-shadow:0 20px 60px #102c4055;padding:20px}
-.compare-dialog-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:12px}.compare-dialog-head h2{margin:0;color:#17364c;font-size:21px}.compare-dialog-head p{margin:4px 0;color:#536f82;font-size:13px}.compare-dialog-close{flex:0 0 auto;border:1px solid #b7cedd;border-radius:8px;background:#f5faff;color:#17364c;font:600 13px system-ui,sans-serif;padding:8px 11px;cursor:pointer}
-#selectedComparison{overflow-x:auto}#selectedComparison>p:first-child{padding:10px 12px;background:#edf6fb;border:1px solid #c9deec;border-radius:9px;color:#17364c;font-size:13px}#selectedComparison table{min-width:650px}
-@media(max-width:620px){.compare-float{right:14px;bottom:14px;font-size:13px;padding:12px 15px}.compare-dialog{padding:15px;border-radius:12px;max-height:90vh}.compare-dialog-head h2{font-size:18px}}
+.study-guide-actions{display:grid;grid-template-columns:1.2fr 1.2fr .9fr;align-items:start;gap:12px;margin:10px 0 16px}
+.study-guide-actions>.particle-properties{min-width:0;min-height:44px;margin:0;padding:10px 14px;border:1px solid #b8d4e6;border-radius:8px;background:#f4faff}
+.study-guide-actions>.particle-properties summary{cursor:pointer}
+.study-guide-actions>.particle-properties p:last-child{margin-bottom:0}
+.study-record-jump{display:flex;align-items:center;justify-content:center;min-height:44px;margin:0;padding:8px 12px;border:1px solid #b8d4e6;background:#d9eef9;text-align:center}
+.study-record-jump a{color:#0645ad}
+@media(max-width:700px){.study-guide-actions{grid-template-columns:1fr}}
+</style>
+<style>
+.md-summary{padding:18px;background:#fff}
+.md-summary>h3{font-size:16px;margin:0 0 4px}
+.md-summary-intro{margin:0 0 14px;color:var(--muted);font-size:12px}
+.md-summary h4{font-size:13px;margin:17px 0 8px;color:var(--ink)}
+.md-primary-finding{padding:14px 16px;border:1px solid #b9d9eb;border-left:4px solid #155d8c;border-radius:10px;background:#f2f9fd}
+.md-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.md-evidence-badge{display:inline-block;padding:4px 8px;border-radius:20px;background:#e6f2fa;color:#315b75;font-size:10px;font-weight:750}
+.md-summary .maryland-finding p{font-size:12px;line-height:1.55}
+.md-detection-stats{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;padding:0;list-style:none}
+.md-detection-stats li{min-width:115px;padding:7px 10px;border:1px solid #c9deec;border-radius:8px;background:#fff;font-size:11px;color:var(--muted)}
+.md-detection-stats strong{display:block;color:#155d8c;font-size:14px}
+.md-summary-note{margin:8px 0!important;padding:8px 10px;border-radius:7px;background:#fff6e9;color:#725b39!important;font-size:11px!important}
+.md-summary-links{margin:8px 0 0;font-size:11px;line-height:1.6}
+.md-summary-links a{color:var(--green);font-weight:750}
+.md-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;align-items:stretch}
+.md-summary-grid h4{margin-top:0}
+.md-context-card,.md-related-issue{margin:0;padding:13px 14px;border:1px solid var(--line);border-radius:10px;background:#f8fbfe}
+.md-related-issue{border-left:3px solid #9aaebe;background:#f7f9fb;color:var(--muted);font-size:11px;line-height:1.55}
+.md-related-issue b{color:var(--ink)}
+.md-related-issue a{color:var(--green);font-weight:750}
+.md-summary>summary{cursor:pointer;font-size:14px;font-weight:750;margin:0 0 10px}
+.md-summary-notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.md-summary-notes .record-meta{margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#f8fbfe;line-height:1.55}
+.md-summary-notes a{color:var(--green);font-weight:700}
+.md-pathway-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.md-interpretation{margin:14px 0 0;padding:12px 14px;border:1px solid #e8d3ae;border-radius:9px;background:#fff7eb;color:#604e35;font-size:12px;line-height:1.55}
+.md-interpretation b{color:#49391f}
+@media(max-width:850px){.md-pathway-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.md-summary{padding:14px}.md-summary-grid,.md-pathway-grid,.md-summary-notes{grid-template-columns:1fr}.md-detection-stats li{flex:1 1 42%}}
 </style>
 </head>
 <body>
@@ -96,36 +127,29 @@ body { min-height: 100vh; }
       <h1 id="title">Explore microplastics studies in Virginia.</h1>
       <p>Choose a river or water body and a sampling site or study scope in Virginia. Review historical measurements, study methods, research gaps and source links. Shared-watershed records retain their original geographic scope.</p>
     </section>
-    <details class="particle-properties">
-  <summary><strong>Why particle properties matter</strong></summary>
-  <p>When comparing concentrations, check the polymer type, particle size range, and surface condition (such as weathering) when the study reports them. Two samples with the same particle count per liter can contain different kinds of particles. Different minimum particle sizes can also affect which particles each study counts.</p>
-  <p>In laboratory tests, Qian and colleagues found that tested microplastics generated reactive oxygen species at their surfaces in water. More water-repellent surfaces showed greater activity under the study conditions. River particle counts alone cannot tell us how reactive those particles are.</p>
-  <p><a href="https://doi.org/10.1038/s41586-026-11141-y" target="_blank" rel="noopener">Qian et al. (2026), Nature · Microplastic–water interfaces</a></p>
-</details>
-<details class="particle-properties">
-  <summary><strong>Can I compare these records?</strong></summary>
-  <p>Check these details in each study before comparing concentrations:</p>
-  <ul>
-    <li><strong>Sample type and reporting basis.</strong> Compare like samples, such as surface water with surface water. Particles per liter measures count, while micrograms per liter measures mass. Compare results on the same basis after converting compatible units.</li>
-    <li><strong>Particle size range.</strong> Check both limits, especially the smallest particle counted. A study that counts particles down to 50 µm can include particles that a study starting at 300 µm misses. Compare a shared size range if both studies report results for it.</li>
-    <li><strong>Analytical method.</strong> Nile Red staining screens for suspected plastic particles. FTIR can identify the polymer of individual particles analyzed. Pyrolysis GC–MS measures polymer mass in the sample and does not provide individual particle counts or sizes.
-     <a href="https://www.openspecy.org/pkgdown/" target="_blank" rel="noopener">Open Specy</a> is an open-source tool for matching FTIR and Raman spectra to reference spectra.
-    </li>
-    <li><strong>Contamination controls.</strong> Look for field or laboratory blanks and check whether the authors adjusted counts using them. Treat any missing detail as unknown.</li>
-  </ul>
-  <p><a href="https://www.polygonesystems.com/microplastic-laboratory-analysis" target="_blank" rel="noopener">PolyGone microplastic testing services</a> · <a href="https://water.waterboards.ca.gov/drinking_water/certlic/drinkingwater/microplastics.html" target="_blank" rel="noopener">California Water Boards: Drinking-water microplastics methods</a> ·
-    <a href="https://pubmed.ncbi.nlm.nih.gov/35283150/" target="_blank" rel="noopener">Interlaboratory study (PubMed)</a>
-    </p>
-  <p>Further reading: <a href="https://www.epa.gov/sciencematters/assessing-methods-measuring-microplastics-water" target="_blank" rel="noopener">EPA: Assessing Methods of Measuring Microplastics in Water</a> · <a href="https://www.sciencedirect.com/science/article/pii/S221133982400087X" target="_blank" rel="noopener">Lukose et al.: Optical methods for detecting microplastics</a></p>
-  <p><a href="#recordList">Go to study records</a></p>
-</details>
-    <p><a href="#recordList">Jump to study records</a></p>
+<div class="study-guide-actions">
+  <details class="particle-properties">
+    <summary><strong>Why particle properties matter</strong></summary>
+    <p>When comparing concentrations, check the polymer type, particle size range, and surface condition (such as weathering) when the study reports them. Two samples with the same particle count per liter can contain different kinds of particles. Different minimum particle sizes can also affect which particles each study counts.</p>
+    <p>In laboratory tests, Qian and colleagues found that tested microplastics generated reactive oxygen species at their surfaces in water. More water-repellent surfaces showed greater activity under the study conditions. River particle counts alone cannot tell us how reactive those particles are.</p>
+    <p><a href="https://doi.org/10.1038/s41586-026-11141-y" target="_blank" rel="noopener">Qian et al. (2026), Nature · Microplastic–water interfaces</a></p>
+  </details>
+  <details class="particle-properties">
+    <summary><strong>Can I compare these records?</strong></summary>
+    <p>Before comparing, check these four items:</p>
+    <ul>
+      <li><strong>Sample and unit.</strong> Compare the same sample type and basis—particle count or mass. Convert units only when compatible.</li>
+      <li><strong>Size range.</strong> Check both cutoffs; smaller cutoffs can include more particles.</li>
+      <li><strong>Method.</strong> Nile Red screens suspected plastics; FTIR identifies polymers; pyrolysis GC–MS measures polymer mass, not particle counts or sizes. <a href="https://www.openspecy.org/pkgdown/" target="_blank" rel="noopener">Open Specy</a> matches FTIR and Raman spectra.</li>
+      <li><strong>Blanks.</strong> Check contamination controls and any blank correction. If not reported, treat them as unknown.</li>
+    </ul>
+    <p><a href="https://www.polygonesystems.com/microplastic-laboratory-analysis" target="_blank" rel="noopener">PolyGone microplastic testing services</a> · <a href="https://water.waterboards.ca.gov/drinking_water/certlic/drinkingwater/microplastics.html" target="_blank" rel="noopener">California Water Boards: Drinking-water microplastics methods</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/35283150/" target="_blank" rel="noopener">Interlaboratory study (PubMed)</a></p>
+    <p>Further reading: <a href="https://www.epa.gov/sciencematters/assessing-methods-measuring-microplastics-water" target="_blank" rel="noopener">EPA: Assessing Methods of Measuring Microplastics in Water</a> · <a href="https://www.sciencedirect.com/science/article/pii/S221133982400087X" target="_blank" rel="noopener">Lukose et al.: Optical methods for detecting microplastics</a></p>
+  </details>
+  <p class="study-record-jump"><a href="#recordList">Jump to study records</a></p>
+</div>
 
-
-
-
-
-    <section class="explorer" aria-labelledby="explorerTitle">
+<section class="explorer" aria-labelledby="explorerTitle">
       <h2 id="explorerTitle">Find study records</h2>
       <p class="explorer-intro">Filter concentration records and other study details by state, water body, sampling year, sample type, result type and evidence source. Years refer to sampling years; when a source summary gives only a publication year, the sampling year is shown as not stated.</p>
       <p class="metadata-legend"><b>Metadata coverage:</b> Detailed (6–8 of 8 fields), Partial (3–5), or Limited (0–2). The badge counts documented sampling period, sample type, unit, method, particle size, identification, quality checks, and a source link. It describes information recorded in this app; it does not rate study quality or establish that two results are comparable. Check the study details before comparing.</p>
@@ -147,8 +171,8 @@ body { min-height: 100vh; }
       <div class="explorer-layout">
 
         <div class="record-results">
-          <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled>Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled>Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div>
-          <div id="recordList" tabindex="-1" class="record-list" aria-live="polite"></div>
+          <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select up to 5 visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled>Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled>Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div>
+          <div id="recordList" class="record-list" aria-live="polite"></div>
         </div>
       </div>
       <details class="refine-filters" id="studyMapPanel"><summary>Optional map: Maryland study water bodies</summary>        <aside class="map-card" aria-labelledby="mapTitle">
@@ -180,56 +204,75 @@ body { min-height: 100vh; }
     <section class="explorer" aria-labelledby="regionalTitle">
       <h2 id="regionalTitle">State research summary</h2>
       <p class="explorer-intro" id="regionalNotice">Choose a state above to view its research context.</p>
-      <div class="maryland-evidence" id="mdStudySummary">
+      <div class="maryland-evidence md-summary" id="mdStudySummary">
         <h3>What Maryland and Chesapeake studies report</h3>
-        <article class="maryland-finding"><b>Chesapeake watershed sampling · 2024–2026</b><p>A 2026 PennEnvironment / Environment America report describes samples collected at 15 selected Chesapeake Bay watershed sites from April 2024 to October 2026. It reports plastic particles at all 15 sites and particle types (including fibers and fragments), but does not report microplastic concentrations. This is presence/type evidence for the sampled sites, not a concentration record or a ranking of rivers or states.</p><a href="https://publicinterestnetwork.org/wp-content/uploads/2026/11/Microplastics-in-the-Chesapeake-Bay-Watershed-2.pdf" target="_blank" rel="noopener">Read the original watershed report (PDF)</a> · <a href="https://www.cbf.org/news/microplastics-found-in-100-of-sample-sites-in-the-chesapeake-bay-watershed/" target="_blank" rel="noopener">Chesapeake Bay Foundation summary</a></article>
-        <article class="maryland-finding"><b>Chesapeake Bay background · education and prevention</b><p>“Small plastics are a big problem” (Chesapeake Bay Program, December 12, 2019) summarizes a regional scientific workshop, potential inputs from wastewater, stormwater and synthetic fibers, and concerns about wildlife exposure. It is a dated regional overview, not a river-specific concentration dataset. Its numerical claims are not imported into the app’s measurement comparisons.</p><a href="https://www.chesapeakebay.net/news/blog/small-plastics-are-a-big-problem" target="_blank" rel="noopener">Read the Chesapeake Bay Program overview</a></article>
+        <p class="md-summary-intro">Recent watershed findings, regional background, and research on possible pathways. Not every item is a concentration measurement.</p>
 
-        <p class="record-meta"><b>Related issue—PFAS in biosolids:</b> Waterkeepers Chesapeake’s “Protecting Farmlands &amp; Water from PFAS in Sewage Sludge” discusses a Maryland legislative proposal. PFAS are a separate contaminant class; the page is not evidence of microplastic concentration in a river and is not used in the measurement comparisons. This background link does not assert the proposal’s current legal status. <a href="https://waterkeeperschesapeake.org/pfas-sewage-sludge-bill-2026/" target="_blank" rel="noopener">Read the PFAS background resource</a></p>
+        <h4>Recent watershed sampling</h4>
+        <article class="maryland-finding md-primary-finding">
+          <div class="md-card-head"><b>Chesapeake watershed · 2024–2026</b><span class="md-evidence-badge">Detection findings · no concentration values</span></div>
+          <p>A 2026 PennEnvironment / Environment America report describes 90 water samples from 15 selected sites, collected from April 2024 to October 2026.</p>
+          <ul class="md-detection-stats" aria-label="Detection frequencies across sampled sites">
+            <li><strong>15 of 15 sites</strong>Microfibers detected</li>
+            <li><strong>93%</strong>Microfragments detected</li>
+            <li><strong>47%</strong>Microfilm detected</li>
+            <li><strong>27%</strong>Microbeads detected</li>
+          </ul>
+          <p class="md-summary-note">These are site detection frequencies—not concentration values or a ranking of rivers or states.</p>
+          <p class="md-summary-links"><a href="https://publicinterestnetwork.org/wp-content/uploads/2026/11/Microplastics-in-the-Chesapeake-Bay-Watershed-2.pdf" target="_blank" rel="noopener">Original watershed report (PDF)</a> · <a href="https://www.cbf.org/news/microplastics-found-in-100-of-sample-sites-in-the-chesapeake-bay-watershed/" target="_blank" rel="noopener">Chesapeake Bay Foundation summary</a> · <a href="https://www.13newsnow.com/article/tech/science/environment/microplastics-found-every-chesapeake-bay-watershed-site-tested/291-3cb2697b-f6b8-45dc-9c08-56f68a698c51" target="_blank" rel="noopener">13News Now coverage</a></p>
+        </article>
 
-        <div class="maryland-findings">
-          <article class="maryland-finding"><b>Chesapeake tributaries: urban areas and rainfall</b><p>A NOAA-supported analysis of Chesapeake surface-water samples found higher microplastic concentrations near urban areas and after heavy rain. This points to urban runoff and rainfall-related transport as plausible pathways, but it did not identify a single source for each river.</p><a href="https://marinedebris.noaa.gov/research/analysis-microplastics-chesapeake-bay-and-coastal-mid-atlantic-water-samples" target="_blank" rel="noopener">Read NOAA study summary</a></article>
-          <article class="maryland-finding"><b>Chesapeake Bay photo essay: what researchers found</b><p>In 2011, 59 of 60 samples from the Patapsco, Magothy, Rhode and Corsica rivers contained microplastics. The photo essay shows examples including fragments, fibers, pellets, sheets and polystyrene. Roads and storm drains, wastewater effluent and shipping were discussed as possible pathways; the photographs do not establish the source of individual particles. These are historical study results.</p><a href="https://www.chesapeakebay.net/news/blog/photo-essay-microplastics-in-the-chesapeake-bay" target="_blank" rel="noopener">View Chesapeake Bay Program photo essay</a> · <a href="https://marinedebris.noaa.gov/research/analysis-microplastics-chesapeake-bay-and-coastal-mid-atlantic-water-samples" target="_blank" rel="noopener">Read NOAA project summary</a></article>
-          <article class="maryland-finding"><b>Tidal Potomac: several sources tested, none dominant statistically</b><p>A 2025 preliminary study sampled urban, suburban, agricultural, natural/wetland, stormwater-outfall, and wastewater-outfall sites during baseflow and stormflow. It found no statistically significant difference among land-use groups. Baseflow counts were higher at almost all sites, so stormflow did not produce a uniform increase.</p><a href="https://www.chesapeakebay.net/files/20250507_Potomac-River-Microplastic-Source-Tracking-Data-Report-508-compliant_CLEAN_2.pdf" target="_blank" rel="noopener">Read the 2025 Potomac source-tracking report</a></article>
+        <div class="md-summary-grid">
+          <section class="md-context-card" aria-labelledby="mdBackgroundTitle">
+            <h4 id="mdBackgroundTitle">Chesapeake Bay background</h4>
+            <article class="maryland-finding"><b>Education and prevention</b><p>“Small plastics are a big problem” (Chesapeake Bay Program, December 12, 2019) summarizes a regional scientific workshop, possible inputs from wastewater, stormwater and synthetic fibers, and concerns about wildlife exposure. It is background reading, not a river-specific concentration dataset; its numerical claims are not used in measurement comparisons.</p><a href="https://www.chesapeakebay.net/news/blog/small-plastics-are-a-big-problem" target="_blank" rel="noopener">Read the Chesapeake Bay Program overview</a></article>
+          </section>
+          <aside class="md-related-issue"><b>Separate issue · PFAS in biosolids:</b> Waterkeepers Chesapeake discusses a Maryland legislative proposal concerning PFAS in sewage sludge. PFAS are a different contaminant class; this resource is not evidence of microplastic concentrations and is not used in measurement comparisons. It does not establish the proposal’s current legal status. <a href="https://waterkeeperschesapeake.org/pfas-sewage-sludge-bill-2026/" target="_blank" rel="noopener">Read the PFAS background resource</a></aside>
         </div>
-        <p class="pathway-caveat"><b>Interpretation:</b> urban runoff, wastewater, and litter are plausible routes into Maryland waterways, but current local studies do not establish one statewide or river-specific “main source.” The Potomac report is preliminary; its land-use groups were not statistically different.</p>
+
+        <h4>What other studies suggest about pathways</h4>
+        <div class="md-pathway-grid">
+          <article class="maryland-finding"><b>Urban areas and rainfall</b><p>A NOAA-supported analysis found higher concentrations near urban areas and after heavy rain. Runoff and rainfall-related transport are plausible pathways, but the study did not identify a single source for each river.</p><a href="https://marinedebris.noaa.gov/research/analysis-microplastics-chesapeake-bay-and-coastal-mid-atlantic-water-samples" target="_blank" rel="noopener">Read NOAA study summary</a></article>
+          <article class="maryland-finding"><b>Historical Chesapeake findings</b><p>In 2011, 59 of 60 samples from the Patapsco, Magothy, Rhode and Corsica rivers contained microplastics. The photo essay shows fragments, fibers, pellets, sheets and polystyrene; it discusses roads and storm drains, wastewater and shipping as possible pathways, not proven sources for individual particles.</p><a href="https://www.chesapeakebay.net/news/blog/photo-essay-microplastics-in-the-chesapeake-bay" target="_blank" rel="noopener">View Chesapeake Bay Program photo essay</a> · <a href="https://marinedebris.noaa.gov/research/analysis-microplastics-chesapeake-bay-and-coastal-mid-atlantic-water-samples" target="_blank" rel="noopener">Read NOAA project summary</a></article>
+          <article class="maryland-finding"><b>Tidal Potomac · preliminary source tracking</b><p>A 2025 study compared urban, suburban, agricultural, natural/wetland, stormwater-outfall and wastewater-outfall sites during baseflow and stormflow. Land-use groups did not differ significantly; baseflow counts were higher at almost all sites, so stormflow did not produce a uniform increase.</p><a href="https://www.chesapeakebay.net/files/20250507_Potomac-River-Microplastic-Source-Tracking-Data-Report-508-compliant_CLEAN_2.pdf" target="_blank" rel="noopener">Read the 2025 Potomac report</a></article>
+        </div>
+
+        <aside class="md-interpretation"><b>How to interpret this evidence:</b> Urban runoff, wastewater and litter are plausible routes into Maryland waterways, but local studies do not establish one statewide or river-specific “main source.” The Potomac report is preliminary.</aside>
       </div>
-      <div class="maryland-evidence" id="vaStudySummary" hidden>
-        <h3>Virginia: initial coverage</h3>
-        <article class="maryland-finding"><b>Virginia Marine Debris Reduction Plan · 2026–2030</b><p>The statewide plan identifies microplastic research and monitoring in waterways and drinking water as priorities. It is a policy and research roadmap; it does not provide river-specific microplastic concentrations and is not included in measured-record comparisons.</p><a href="https://www.cleanvirginiawaterways.org/2026-2030-vmdrp" target="_blank" rel="noopener">Read the Virginia plan</a></article>
-        <article class="maryland-finding"><b>Chesapeake Bay background · education and prevention</b><p>“Small plastics are a big problem” (Chesapeake Bay Program, December 12, 2019) summarizes a regional scientific workshop, potential inputs from wastewater, stormwater and synthetic fibers, and concerns about wildlife exposure. It is a dated regional overview, not a river-specific concentration dataset. Its numerical claims are not imported into the app’s measurement comparisons.</p><a href="https://www.chesapeakebay.net/news/blog/small-plastics-are-a-big-problem" target="_blank" rel="noopener">Read the Chesapeake Bay Program overview</a></article>
-
-        <article class="maryland-finding"><b>Central Virginia crayfish · undergraduate thesis</b><p>Alexandra Reddy’s 2020 thesis reports microplastics in crayfish digestive tracts and gill filaments from two Central Virginia streams. This is biological-occurrence evidence, not a water concentration. The abstract does not identify the streams or provide a particles/L value; those details are not assigned to any river in this app.</p><a href="https://digitalcommons.liberty.edu/honors/986/" target="_blank" rel="noopener">Surveillance of Microplastic Pollution in Central Virginia Freshwater Ecosystems · Liberty University</a></article>
-<p class="record-meta"><b>Lafayette River estuary:</b> a 2018 AGU conference study is listed by Old Dominion University. The app records it under “Other study details” until its concentration and methods can be verified. Do not substitute the 0.07 pieces/m³ result from a separate biofilm paper: that paper’s environmental samples were collected in the Elizabeth River, while its deployment experiments were in the Lafayette River. <a href="https://www.odu.edu/directory/rip-hale" target="_blank" rel="noopener">ODU study listing</a> · <a href="https://doi.org/10.1371/journal.pone.0237704" target="_blank" rel="noopener">Separate biofilm study</a></p>
-        <div class="maryland-findings">
-          <article class="maryland-finding"><b>Research: transport and sediment storage</b><p>Christensen and colleagues (2020) examined 14 sediment samples at six sites along three Virginia waterways. Microplastics in floodplains were as abundant as, or more abundant than, those in channel sediments; particles were also found aggregated with natural sediment. This study concerns sediment and floodplain transport, not water concentration in particles/L. River-specific values have not yet been verified in this app.</p><a href="https://doi.org/10.1016/j.jwpe.2020.101640" target="_blank" rel="noopener">Transport and characterization of microplastics in inland waterways</a></article>
-          <article class="maryland-finding"><b>Education and prevention</b><p>Clean Virginia Waterways provides resources on marine debris, single-use plastics, stormwater, cleanups and pollution prevention. This is an educational resource, not a river concentration dataset.</p><a href="https://www.cleanvirginiawaterways.org/plastic-pollution-education-outreach" target="_blank" rel="noopener">Clean Virginia Waterways: plastic pollution education and outreach</a></article>
-          <article class="maryland-finding"><b>Southwest Virginia research lead</b><p>Emory &amp; Henry’s faculty research page describes an undergraduate survey of microplastic contamination in the Holston River watershed. The exact title “Micro-plastic Contamination in the Rivers of Southwest Virginia” and its numerical results have not been verified, so no concentrations are assigned from this lead.</p><a href="https://www.emoryhenry.edu/live/profiles/360-laura-hainsworth" target="_blank" rel="noopener">University research description</a></article>
+      <div class="maryland-evidence md-summary" id="vaStudySummary" hidden>
+        <h3>Virginia research summary</h3>
+        <p class="md-summary-intro">Virginia records include river water, sediment, oysters, and research leads. Read each result with its sample type and study scope.</p>
+        <h4>What Virginia studies report</h4>
+        <div class="md-summary-notes">
+          <p class="record-meta"><b>James River watershed · water:</b> A 2024 study reports 0–26.5 particles/L across seven state-park water bodies. This combined result is not a mainstem-only concentration. The app separately lists James River State Park and Powhatan State Park, and lake records under Holliday Lake and Pocahontas State Park lake. Counts were visually identified; polymer confirmation was unsuccessful.</p>
+          <p class="record-meta"><b>New River and tributaries:</b> Virginia Tech thesis records cover Kentland Farm and Radford Municipal Park, with measured, blank-adjusted suspected-particle counts. Separate Stroubles Creek and Toms Creek study means were 17.3 and 9.9 particles/L in surface water and 140 and 139 particles/kg in sediment. Tributary means are not New River mainstem results. <a href="https://vtechworks.lib.vt.edu/server/api/core/bitstreams/6f7bf484-46a3-42fa-bb97-5bb96a7be2cb/content" target="_blank" rel="noopener">New River thesis</a> · <a href="https://doi.org/10.1016/j.envres.2024.119494" target="_blank" rel="noopener">Stroubles and Toms Creek study</a></p>
+          <p class="record-meta"><b>Four Mile Run:</b> The study reports 0.01–0.24 particles/L across environmental-water and treated-effluent samples. The mixed range is kept separate from water-only measurements. Fibers were the most common reported category; some method and date details remain unspecified in the app summary. <a href="https://digitalcommons.odu.edu/vjs/vol71/iss1/3/" target="_blank" rel="noopener">Moser et al. (2020)</a></p>
+          <p class="record-meta"><b>Oysters:</b> York and James River summer 2020 soft-tissue records are reported in particles/g tissue. These are organism measurements, not particles/L of water.</p>
         </div>
-
-        <p class="record-meta">The expanded dropdown covers 104 Virginia rivers and selected tributaries, using state watershed and scenic-river lists plus study streams. It is not an exhaustive inventory of every named stream. A shared river name does not transfer Maryland or North Carolina study results into Virginia.</p>
-<p class="record-meta"><b>York and James River oysters:</b> summer 2020 oyster soft-tissue measurements are available under Biota, reported in particles/g tissue. These results describe organisms at sampled estuarine sites and cannot be interpreted as particles/L of river water.</p>
-<p class="record-meta"><b>James River watershed:</b> a 2024 journal study reports 0–26.5 particles/L across seven state-park water bodies. This combined result is not a mainstem-only concentration. Select James River for the study scope and source; sampling occurred in October–December 2022. Separate mainstem records are available for James River State Park and Powhatan State Park; lake records are listed under Holliday Lake and Pocahontas State Park lake. Counts were visually identified; polymer confirmation was unsuccessful.</p>
-<p class="record-meta"><b>New River mainstem:</b> two site records from a 2025 Virginia Tech thesis cover Kentland Farm and Radford Municipal Park. They report measured, blank-adjusted suspected-particle counts; satellite estimates are not entered as measured concentrations. Sampling coverage differs between sites. <a href="https://vtechworks.lib.vt.edu/server/api/core/bitstreams/6f7bf484-46a3-42fa-bb97-5bb96a7be2cb/content" target="_blank" rel="noopener">Read thesis</a></p>
-<p class="record-meta"><b>New River basin tributaries — Stroubles Creek and Toms Creek:</b> Gray et al. (2024) sampled five sites per stream in March and May 2023. Mean suspected microplastic concentrations were 17.3 and 9.9 particles/L in surface water, and 140 and 139 particles/kg in sediment, respectively (rounded abstract values). Counts were blank-corrected; only a subset of particles received Raman characterization. These are tributary study means, not New River mainstem values. Choose either creek in the river dropdown for methods and source links. <a href="https://doi.org/10.1016/j.envres.2024.119494" target="_blank" rel="noopener">Read study</a></p>
-        <p class="record-meta">The Four Mile Run study reports 0.01–0.24 particles/L across environmental-water and treated-effluent samples. The mixed range is kept separate from water-only measurements. Fibers were the most common reported category. Dates, exact coordinates and some method details still need verification.</p>
-        <p class="pathway-sources"><a href="https://dwr.virginia.gov/wp-content/uploads/media/Virginias-watersheds-DCR-factsheet.pdf" target="_blank" rel="noopener">Virginia major watersheds</a> · <a href="https://dwr.virginia.gov/wp-content/uploads/media/Virginia-Watersheds-rivers.pdf" target="_blank" rel="noopener">DWR river-system list</a> · <a href="https://www.dcr.virginia.gov/recreational-planning/document/srlist.pdf" target="_blank" rel="noopener">DCR scenic-river list</a> · <a href="https://digitalcommons.odu.edu/vjs/vol71/iss1/3/" target="_blank" rel="noopener">Moser et al. (2020): Four Mile Run study</a></p>
+        <h4>Regional context and research leads</h4>
+        <div class="md-summary-notes">
+          <p class="record-meta"><b>Sediment transport:</b> Christensen et al. (2020) examined 14 sediment samples at six sites along three Virginia waterways. Floodplain sediments held as many or more microplastics as channel sediments. This is sediment evidence, not a water concentration. <a href="https://doi.org/10.1016/j.jwpe.2020.101640" target="_blank" rel="noopener">Read the study</a></p>
+          <p class="record-meta"><b>Central Virginia crayfish:</b> A 2020 undergraduate thesis reports microplastics in crayfish digestive tracts and gill filaments from two streams. The abstract does not name the streams or report particles/L, so no river concentration is assigned. <a href="https://digitalcommons.liberty.edu/honors/986/" target="_blank" rel="noopener">Read the thesis</a></p>
+          <p class="record-meta"><b>Lafayette River estuary:</b> An ODU-listed 2018 conference study is retained as a research lead until concentration and method details are verified. Do not substitute the separate 0.07 pieces/m³ Elizabeth River biofilm result. <a href="https://www.odu.edu/directory/rip-hale" target="_blank" rel="noopener">ODU listing</a> · <a href="https://doi.org/10.1371/journal.pone.0237704" target="_blank" rel="noopener">Biofilm paper</a></p>
+          <p class="record-meta"><b>Prevention and further research:</b> Clean Virginia Waterways provides education resources; Emory &amp; Henry describes a Holston River watershed student survey. Neither resource supplies a verified river concentration for this app. <a href="https://www.cleanvirginiawaterways.org/plastic-pollution-education-outreach" target="_blank" rel="noopener">Clean Virginia Waterways</a> · <a href="https://www.emoryhenry.edu/live/profiles/360-laura-hainsworth" target="_blank" rel="noopener">Emory &amp; Henry research lead</a></p>
+        </div>
+        <p class="md-interpretation"><b>Scope:</b> The river list covers 104 Virginia rivers and selected tributaries, not every named stream. Shared river names do not transfer results between states. Check each record’s matrix, size range, method, dates, and geographic scope before comparing.</p>
+        <p class="md-summary-links"><a href="https://dwr.virginia.gov/wp-content/uploads/media/Virginias-watersheds-DCR-factsheet.pdf" target="_blank" rel="noopener">Virginia watersheds</a> · <a href="https://dwr.virginia.gov/wp-content/uploads/media/Virginia-Watersheds-rivers.pdf" target="_blank" rel="noopener">DWR river list</a> · <a href="https://www.dcr.virginia.gov/recreational-planning/document/srlist.pdf" target="_blank" rel="noopener">DCR scenic-river list</a></p>
       </div>
-      <details class="maryland-evidence" id="ncStudySummary" hidden>
-        <summary><b>North Carolina studies: particle types and possible pathways</b></summary>
-        <p class="explorer-intro">These summaries describe study areas and sample types; they are not measurements for every river or proof of individual pollution sources.</p>
-        <article class="maryland-finding"><b>Haw River Basin monitoring · research lead</b><p>Haw River Assembly describes ongoing collaborative monitoring of surface water and sediment at multiple basin locations. The page does not provide numerical microplastic concentrations, so this is a research lead rather than a measured record.</p><a href="https://www.hawriver.org/plastic-pollution" target="_blank" rel="noopener">Haw River Assembly: plastic pollution</a></article>
-        <div class="maryland-findings">
-          <article class="maryland-finding"><b>Neuse River Basin · water and sediment</b><p>For particles larger than 335 μm in water, polyethylene, polypropylene and polystyrene were common in FTIR analysis. PET was common among smaller particles examined by Raman spectroscopy. Runoff, wastewater and degraded litter are possible inputs; the study does not identify a source for each particle.</p><a href="https://doi.org/10.1016/j.scitotenv.2023.162940" target="_blank" rel="noopener">Kurki-Fox et al. (2023): read study</a></article>
-          <article class="maryland-finding"><b>Blue Ridge headwater streams · water</b><p>Fibers comprised about 90% of suspected particles in the Richland Creek and Cullasaja tributary samples. The study also examined polymer composition and atmospheric deposition; atmospheric inputs and development were investigated as possible contributors.</p><a href="https://doi.org/10.3390/environments11110240" target="_blank" rel="noopener">Miller et al. (2024): read study</a></article>
-          <article class="maryland-finding"><b>Catawba River Basin · water</b><p>Colored fibers were frequently observed, alongside fragments. The study compared selected recreational and upstream/downstream sites. Identification was based on microscopy and physical characteristics; the polymer composition was not confirmed in the described method, and potential sources are not proven by the comparison.</p><a href="https://doi.org/10.36838/v4i5.5" target="_blank" rel="noopener">Farella and Farquhar (2022): read study</a></article>
-          <article class="maryland-finding"><b>Selected coastal sites · sediment</b><p>Fragments and fibers were reported in beach and estuarine sediments sampled in North Carolina and Virginia. Raman analysis of a subset identified polypropylene, PET, polystyrene, polyethylene, nylon and other materials. These results describe selected coastal sites, not a river measurement.</p><a href="https://pubmed.ncbi.nlm.nih.gov/32056649/" target="_blank" rel="noopener">Dodson et al. (2020): read study</a></article>
+      <div class="maryland-evidence md-summary" id="ncStudySummary" hidden>
+        <h3>North Carolina research summary</h3>
+        <p class="md-summary-intro">Published studies describe selected river basins, headwaters, and coastal sites. Findings are specific to their sample types and methods.</p>
+        <h4>What North Carolina studies report</h4>
+        <div class="md-summary-notes">
+          <p class="record-meta"><b>Neuse River Basin · water and sediment:</b> For water particles larger than 335 μm, polyethylene, polypropylene, and polystyrene were common in FTIR analysis. PET was common among smaller particles examined by Raman spectroscopy. Runoff, wastewater, and degraded litter are discussed as possible inputs; the study does not assign a source to each particle. <a href="https://doi.org/10.1016/j.scitotenv.2023.162940" target="_blank" rel="noopener">Kurki-Fox et al. (2023)</a></p>
+          <p class="record-meta"><b>Blue Ridge headwater streams · water:</b> Fibers made up about 90% of suspected particles in Richland Creek and Cullasaja tributary samples. The study also examined polymer composition and atmospheric deposition. <a href="https://doi.org/10.3390/environments11110240" target="_blank" rel="noopener">Miller et al. (2024)</a></p>
+          <p class="record-meta"><b>Catawba River Basin · water:</b> Colored fibers and fragments were observed at selected recreational and upstream/downstream sites. Identification used microscopy and physical characteristics; polymers were not confirmed by the described method. <a href="https://doi.org/10.36838/v4i5.5" target="_blank" rel="noopener">Farella and Farquhar (2022)</a></p>
+          <p class="record-meta"><b>Selected coastal locations · sediment:</b> Beach and estuarine sediments in North Carolina and Virginia contained reported fragments and fibers. Raman analysis of a subset identified several polymers. These are coastal sediment results, not river-water measurements. <a href="https://pubmed.ncbi.nlm.nih.gov/32056649/" target="_blank" rel="noopener">Dodson et al. (2020)</a></p>
         </div>
-        <p class="pathway-caveat">Interpret results in the context of the sampling location, water or sediment matrix, particle size, and identification method. Similar-looking fibers are not necessarily confirmed plastics.</p>
-      </details>
+        <p class="md-interpretation"><b>Scope:</b> Similar-looking fibers are not necessarily confirmed plastics. Compare only after checking the location, water or sediment matrix, particle size, identification method, and the specific statistic reported.</p>
+        <p class="md-summary-links">These study summaries do not represent every North Carolina river and do not prove the source of individual particles.</p>
+      </div>
     </section>
-
-
 
     <section class="comparison" aria-labelledby="compareTitle">
       <h2 id="compareTitle">Compare reported measurements</h2>
@@ -237,6 +280,8 @@ body { min-height: 100vh; }
       <div class="compare-control"><label for="compareMetric">Sample type and unit</label><select id="compareMetric"></select></div>
       <p class="compare-note">This is a contextual review, not a pollution ranking. Matching units and sample types alone do not make studies comparable: check particle size, collection method, result statistic, sampling dates and evidence source. No units are converted here.</p>
       <div id="compareChart" aria-live="polite"></div>
+      <h3>Can these records be compared?</h3>
+      <div id="selectedComparison" aria-live="polite"></div>
     </section>
     <section class="sampling-guide" aria-labelledby="samplingTitle">
       <h2 id="samplingTitle">How the measurements are collected</h2>
@@ -309,13 +354,6 @@ body { min-height: 100vh; }
     </section>
     <footer><span>Prototype only · historical study records and research status</span><span>No live monitoring or predicted values</span><p>Measurements are historical and source-specific; they do not represent current or river-wide conditions.</p></footer>
   </main>
-<button type="button" id="openSelectedComparison" class="compare-float" aria-haspopup="dialog" aria-controls="comparisonDialog" hidden>Compare selected (2)</button>
-<div id="comparisonDialog" class="compare-backdrop" hidden>
-  <section class="compare-dialog" role="dialog" aria-modal="true" aria-labelledby="comparisonDialogTitle" tabindex="-1">
-    <div class="compare-dialog-head"><div><h2 id="comparisonDialogTitle">Compare selected records</h2><p>Review reported values, methods, sample types, and missing details side by side.</p></div><button type="button" id="closeSelectedComparison" class="compare-dialog-close">Close</button></div>
-    <div id="selectedComparison" aria-live="polite"></div>
-  </section>
-</div>
     <section class="ai-chat side-chat" id="researchChatPanel" aria-labelledby="aiChatTitle" hidden>
       <div class="chat-panel-head"><h2 id="aiChatTitle">Microplastics Assist</h2><button type="button" class="chat-close" id="closeResearchChat" aria-label="Close research chat panel">Close</button></div>
       <p class="ai-chat-intro">Ask about the curated study records. Factual answers show source links; when the records have no verified measurement for your question, the assistant says so.</p>
@@ -326,7 +364,7 @@ body { min-height: 100vh; }
     </section>
   <button class="chat-launcher" id="openResearchChat" hidden type="button" aria-controls="researchChatPanel" aria-expanded="false">Ask about the data</button>
   <script>
-    const selectedBrowseIds=new Set();
+    const MAX_COMPARE_SELECTIONS=5;const selectedBrowseIds=new Set();
     const browseRecords=[
   {
     "state": "Virginia",
@@ -1700,11 +1738,12 @@ body { min-height: 100vh; }
       updateSearchOptions();
       document.getElementById("vaStudySummary").hidden=filterState.value!=="Virginia";
       document.getElementById("mdStudySummary").hidden=filterState.value!=="Maryland";
-      document.getElementById("regionalNotice").textContent=filterState.value==="Maryland"?"Maryland and Chesapeake Bay study context":filterState.value==="North Carolina"?"North Carolina study context":filterState.value==="Virginia"?"Virginia study context":filterState.value?"A research summary has not been added for this state yet.":"Choose a state above to view its research context.";
+      document.getElementById("regionalNotice").textContent=filterState.value==="Maryland"?"Maryland and Chesapeake Bay study context":filterState.value==="North Carolina"?"North Carolina study context":filterState.value==="Virginia"?"Virginia study context":filterState.value==="Washington, D.C."?"Washington, D.C. study context":filterState.value?"A research summary has not been added for this state yet.":"Choose a state above to view its research context.";
       document.getElementById("studyMapPanel").hidden=filterState.value!=="Maryland";
       document.getElementById("mapAvailability").hidden=!filterState.value||filterState.value==="Maryland";
       document.getElementById("ncSource").hidden=filterState.value!=="North Carolina";
       document.getElementById("ncStudySummary").hidden=filterState.value!=="North Carolina";
+      const dcSummary=document.getElementById("dcStudySummary");if(dcSummary)dcSummary.hidden=filterState.value!=="Washington, D.C.";
       document.getElementById("stateNotice").textContent=filterState.value==="Maryland" ? "Maryland: water bodies with existing study records are listed. The Anacostia watershed record covers Maryland and Washington, D.C.; see the source for individual sites." : filterState.value==="North Carolina" ? "Choose a North Carolina river. Some records summarize watersheds, including tributaries; other rivers are still being researched." : filterState.value==="Virginia" ? "Virginia: major rivers and selected tributaries are listed. Four Mile Run has a published mixed-water concentration range. Lafayette River has a conference-study reference; its concentration is not verified. York River and James River have oyster-tissue records, separate from water data. James River has a seven-park watershed summary and two separate mainstem park records (2022 sampling). Holliday Lake and the sampled Pocahontas State Park lake have separate lake records. New River has measured water records at Kentland Farm and Radford Municipal Park. Stroubles Creek and Toms Creek have separate 2023 water and sediment measurements. Elizabeth River has a published suspected-piece abundance with size and identification limitations. Occoquan River has a student conference study lead pending source verification. Potomac, Rappahannock and Roanoke have additional study records or research leads. Shenandoah and Dan have research-status entries with no verified microplastic concentration. Clinch, Powell, South Fork Holston and Rivanna have research-status entries; Appomattox has an unverified university project report. Pamunkey and Mattaponi have monitoring-framework records; Chickahominy has a planned biota project; Nansemond has related facility research only; Blackwater (Chowan Basin) has a research-gap entry. Jackson, Maury, Meherrin, Nottoway and Piankatank have research-gap entries without verified concentrations. Other rivers are being researched." : filterState.value==="Washington, D.C." ? "Existing Washington, D.C. records are shown; the Anacostia watershed summary also covers Maryland." : filterState.value ? "The river list and study records for "+filterState.value+" have not been added yet." : "Select Maryland to browse its available study water bodies. Other states will be added one at a time.";
       document.querySelector(".map-card").hidden=!!filterState.value && filterState.value!=="Maryland";
       document.querySelector(".explorer-layout").style.gridTemplateColumns=filterState.value && filterState.value!=="Maryland"?"minmax(0,1fr)":"";
@@ -1719,44 +1758,53 @@ body { min-height: 100vh; }
     function renderExactSamplingLocations(){const box=document.getElementById("exactSamplingLocations"),points=[...new Map(browseRecords.filter(r=>Number.isFinite(Number(r.latitude))&&Number.isFinite(Number(r.longitude))&&r.coordinateSource).map(r=>[r.latitude+","+r.longitude,r])).values()];if(!points.length){box.innerHTML="<b>Exact sample points:</b> no coordinates are published in the linked record summaries.";return}box.innerHTML="<b>Exact sample points published by studies</b>"+points.map(r=>'<div class="exact-location">'+esc(r.river)+" · "+esc(r.latitude)+", "+esc(r.longitude)+" · "+esc(r.coordinateSource)+' · <a target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat='+encodeURIComponent(r.latitude)+'&mlon='+encodeURIComponent(r.longitude)+'#map=15/'+encodeURIComponent(r.latitude)+'/'+encodeURIComponent(r.longitude)+'">Open point on map</a></div>').join("")}
     function renderSelectedComparison(){
       const panel=document.getElementById("selectedComparison");
-      if(selectedBrowseIds.size!==2){
-        panel.textContent="Select exactly two records using the table checkboxes to see how they compare.";
+      const selected=browseRecords.filter(record=>selectedBrowseIds.has(record.id));
+      if(selected.length<2){
+        panel.textContent="Select at least two records using the Compare checkboxes. You can compare up to five records at a time.";
         return;
       }
-      const [left,right]=browseRecords.filter(record=>selectedBrowseIds.has(record.id));
+      const unavailable=value=>!String(value??"").trim() || /not stated|not reported|not specified|unknown|unavailable|not applicable|not provided|^n\/a$/i.test(String(value??""));
       const dimensions=[
-        ["Sample type",left.matrix,right.matrix],
-        ["Reporting unit",left.unit,right.unit],
-        ["Result and statistic",left.metric,right.metric],
-        ["Particle size range",left.methods.sizeRange,right.methods.sizeRange],
-        ["Identification method",left.methods.identification,right.methods.identification],
-        ["Quality checks",left.methods.qualityChecks,right.methods.qualityChecks]
+        ["Sample type",record=>record.matrix],
+        ["Reporting unit",record=>record.unit],
+        ["Result and statistic",record=>record.metric],
+        ["Particle size range",record=>record.methods.sizeRange],
+        ["Identification method",record=>record.methods.identification],
+        ["Quality checks",record=>record.methods.qualityChecks]
       ];
-      const unavailable=value=>!value?.trim() || /not stated|not reported|not specified|unknown|unavailable|not applicable|not provided|^n\/a$/i.test(value);
-      const rows=dimensions.map(([label,a,b])=>{
-        const status=unavailable(a)||unavailable(b)?"Check source":a.trim()===b.trim()?"Same recorded detail":"Different recorded details";
-        return {label,a,b,status};
+      const rows=dimensions.map(([label,getValue])=>{
+        const values=selected.map(record=>String(getValue(record)??"").trim());
+        const available=values.filter(value=>!unavailable(value));
+        const distinct=new Set(available.map(value=>value.toLowerCase()));
+        const status=available.length<values.length?(distinct.size>1?"Different and missing details":"Some details missing"):distinct.size===1?"Same recorded detail":"Different recorded details";
+        return {label,values,status};
       });
-      const measured=[left,right].every(record=>record.resultType==="concentration");
-      const sameBasis=left.matrix===right.matrix && left.unit===right.unit && !unavailable(left.matrix) && !unavailable(left.unit);
-      let verdict="Matching recorded details. Review site scope and sampling dates before interpreting differences.";
-      if(rows.some(row=>row.status!=="Same recorded detail")) verdict="Compare with caution. Review the differences and missing details below.";
-      if(!sameBasis) verdict="Different or unverified sample types or reporting units. Review both original values.";
-      if(!measured) verdict="A concentration comparison requires two concentration or abundance records.";
+      const measured=selected.every(record=>record.resultType==="concentration");
+      const sameBasis=selected.every(record=>record.matrix===selected[0].matrix&&record.unit===selected[0].unit&&!unavailable(record.matrix)&&!unavailable(record.unit));
+      let verdict="Same sample type and unit. Review methods, particle sizes, sites, and dates before interpreting differences.";
+      if(!sameBasis)verdict="The selected records use different or unreported sample types or units. Values are shown as reported and should not be ranked directly.";
+      else if(rows.some(row=>row.status!=="Same recorded detail"))verdict="The selected records share a sample type and unit, but other study details differ or are missing. Compare with caution.";
+      if(!measured)verdict="At least one selected row is not a concentration or abundance result. Review each result type and source before comparing values.";
+      const headings=selected.map(record=>`<th scope="col">${esc(record.river)}<br><span class="record-meta">${esc(record.site)}</span></th>`).join("");
+      const valueCells=selected.map(record=>`<td><b>${esc(record.value||"Not reported")}</b><br><span class="record-meta">${esc(record.resultLabel||"")}</span></td>`).join("");
+      const detailRows=rows.map(({label,values,status})=>`<tr><th scope="row">${esc(label)}</th>${values.map(value=>`<td>${esc(value||"Not recorded")}</td>`).join("")}<td>${esc(status)}</td></tr>`).join("");
       panel.innerHTML=`<p><strong>${esc(verdict)}</strong></p>
-        <div style="overflow-x:auto"><table class="record-meta">
-          <thead><tr><th scope="col">Detail</th><th scope="col">${esc(left.river)} · ${esc(left.site)}</th><th scope="col">${esc(right.river)} · ${esc(right.site)}</th><th scope="col">Comparison</th></tr></thead>
-          <tbody><tr><th scope="row">Reported value</th><td>${esc(left.value)}</td><td>${esc(right.value)}</td><td></td></tr>
-          ${rows.map(({label,a,b,status})=>`<tr><th scope="row">${esc(label)}</th><td>${esc(a||"Not recorded")}</td><td>${esc(b||"Not recorded")}</td><td>${esc(status)}</td></tr>`).join("")}
-          </tbody></table></div>`;
+        <p class="record-meta">Comparing ${selected.length} selected records. Check each study’s scope and methods before interpreting the reported values.</p>
+        <div style="overflow-x:auto"><table class="record-meta" style="min-width:980px">
+          <thead><tr><th scope="col">Detail</th>${headings}<th scope="col">Assessment</th></tr></thead>
+          <tbody><tr><th scope="row">Reported value</th>${valueCells}<td>Review the study-specific statistic</td></tr>
+          ${detailRows}</tbody></table></div>`;
     }
-    const comparisonLauncher=document.getElementById("openSelectedComparison"),comparisonDialog=document.getElementById("comparisonDialog"),closeComparisonButton=document.getElementById("closeSelectedComparison");
-    function closeSelectedComparisonDialog(){comparisonDialog.hidden=true;comparisonLauncher.focus()}
-    comparisonLauncher.addEventListener("click",()=>{if(selectedBrowseIds.size!==2)return;comparisonDialog.hidden=false;closeComparisonButton.focus()});
-    closeComparisonButton.addEventListener("click",closeSelectedComparisonDialog);
-    comparisonDialog.addEventListener("click",event=>{if(event.target===comparisonDialog)closeSelectedComparisonDialog()});
-    document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!comparisonDialog.hidden)closeSelectedComparisonDialog()});
-    function updateSelectionControls(){renderSelectedComparison();const visible=visibleBrowseRecords(),selected=selectedBrowseIds.size;comparisonLauncher.hidden=selected!==2;selectionStatus.textContent=selected+" record"+(selected===1?"":"s")+" selected"+(selected===2?" · Use Compare selected to review them":selected>2?" · Select exactly two records to compare":"")+" · "+visible.length+" currently visible (selection may include filtered records)";downloadSelectedCsv.disabled=!selected;downloadSelectedRis.disabled=!selected;selectVisible.checked=visible.length>0&&visible.every(r=>selectedBrowseIds.has(r.id));selectVisible.indeterminate=visible.some(r=>selectedBrowseIds.has(r.id))&&!selectVisible.checked}
+    function updateSelectionControls(){
+      renderSelectedComparison();
+      const visible=visibleBrowseRecords(),selected=selectedBrowseIds.size;
+      selectionStatus.textContent=selected+" of "+MAX_COMPARE_SELECTIONS+" records selected"+(selected>=2?" · Compare selected records below":selected===1?" · Select one more record to compare":"")+" · "+visible.length+" currently visible (selection may include records hidden by filters)";
+      downloadSelectedCsv.disabled=!selected;
+      downloadSelectedRis.disabled=!selected;
+      selectVisible.checked=visible.length>0&&visible.every(r=>selectedBrowseIds.has(r.id));
+      selectVisible.indeterminate=visible.some(r=>selectedBrowseIds.has(r.id))&&!selectVisible.checked;
+      recordList.querySelectorAll("[data-record-id]").forEach(box=>{box.disabled=selected>=MAX_COMPARE_SELECTIONS&&!selectedBrowseIds.has(Number(box.dataset.recordId))});
+    }
     function renderCoverage(){
       const names=listedWaterBodies();
       const rows=names.map(name=>{const matching=stateRecords().filter(r=>r.river===name),c=matching.filter(r=>r.resultType==="concentration").length;return [name,c,matching.length-c]});
@@ -1794,7 +1842,7 @@ body { min-height: 100vh; }
       return (r.links||[]).find(([label])=>/paper record/i.test(label))||(r.links||[]).find(([label])=>/doi/i.test(label))||(r.links||[])[0];
     }
     function renderStudyTable(title, items){
-      const columns = ['Select', 'Water body / study region', 'Sampling date or period', 'Metadata coverage', 'Sample type', 'Reported result', 'Unit', 'Source and details'];
+      const columns = ['Compare', 'Water body / study region', 'Sampling date or period', 'Metadata coverage', 'Sample type', 'Reported result', 'Unit', 'Source and details'];
       const sourceGroups=new Map();
       items.forEach(r=>{const key=r.citation||r.source||String(r.id);if(!sourceGroups.has(key))sourceGroups.set(key,[]);sourceGroups.get(key).push(r)});
       const sharedGroups=[...sourceGroups.values()].filter(records=>records.length>1).map(records=>{
@@ -1825,7 +1873,7 @@ body { min-height: 100vh; }
         const primary=primarySourceLink(r);
         const links = (r.links||[]).filter(([,url])=>!sharedUrls.has(url)&&url!==primary?.[1]).map(([label,url])=>`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}</a>`).join(' · ');
         return `<tr>
-          <td><input type="checkbox" data-record-id="${esc(r.id)}" aria-label="Include ${esc(r.river)} — ${esc(r.matrix)} — ${esc(r.metric)} in export" ${selectedBrowseIds.has(r.id)?'checked':''}></td>
+          <td><input type="checkbox" data-record-id="${esc(r.id)}" aria-label="Compare and include ${esc(r.river)} — ${esc(r.matrix)} — ${esc(r.metric)} in selected downloads" ${selectedBrowseIds.has(r.id)?'checked':''}></td>
           <th scope="row">${esc(r.river)}<br><span class="record-meta">${esc(r.state)}</span></th>
           <td>${esc(sampling)}</td>
           <td>${metadataCoverage(r)}</td>
@@ -1860,7 +1908,7 @@ body { min-height: 100vh; }
         </table>
       </div>`;
     }
-    function renderBrowseRecords(){saveBrowseFilters();const found=visibleBrowseRecords();renderCoverage();renderComparison();const measured=found.filter(r=>r.resultType==="concentration").length;recordCount.textContent=measured+" concentration / abundance records · "+(found.length-measured)+" other records";downloadCsv.disabled=!found.length;if(!found.length){recordList.innerHTML='<div class="filter-empty">'+(filterState.value==="Virginia" && filterRiver.value && !stateRecords().some(r=>r.river===filterRiver.value) ? 'No verified microplastic data added yet for this river. This does not mean the river is free of microplastics.' : searchInput.value.trim() ? 'No matching records have been added yet for this search and active filters. Try another name or clear the filters; this does not indicate an absence of microplastics.' : filterState.value==="North Carolina" ? 'No records match the selected river and filters. A study record may not have been added yet.' : filterState.value && !["Maryland","Virginia","Washington, D.C."].includes(filterState.value) ? 'River lists and study records for this state have not been added yet.' : 'No records match these filters. Try a different year, sample type, or unit.')+'</div>';updateSelectionControls();return}const grouped=[['concentration','Concentrations and surface abundance'],['study','Other study details — not concentrations'],['other','Other particle measurements']];recordList.innerHTML=grouped.map(([kind,title])=>{const items=found.filter(r=>r.resultType===kind);return items.length ? renderStudyTable(title, items) : '';}).join('');recordList.querySelectorAll('[data-record-id]').forEach(box=>box.addEventListener('change',()=>{const id=Number(box.dataset.recordId);if(box.checked)selectedBrowseIds.add(id);else selectedBrowseIds.delete(id);updateSelectionControls()}));updateSelectionControls()}
+    function renderBrowseRecords(){saveBrowseFilters();const found=visibleBrowseRecords();renderCoverage();renderComparison();const measured=found.filter(r=>r.resultType==="concentration").length;recordCount.textContent=measured+" concentration / abundance records · "+(found.length-measured)+" other records";downloadCsv.disabled=!found.length;if(!found.length){recordList.innerHTML='<div class="filter-empty">'+(filterState.value==="Virginia" && filterRiver.value && !stateRecords().some(r=>r.river===filterRiver.value) ? 'No verified microplastic data added yet for this river. This does not mean the river is free of microplastics.' : searchInput.value.trim() ? 'No matching records have been added yet for this search and active filters. Try another name or clear the filters; this does not indicate an absence of microplastics.' : filterState.value==="North Carolina" ? 'No records match the selected river and filters. A study record may not have been added yet.' : filterState.value && !["Maryland","Virginia","Washington, D.C."].includes(filterState.value) ? 'River lists and study records for this state have not been added yet.' : 'No records match these filters. Try a different year, sample type, or unit.')+'</div>';updateSelectionControls();return}const grouped=[['concentration','Concentrations and surface abundance'],['study','Other study details — not concentrations'],['other','Other particle measurements']];recordList.innerHTML=grouped.map(([kind,title])=>{const items=found.filter(r=>r.resultType===kind);return items.length ? renderStudyTable(title, items) : '';}).join('');recordList.querySelectorAll('[data-record-id]').forEach(box=>box.addEventListener('change',()=>{const id=Number(box.dataset.recordId);if(box.checked&&!selectedBrowseIds.has(id)&&selectedBrowseIds.size>=MAX_COMPARE_SELECTIONS){box.checked=false;selectionStatus.textContent='You can compare up to 5 records. Uncheck one before selecting another.';return}if(box.checked)selectedBrowseIds.add(id);else selectedBrowseIds.delete(id);updateSelectionControls()}));updateSelectionControls()}
     function csvCell(value){return '"'+String(value??"").replace(/"/g,'""')+'"'}
     function downloadBlob(filename,content,type){const blob=new Blob(["\uFEFF"+content],{type}),url=URL.createObjectURL(blob),link=document.createElement("a");link.href=url;link.download=filename;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
     function exportCsv(found,filename){const headers=["Water body","State / study region","Result type","Evidence source type","Study site/scope","Sampling period","Sampling year(s)","Sample type","Metric","Reported value","Unit","Method","Sampling volume or mass","Particle size range","Identification method","Quality checks","Latitude","Longitude","Coordinate source","Full reference","Source links"],rows=[headers,...found.map(r=>[r.river,r.state,r.resultLabel,r.evidence,r.site,r.period,r.years.length?r.years.join("; "):"Not stated in current summary",r.matrix,r.metric,r.value,r.unit,r.method,r.methods.samplingVolume,r.methods.sizeRange,r.methods.identification,r.methods.qualityChecks,r.latitude??"",r.longitude??"",r.coordinateSource||"",r.citation,r.links.map(a=>a[0]+": "+a[1]).join(" | ")])].map(row=>row.map(csvCell).join(","));downloadBlob(filename,rows.join("\r\n"),"text/csv;charset=utf-8")}
@@ -1869,7 +1917,7 @@ body { min-height: 100vh; }
     filterState.addEventListener("change",()=>updateState());
     filterRiver.addEventListener("change",()=>{updateSiteOptions();renderBrowseRecords()});
     [filterSite,filterYear,filterMatrix,filterUnit,filterResultType,filterEvidence].forEach(select=>select.addEventListener("change",renderBrowseRecords));
-    selectVisible.addEventListener("change",()=>{for(const r of visibleBrowseRecords()){if(selectVisible.checked)selectedBrowseIds.add(r.id);else selectedBrowseIds.delete(r.id)}renderBrowseRecords()});
+    selectVisible.addEventListener("change",()=>{const visible=visibleBrowseRecords();if(selectVisible.checked){for(const r of visible){if(selectedBrowseIds.size>=MAX_COMPARE_SELECTIONS)break;selectedBrowseIds.add(r.id)}}else{for(const r of visible)selectedBrowseIds.delete(r.id)}renderBrowseRecords()});
     document.querySelectorAll(".map-marker").forEach(marker=>{const choose=()=>{if(filterState.value==="Maryland" && marker.dataset.mapWaterbody==="Nash Run"){return}filterRiver.value=marker.dataset.mapWaterbody;updateSiteOptions();renderBrowseRecords();document.getElementById("explorerTitle").scrollIntoView({behavior:"smooth",block:"start"})};marker.addEventListener("click",choose);marker.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();choose()}})});
     downloadCsv.addEventListener("click",()=>exportCsv(visibleBrowseRecords(),"microplastics-filtered-records.csv"));
     downloadSelectedCsv.addEventListener("click",()=>exportCsv(browseRecords.filter(r=>selectedBrowseIds.has(r.id)),"microplastics-selected-records.csv"));

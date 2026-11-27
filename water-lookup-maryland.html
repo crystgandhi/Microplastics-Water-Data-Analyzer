@@ -76,7 +76,46 @@ body { min-height: 100vh; }
     .study-results-table .record-methods{min-width:160px}
     #openResearchChat, #researchChatPanel { display: none !important; }
 </style>
-<style>.particle-properties{margin:0 0 16px;padding:12px 16px;border:1px solid #b8d4e6;border-radius:10px;background:#f4faff}.particle-properties summary{cursor:pointer}.particle-properties p:last-child{margin-bottom:0}</style>
+<style>
+.study-guide-actions{display:grid;grid-template-columns:1.2fr 1.2fr .9fr;align-items:start;gap:12px;margin:10px 0 16px}
+.study-guide-actions>.particle-properties{min-width:0;min-height:44px;margin:0;padding:10px 14px;border:1px solid #b8d4e6;border-radius:8px;background:#f4faff}
+.study-guide-actions>.particle-properties summary{cursor:pointer}
+.study-guide-actions>.particle-properties p:last-child{margin-bottom:0}
+.study-record-jump{display:flex;align-items:center;justify-content:center;min-height:44px;margin:0;padding:8px 12px;border:1px solid #b8d4e6;background:#d9eef9;text-align:center}
+.study-record-jump a{color:#0645ad}
+@media(max-width:700px){.study-guide-actions{grid-template-columns:1fr}}
+</style>
+<style>
+.md-summary{padding:18px;background:#fff}
+.md-summary>h3{font-size:16px;margin:0 0 4px}
+.md-summary-intro{margin:0 0 14px;color:var(--muted);font-size:12px}
+.md-summary h4{font-size:13px;margin:17px 0 8px;color:var(--ink)}
+.md-primary-finding{padding:14px 16px;border:1px solid #b9d9eb;border-left:4px solid #155d8c;border-radius:10px;background:#f2f9fd}
+.md-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.md-evidence-badge{display:inline-block;padding:4px 8px;border-radius:20px;background:#e6f2fa;color:#315b75;font-size:10px;font-weight:750}
+.md-summary .maryland-finding p{font-size:12px;line-height:1.55}
+.md-detection-stats{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;padding:0;list-style:none}
+.md-detection-stats li{min-width:115px;padding:7px 10px;border:1px solid #c9deec;border-radius:8px;background:#fff;font-size:11px;color:var(--muted)}
+.md-detection-stats strong{display:block;color:#155d8c;font-size:14px}
+.md-summary-note{margin:8px 0!important;padding:8px 10px;border-radius:7px;background:#fff6e9;color:#725b39!important;font-size:11px!important}
+.md-summary-links{margin:8px 0 0;font-size:11px;line-height:1.6}
+.md-summary-links a{color:var(--green);font-weight:750}
+.md-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;align-items:stretch}
+.md-summary-grid h4{margin-top:0}
+.md-context-card,.md-related-issue{margin:0;padding:13px 14px;border:1px solid var(--line);border-radius:10px;background:#f8fbfe}
+.md-related-issue{border-left:3px solid #9aaebe;background:#f7f9fb;color:var(--muted);font-size:11px;line-height:1.55}
+.md-related-issue b{color:var(--ink)}
+.md-related-issue a{color:var(--green);font-weight:750}
+.md-summary>summary{cursor:pointer;font-size:14px;font-weight:750;margin:0 0 10px}
+.md-summary-notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.md-summary-notes .record-meta{margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#f8fbfe;line-height:1.55}
+.md-summary-notes a{color:var(--green);font-weight:700}
+.md-pathway-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.md-interpretation{margin:14px 0 0;padding:12px 14px;border:1px solid #e8d3ae;border-radius:9px;background:#fff7eb;color:#604e35;font-size:12px;line-height:1.55}
+.md-interpretation b{color:#49391f}
+@media(max-width:850px){.md-pathway-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.md-summary{padding:14px}.md-summary-grid,.md-pathway-grid,.md-summary-notes{grid-template-columns:1fr}.md-detection-stats li{flex:1 1 42%}}
+</style>
 <style>
 .compare-float{position:fixed;right:22px;bottom:22px;z-index:9998;border:0;border-radius:999px;background:#155d8c;color:#fff;font:700 14px/1.2 system-ui,sans-serif;padding:13px 18px;box-shadow:0 8px 24px #12385638;cursor:pointer}
 .compare-float:hover{background:#0b6ea8}.compare-float:focus-visible,.compare-dialog button:focus-visible{outline:3px solid #f2bd4c;outline-offset:3px}
@@ -87,48 +126,55 @@ body { min-height: 100vh; }
 #selectedComparison{overflow-x:auto}#selectedComparison>p:first-child{padding:10px 12px;background:#edf6fb;border:1px solid #c9deec;border-radius:9px;color:#17364c;font-size:13px}#selectedComparison table{min-width:650px}
 @media(max-width:620px){.compare-float{right:14px;bottom:14px;font-size:13px;padding:12px 15px}.compare-dialog{padding:15px;border-radius:12px;max-height:90vh}.compare-dialog-head h2{font-size:18px}}
 </style>
+<style>
+.record-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.record-tab-button{appearance:none;border:1px solid #b8d4e6;border-radius:9px;background:#f5faff;color:var(--ink);font:700 13px system-ui,sans-serif;padding:10px 14px;cursor:pointer}
+.record-tab-button[aria-selected="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.record-tab-button:focus-visible{outline:3px solid #76b7de;outline-offset:2px}
+.record-tabpanel[hidden]{display:none!important}
+#measurementPanel .explorer-layout{grid-template-columns:minmax(0,1fr)}
+.measurement-panel-title{font-size:18px;margin:8px 0 4px;color:var(--ink)}
+@media(max-width:620px){.record-tabs{display:grid;grid-template-columns:1fr}.record-tab-button{text-align:left}}
+</style>
 </head>
 <body>
   <main class="shell">
-    <header class="topline">
-      <div class="brand"><div class="mark" aria-hidden="true">≈</div><div>Microplastics Water Data Analyzer<small>Research lookup · prototype</small></div></div>
-      <span class="private">Private draft</span>
-    </header>
     <section class="hero" aria-labelledby="title">
-      <div class="eyebrow">Search reported measurements</div>
       <h1 id="title">Explore microplastics studies in Maryland.</h1>
       <p>Choose a river or water body and a sampling site or study scope in Maryland. Review historical measurements, study methods, research gaps and source links. Shared-watershed records retain their original geographic scope.</p>
     </section>
-<details class="particle-properties">
- <summary><strong>Why particle properties matter</strong></summary>
-  <p>When comparing concentrations, check the polymer type, particle size range, and surface condition (such as weathering) when the study reports them. Two samples with the same particle count per liter can contain different kinds of particles. Different minimum particle sizes can also affect which particles each study counts.</p>
-  <p>In laboratory tests, Qian and colleagues found that tested microplastics generated reactive oxygen species at their surfaces in water. More water-repellent surfaces showed greater activity under the study conditions. River particle counts alone cannot tell us how reactive those particles are.</p>
-  <p><a href="https://doi.org/10.1038/s41586-026-11141-y" target="_blank" rel="noopener">Qian et al. (2026), Nature · Microplastic–water interfaces</a></p>
-</details>
-<details class="particle-properties">
-  <summary><strong>Can I compare these records?</strong></summary>
-  <p>Check these details in each study before comparing concentrations:</p>
-  <ul>
-    <li><strong>Sample type and reporting basis.</strong> Compare like samples, such as surface water with surface water. Particles per liter measures count, while micrograms per liter measures mass. Compare results on the same basis after converting compatible units.</li>
-    <li><strong>Particle size range.</strong> Check both limits, especially the smallest particle counted. A study that counts particles down to 50 µm can include particles that a study starting at 300 µm misses. Compare a shared size range if both studies report results for it.</li>
-    <li><strong>Analytical method.</strong> Nile Red staining screens for suspected plastic particles. FTIR can identify the polymer of individual particles analyzed. Pyrolysis GC–MS measures polymer mass in the sample and does not provide individual particle counts or sizes.
-     <a href="https://www.openspecy.org/pkgdown/" target="_blank" rel="noopener">Open Specy</a> is an open-source tool for matching FTIR and Raman spectra to reference spectra.
-    </li>
-    <li><strong>Contamination controls.</strong> Look for field or laboratory blanks and check whether the authors adjusted counts using them. Treat any missing detail as unknown.</li>
-  </ul>
-  <p><a href="https://www.polygonesystems.com/microplastic-laboratory-analysis" target="_blank" rel="noopener">PolyGone microplastic testing services</a> · <a href="https://water.waterboards.ca.gov/drinking_water/certlic/drinkingwater/microplastics.html" target="_blank" rel="noopener">California Water Boards: Drinking-water microplastics methods</a> ·
-    <a href="https://pubmed.ncbi.nlm.nih.gov/35283150/" target="_blank" rel="noopener">Interlaboratory study (PubMed)</a>
-    </p>
-  <p>Further reading: <a href="https://www.epa.gov/sciencematters/assessing-methods-measuring-microplastics-water" target="_blank" rel="noopener">EPA: Assessing Methods of Measuring Microplastics in Water</a> · <a href="https://www.sciencedirect.com/science/article/pii/S221133982400087X" target="_blank" rel="noopener">Lukose et al.: Optical methods for detecting microplastics</a></p>
-  <p><a href="#recordList">Go to study records</a></p>
-</details>
-    <p><a href="#recordList">Jump to study records</a></p>
+<div class="study-guide-actions">
+  <details class="particle-properties">
+    <summary><strong>Why particle properties matter</strong></summary>
+    <p>When comparing concentrations, check the polymer type, particle size range, and surface condition (such as weathering) when the study reports them. Two samples with the same particle count per liter can contain different kinds of particles. Different minimum particle sizes can also affect which particles each study counts.</p>
+    <p>In laboratory tests, Qian and colleagues found that tested microplastics generated reactive oxygen species at their surfaces in water. More water-repellent surfaces showed greater activity under the study conditions. River particle counts alone cannot tell us how reactive those particles are.</p>
+    <p><a href="https://doi.org/10.1038/s41586-026-11141-y" target="_blank" rel="noopener">Qian et al. (2026), Nature · Microplastic–water interfaces</a></p>
+  </details>
+  <details class="particle-properties">
+    <summary><strong>Can I compare these records?</strong></summary>
+    <p>Before comparing, check these four items:</p>
+    <ul>
+      <li><strong>Sample and unit.</strong> Compare the same sample type and basis—particle count or mass. Convert units only when compatible.</li>
+      <li><strong>Size range.</strong> Check both cutoffs; smaller cutoffs can include more particles.</li>
+      <li><strong>Method.</strong> Nile Red screens suspected plastics; FTIR identifies polymers; pyrolysis GC–MS measures polymer mass, not particle counts or sizes. <a href="https://www.openspecy.org/pkgdown/" target="_blank" rel="noopener">Open Specy</a> matches FTIR and Raman spectra.</li>
+      <li><strong>Blanks.</strong> Check contamination controls and any blank correction. If not reported, treat them as unknown.</li>
+    </ul>
+    <p><a href="https://www.polygonesystems.com/microplastic-laboratory-analysis" target="_blank" rel="noopener">PolyGone microplastic testing services</a> · <a href="https://water.waterboards.ca.gov/drinking_water/certlic/drinkingwater/microplastics.html" target="_blank" rel="noopener">California Water Boards: Drinking-water microplastics methods</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/35283150/" target="_blank" rel="noopener">Interlaboratory study (PubMed)</a></p>
+    <p>Further reading: <a href="https://www.epa.gov/sciencematters/assessing-methods-measuring-microplastics-water" target="_blank" rel="noopener">EPA: Assessing Methods of Measuring Microplastics in Water</a> · <a href="https://www.sciencedirect.com/science/article/pii/S221133982400087X" target="_blank" rel="noopener">Lukose et al.: Optical methods for detecting microplastics</a></p>
+  </details>
+  <p class="study-record-jump"><a href="#recordList">Jump to study records</a></p>
+</div>
 
 
 
 
     <section class="explorer" aria-labelledby="explorerTitle">
-      <h2 id="explorerTitle">Find study records</h2>
+      <h2 id="explorerTitle">Maryland study records</h2>
+      <div class="record-tabs" role="tablist" aria-label="Maryland record sections">
+        <button id="findRecordsTab" class="record-tab-button" type="button" role="tab" aria-selected="true" aria-controls="recordFinderPanel" tabindex="0">Find study records</button>
+        <button id="measurementsTab" class="record-tab-button" type="button" role="tab" aria-selected="false" aria-controls="measurementPanel" tabindex="-1">Concentrations and surface abundance</button>
+      </div>
+      <div id="recordFinderPanel" class="record-tabpanel" role="tabpanel" aria-labelledby="findRecordsTab">
       <p class="explorer-intro">Filter concentration records and other study details by state, water body, sampling year, sample type, result type and evidence source. Years refer to sampling years; when a source summary gives only a publication year, the sampling year is shown as not stated.</p>
       <p class="metadata-legend"><b>Metadata coverage:</b> Detailed (6–8 of 8 fields), Partial (3–5), or Limited (0–2). The badge counts documented sampling period, sample type, unit, method, particle size, identification, quality checks, and a source link. It describes information recorded in this app; it does not rate study quality or establish that two results are comparable. Check the study details before comparing.</p>
       <form class="searchbox" id="searchForm" role="search">
@@ -146,13 +192,6 @@ body { min-height: 100vh; }
       <p class="explorer-intro" id="stateNotice" aria-live="polite">Select Maryland to browse its available study water bodies. Other states will be added one at a time.</p>
       <p class="explorer-intro" id="ncSource" hidden>North Carolina river list: <a href="https://www.deq.nc.gov/mitigation-services/publicfolder/library/meetings/interbasin-transfer/download" target="_blank" rel="noopener">NC Department of Environmental Quality basin and sub-basin map</a>. This is a starting list, not every river in the state.</p>
 
-      <div class="explorer-layout">
-
-        <div class="record-results">
-          <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled>Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled>Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div>
-          <div id="recordList" tabindex="-1" class="record-list" aria-live="polite"></div>
-        </div>
-      </div>
       <details class="refine-filters" id="studyMapPanel"><summary>Optional map: Maryland study water bodies</summary>        <aside class="map-card" aria-labelledby="mapTitle">
           <h3 id="mapTitle">Study water bodies in Maryland</h3>
           <p>Choose a marker to filter records by water body. These are schematic river locations, not sample points.</p>
@@ -178,6 +217,19 @@ body { min-height: 100vh; }
         </aside></details>
       <p class="record-meta" id="mapAvailability" hidden>An exact sampling-point map is not available for this state in the app yet. No locations are guessed.</p>
       <details class="maryland-evidence"><summary><b>State coverage and remaining gaps</b></summary><div id="coverageStatus" aria-live="polite"></div></details>
+      </div>
+      <div id="measurementPanel" class="record-tabpanel" role="tabpanel" aria-labelledby="measurementsTab" hidden>
+        <h3 class="measurement-panel-title">Concentrations and surface abundance</h3>
+        <p class="explorer-intro">Review the records matching the search and filters. Your filters remain active when you switch between these sections.</p>
+      <div class="explorer-layout">
+
+        <div class="record-results">
+          <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled>Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled>Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div>
+          <div id="recordList" tabindex="-1" class="record-list" aria-live="polite"></div>
+        </div>
+      </div>
+      </div>
+
     </section>
     <section class="comparison" aria-labelledby="compareTitle">
       <h2 id="compareTitle">Compare reported measurements</h2>
@@ -189,19 +241,40 @@ body { min-height: 100vh; }
     <section class="explorer" aria-labelledby="regionalTitle">
       <h2 id="regionalTitle">State research summary</h2>
       <p class="explorer-intro" id="regionalNotice">Choose a state above to view its research context.</p>
-      <div class="maryland-evidence" id="mdStudySummary">
+      <div class="maryland-evidence md-summary" id="mdStudySummary">
         <h3>What Maryland and Chesapeake studies report</h3>
-        <article class="maryland-finding"><b>Chesapeake watershed sampling · 2024–2026</b><p>A 2026 PennEnvironment / Environment America report describes samples collected at 15 selected Chesapeake Bay watershed sites from April 2024 to October 2026. It reports plastic particles at all 15 sites and particle types (including fibers and fragments), but does not report microplastic concentrations. This is presence/type evidence for the sampled sites, not a concentration record or a ranking of rivers or states.</p><a href="https://publicinterestnetwork.org/wp-content/uploads/2026/11/Microplastics-in-the-Chesapeake-Bay-Watershed-2.pdf" target="_blank" rel="noopener">Read the original watershed report (PDF)</a> · <a href="https://www.cbf.org/news/microplastics-found-in-100-of-sample-sites-in-the-chesapeake-bay-watershed/" target="_blank" rel="noopener">Chesapeake Bay Foundation summary</a></article>
-        <article class="maryland-finding"><b>Chesapeake Bay background · education and prevention</b><p>“Small plastics are a big problem” (Chesapeake Bay Program, December 12, 2019) summarizes a regional scientific workshop, potential inputs from wastewater, stormwater and synthetic fibers, and concerns about wildlife exposure. It is a dated regional overview, not a river-specific concentration dataset. Its numerical claims are not imported into the app’s measurement comparisons.</p><a href="https://www.chesapeakebay.net/news/blog/small-plastics-are-a-big-problem" target="_blank" rel="noopener">Read the Chesapeake Bay Program overview</a></article>
+        <p class="md-summary-intro">Recent watershed findings, regional background, and research on possible pathways. Not every item is a concentration measurement.</p>
 
-        <p class="record-meta"><b>Related issue—PFAS in biosolids:</b> Waterkeepers Chesapeake’s “Protecting Farmlands &amp; Water from PFAS in Sewage Sludge” discusses a Maryland legislative proposal. PFAS are a separate contaminant class; the page is not evidence of microplastic concentration in a river and is not used in the measurement comparisons. This background link does not assert the proposal’s current legal status. <a href="https://waterkeeperschesapeake.org/pfas-sewage-sludge-bill-2026/" target="_blank" rel="noopener">Read the PFAS background resource</a></p>
+        <h4>Recent watershed sampling</h4>
+        <article class="maryland-finding md-primary-finding">
+          <div class="md-card-head"><b>Chesapeake watershed · 2024–2026</b><span class="md-evidence-badge">Detection findings · no concentration values</span></div>
+          <p>A 2026 PennEnvironment / Environment America report describes 90 water samples from 15 selected sites, collected from April 2024 to October 2026.</p>
+          <ul class="md-detection-stats" aria-label="Detection frequencies across sampled sites">
+            <li><strong>15 of 15 sites</strong>Microfibers detected</li>
+            <li><strong>93%</strong>Microfragments detected</li>
+            <li><strong>47%</strong>Microfilm detected</li>
+            <li><strong>27%</strong>Microbeads detected</li>
+          </ul>
+          <p class="md-summary-note">These are site detection frequencies—not concentration values or a ranking of rivers or states.</p>
+          <p class="md-summary-links"><a href="https://publicinterestnetwork.org/wp-content/uploads/2026/11/Microplastics-in-the-Chesapeake-Bay-Watershed-2.pdf" target="_blank" rel="noopener">Original watershed report (PDF)</a> · <a href="https://www.cbf.org/news/microplastics-found-in-100-of-sample-sites-in-the-chesapeake-bay-watershed/" target="_blank" rel="noopener">Chesapeake Bay Foundation summary</a> · <a href="https://www.13newsnow.com/article/tech/science/environment/microplastics-found-every-chesapeake-bay-watershed-site-tested/291-3cb2697b-f6b8-45dc-9c08-56f68a698c51" target="_blank" rel="noopener">13News Now coverage</a></p>
+        </article>
 
-        <div class="maryland-findings">
-          <article class="maryland-finding"><b>Chesapeake tributaries: urban areas and rainfall</b><p>A NOAA-supported analysis of Chesapeake surface-water samples found higher microplastic concentrations near urban areas and after heavy rain. This points to urban runoff and rainfall-related transport as plausible pathways, but it did not identify a single source for each river.</p><a href="https://marinedebris.noaa.gov/research/analysis-microplastics-chesapeake-bay-and-coastal-mid-atlantic-water-samples" target="_blank" rel="noopener">Read NOAA study summary</a></article>
-          <article class="maryland-finding"><b>Chesapeake Bay photo essay: what researchers found</b><p>In 2011, 59 of 60 samples from the Patapsco, Magothy, Rhode and Corsica rivers contained microplastics. The photo essay shows examples including fragments, fibers, pellets, sheets and polystyrene. Roads and storm drains, wastewater effluent and shipping were discussed as possible pathways; the photographs do not establish the source of individual particles. These are historical study results.</p><a href="https://www.chesapeakebay.net/news/blog/photo-essay-microplastics-in-the-chesapeake-bay" target="_blank" rel="noopener">View Chesapeake Bay Program photo essay</a> · <a href="https://marinedebris.noaa.gov/research/analysis-microplastics-chesapeake-bay-and-coastal-mid-atlantic-water-samples" target="_blank" rel="noopener">Read NOAA project summary</a></article>
-          <article class="maryland-finding"><b>Tidal Potomac: several sources tested, none dominant statistically</b><p>A 2025 preliminary study sampled urban, suburban, agricultural, natural/wetland, stormwater-outfall, and wastewater-outfall sites during baseflow and stormflow. It found no statistically significant difference among land-use groups. Baseflow counts were higher at almost all sites, so stormflow did not produce a uniform increase.</p><a href="https://www.chesapeakebay.net/files/20250507_Potomac-River-Microplastic-Source-Tracking-Data-Report-508-compliant_CLEAN_2.pdf" target="_blank" rel="noopener">Read the 2025 Potomac source-tracking report</a></article>
+        <div class="md-summary-grid">
+          <section class="md-context-card" aria-labelledby="mdBackgroundTitle">
+            <h4 id="mdBackgroundTitle">Chesapeake Bay background</h4>
+            <article class="maryland-finding"><b>Education and prevention</b><p>“Small plastics are a big problem” (Chesapeake Bay Program, December 12, 2019) summarizes a regional scientific workshop, possible inputs from wastewater, stormwater and synthetic fibers, and concerns about wildlife exposure. It is background reading, not a river-specific concentration dataset; its numerical claims are not used in measurement comparisons.</p><a href="https://www.chesapeakebay.net/news/blog/small-plastics-are-a-big-problem" target="_blank" rel="noopener">Read the Chesapeake Bay Program overview</a></article>
+          </section>
+          <aside class="md-related-issue"><b>Separate issue · PFAS in biosolids:</b> Waterkeepers Chesapeake discusses a Maryland legislative proposal concerning PFAS in sewage sludge. PFAS are a different contaminant class; this resource is not evidence of microplastic concentrations and is not used in measurement comparisons. It does not establish the proposal’s current legal status. <a href="https://waterkeeperschesapeake.org/pfas-sewage-sludge-bill-2026/" target="_blank" rel="noopener">Read the PFAS background resource</a></aside>
         </div>
-        <p class="pathway-caveat"><b>Interpretation:</b> urban runoff, wastewater, and litter are plausible routes into Maryland waterways, but current local studies do not establish one statewide or river-specific “main source.” The Potomac report is preliminary; its land-use groups were not statistically different.</p>
+
+        <h4>What other studies suggest about pathways</h4>
+        <div class="md-pathway-grid">
+          <article class="maryland-finding"><b>Urban areas and rainfall</b><p>A NOAA-supported analysis found higher concentrations near urban areas and after heavy rain. Runoff and rainfall-related transport are plausible pathways, but the study did not identify a single source for each river.</p><a href="https://marinedebris.noaa.gov/research/analysis-microplastics-chesapeake-bay-and-coastal-mid-atlantic-water-samples" target="_blank" rel="noopener">Read NOAA study summary</a></article>
+          <article class="maryland-finding"><b>Historical Chesapeake findings</b><p>In 2011, 59 of 60 samples from the Patapsco, Magothy, Rhode and Corsica rivers contained microplastics. The photo essay shows fragments, fibers, pellets, sheets and polystyrene; it discusses roads and storm drains, wastewater and shipping as possible pathways, not proven sources for individual particles.</p><a href="https://www.chesapeakebay.net/news/blog/photo-essay-microplastics-in-the-chesapeake-bay" target="_blank" rel="noopener">View Chesapeake Bay Program photo essay</a> · <a href="https://marinedebris.noaa.gov/research/analysis-microplastics-chesapeake-bay-and-coastal-mid-atlantic-water-samples" target="_blank" rel="noopener">Read NOAA project summary</a></article>
+          <article class="maryland-finding"><b>Tidal Potomac · preliminary source tracking</b><p>A 2025 study compared urban, suburban, agricultural, natural/wetland, stormwater-outfall and wastewater-outfall sites during baseflow and stormflow. Land-use groups did not differ significantly; baseflow counts were higher at almost all sites, so stormflow did not produce a uniform increase.</p><a href="https://www.chesapeakebay.net/files/20250507_Potomac-River-Microplastic-Source-Tracking-Data-Report-508-compliant_CLEAN_2.pdf" target="_blank" rel="noopener">Read the 2025 Potomac report</a></article>
+        </div>
+
+        <aside class="md-interpretation"><b>How to interpret this evidence:</b> Urban runoff, wastewater and litter are plausible routes into Maryland waterways, but local studies do not establish one statewide or river-specific “main source.” The Potomac report is preliminary.</aside>
       </div>
       <div class="maryland-evidence" id="vaStudySummary" hidden>
         <h3>Virginia: initial coverage</h3>
@@ -236,60 +309,6 @@ body { min-height: 100vh; }
         </div>
         <p class="pathway-caveat">Interpret results in the context of the sampling location, water or sediment matrix, particle size, and identification method. Similar-looking fibers are not necessarily confirmed plastics.</p>
       </details>
-    </section>
-    <section class="explorer" aria-labelledby="policyTitle">
-      <h2 id="policyTitle">Policy &amp; Standards Updates</h2>
-      <article class="maryland-finding">
-        <h3>PURGE Act (H.R. 10957)</h3>
-        <p><strong>Federal proposal.</strong> Introduced <time datetime="2026-11-05">November 5, 2026</time>. Announced <time datetime="2026-11-06">November 6, 2026</time>. Effective and compliance dates have yet to be established.</p>
-        <p>The bill would direct EPA to study microplastics removal and run a five-year pilot at three or more sites, with river, coastal, and municipal wastewater settings included where practicable.</p>
-        <p>If the pilot publishes before- and after-treatment concentrations, the analyzer could compare them with compatible studies using sample type, particle size range, analytical method, and reporting unit.</p>
-        <p><a href="https://www.govinfo.gov/content/pkg/BILLS-119hr10957ih/pdf/BILLS-119hr10957ih.pdf" target="_blank" rel="noopener">Official bill text</a> &middot; <a href="https://mace.house.gov/media/press-releases/rep-nancy-mace-introduces-purge-act-target-microplastics-americas-waters" target="_blank" rel="noopener">Sponsor announcement</a></p>
-      </article>
-    </section>
-    <section class="sampling-guide" aria-labelledby="samplingTitle">
-      <h2 id="samplingTitle">How the measurements are collected</h2>
-      <p class="sampling-intro">The unit depends on what researchers sampled. These simple illustrations help explain the three sample types in this dataset.</p>
-      <div class="sampling-cards">
-        <article class="sampling-card">
-          <div class="sampling-visual"><svg viewBox="0 0 220 112" role="img" aria-labelledby="areaTitle areaDesc"><title id="areaTitle">Illustration of surface-water sampling</title><desc id="areaDesc">A sampling net sweeps the surface of a river.</desc><path d="M0 57 Q28 48 55 57 T110 57 T165 57 T220 57 V112 H0Z" fill="#b9dfd5"/><path d="M0 74 Q28 65 55 74 T110 74 T165 74 T220 74" fill="none" stroke="#6cb4a5" stroke-width="3"/><path d="M39 20 L99 52" stroke="#725b39" stroke-width="4" stroke-linecap="round"/><path d="M91 44 L121 51 L111 77 L81 69Z" fill="#fff" stroke="#176b58" stroke-width="3"/><path d="M87 50 L115 57 M84 59 L112 66" stroke="#9bbcaf" stroke-width="1.5"/><circle cx="143" cy="46" r="3" fill="#bf8a4c"/><circle cx="158" cy="61" r="2.5" fill="#bf8a4c"/><circle cx="135" cy="81" r="3" fill="#bf8a4c"/><path d="M133 30 H195" stroke="#176b58" stroke-width="1.5" stroke-dasharray="4 4"/><text x="135" y="24" fill="#176b58" font-size="10" font-family="sans-serif">surface area</text></svg></div>
-          <h3>Surface-water particle abundance</h3><span class="sampling-unit">particles/km²</span><p>Counts particles collected across a measured water-surface area.</p>
-        </article>
-        <article class="sampling-card">
-          <div class="sampling-visual"><svg viewBox="0 0 220 112" role="img" aria-labelledby="volumeTitle volumeDesc"><title id="volumeTitle">Illustration of a water sample bottle</title><desc id="volumeDesc">A marked bottle holds a known volume of water for filtering and counting.</desc><path d="M90 21 H130 V33 L140 43 V91 Q140 98 133 98 H87 Q80 98 80 91 V43 L90 33Z" fill="#fff" stroke="#176b58" stroke-width="3"/><path d="M84 67 H136 V91 Q136 94 132 94 H88 Q84 94 84 91Z" fill="#b9dfd5"/><path d="M90 20 H130 V30 H90Z" fill="#d6e7da" stroke="#176b58" stroke-width="2"/><path d="M143 54 H156 M143 64 H152 M143 74 H156" stroke="#bf8a4c" stroke-width="2"/><text x="161" y="69" fill="#725b39" font-size="11" font-family="sans-serif">1 L</text><circle cx="96" cy="78" r="2.5" fill="#bf8a4c"/><circle cx="113" cy="87" r="2.5" fill="#bf8a4c"/><circle cx="124" cy="72" r="2.5" fill="#bf8a4c"/><path d="M30 88 C45 66 60 65 73 83" fill="none" stroke="#6cb4a5" stroke-width="3"/><path d="M42 81 l7 -4 5 7 -7 4z" fill="#fff" stroke="#176b58" stroke-width="2"/></svg></div>
-          <h3>Water concentration</h3><span class="sampling-unit">particles/L</span><p>Counts particles found in a known volume of water, often after filtering.</p>
-        </article>
-        <article class="sampling-card">
-          <div class="sampling-visual"><svg viewBox="0 0 220 112" role="img" aria-labelledby="sedimentTitle sedimentDesc"><title id="sedimentTitle">Illustration of sediment sampling</title><desc id="sedimentDesc">A sample jar collects sediment from the river bottom.</desc><path d="M0 57 Q30 50 58 58 T116 58 T174 58 T220 58 V112 H0Z" fill="#d5e9e1"/><path d="M0 83 Q28 72 55 82 T110 82 T165 82 T220 82 V112 H0Z" fill="#c9b99e"/><path d="M82 29 H138 V39 L145 46 V88 Q145 94 139 94 H81 Q75 94 75 88 V46 L82 39Z" fill="#fff" stroke="#176b58" stroke-width="3"/><path d="M79 70 H141 V87 Q141 90 137 90 H83 Q79 90 79 87Z" fill="#b9996b"/><path d="M83 28 H137 V37 H83Z" fill="#d6e7da" stroke="#176b58" stroke-width="2"/><circle cx="91" cy="78" r="2.5" fill="#bf8a4c"/><circle cx="111" cy="84" r="2.5" fill="#725b39"/><circle cx="128" cy="75" r="2.5" fill="#bf8a4c"/><path d="M157 38 L177 28" stroke="#725b39" stroke-width="3" stroke-linecap="round"/><path d="M151 43 L161 48 L156 60 L146 55Z" fill="#fff" stroke="#176b58" stroke-width="2"/></svg></div>
-          <h3>Sediment abundance</h3><span class="sampling-unit">particles/kg or particles/g</span><p>Counts particles relative to the mass of sediment collected.</p>
-        </article>
-      </div>
-      <p class="illustration-note">Illustrations are explanatory, not photographs of the cited sampling sites or experiments.</p>
-    </section>
-    <section class="pathways" aria-labelledby="pathwaysTitle">
-      <h2 id="pathwaysTitle">How microplastics reach water bodies</h2>
-      <p class="pathways-intro">Plastic particles can be created directly at small sizes or form as larger plastic breaks down. Rain, runoff, wastewater, wind, and direct releases can carry them from land into streams, rivers, lakes, and estuaries.</p>
-      <div class="pathway-flow">
-        <article class="pathway-card">
-          <div class="pathway-art"><svg viewBox="0 0 220 94" role="img" aria-label="Plastic litter fragmenting outdoors and washing toward a drain"><path d="M0 65 H220 V94 H0Z" fill="#dce8d8"/><path d="M0 73 L220 73" stroke="#bdcdbd" stroke-width="2"/><path d="M40 20 L66 17 L72 55 L45 58Z" fill="#d9e6ef" stroke="#547184" stroke-width="2"/><path d="M45 28 L68 27 M44 37 L69 36" stroke="#9ab4c2" stroke-width="2"/><path d="M82 48 l13 -6 6 9 -13 6z M104 42 l9 2 -2 10 -9 -2z M122 52 l12 -4 3 7 -12 4z" fill="#bf8a4c"/><path d="M150 28 C160 38 165 45 171 54" fill="none" stroke="#547184" stroke-width="2" stroke-dasharray="4 4"/><path d="M167 49 L173 56 L178 48" fill="none" stroke="#547184" stroke-width="2"/><path d="M177 61 h26 v19 h-26z" fill="#7e9390"/><path d="M181 65 h18 M181 71 h18 M181 77 h18" stroke="#dce8d8" stroke-width="2"/><circle cx="90" cy="70" r="2" fill="#bf8a4c"/><circle cx="112" cy="69" r="2" fill="#bf8a4c"/></svg></div>
-          <div class="pathway-copy"><h3>Litter breaks into fragments</h3><p>Sunlight and weathering can break bottles, bags, and other plastic debris into smaller pieces. Wind and rain can move litter and fragments toward drains and waterways.</p><div class="pathway-tail"><span>Land surfaces</span><span class="pathway-arrow">→</span><span>Runoff / wind</span></div></div>
-        </article>
-        <article class="pathway-card">
-          <div class="pathway-art"><svg viewBox="0 0 220 94" role="img" aria-label="Laundry fibers and household wastewater passing through a treatment plant"><path d="M0 69 H220 V94 H0Z" fill="#cfe5e3"/><path d="M33 24 h38 v38 H33z" fill="#fff" stroke="#547184" stroke-width="2"/><circle cx="52" cy="44" r="11" fill="#dceef1" stroke="#6b9ba3" stroke-width="2"/><path d="M38 29 h8 M60 29 h6" stroke="#547184" stroke-width="2"/><path d="M44 20 q4 -9 8 0 M55 20 q4 -9 8 0" stroke="#bf8a4c" stroke-width="2" fill="none"/><path d="M79 44 H103" stroke="#547184" stroke-width="3"/><path d="M98 39 L105 44 L98 49" stroke="#547184" stroke-width="2" fill="none"/><path d="M108 31 h40 v34 h-40z" fill="#e9f0ea" stroke="#547184" stroke-width="2"/><path d="M116 31 v-9 h9 v9 M132 31 v-9 h9 v9" fill="#dce8d8" stroke="#547184" stroke-width="2"/><path d="M116 44 h24 M116 51 h24 M116 58 h24" stroke="#9ab4a9" stroke-width="2"/><path d="M149 49 H187" stroke="#547184" stroke-width="3"/><path d="M182 44 L190 49 L182 54" stroke="#547184" stroke-width="2" fill="none"/><circle cx="170" cy="41" r="2" fill="#bf8a4c"/><circle cx="177" cy="55" r="2" fill="#bf8a4c"/></svg></div>
-          <div class="pathway-copy"><h3>Wastewater effluent</h3><p>Washing synthetic fabrics releases microfibers. Some particles can pass through treatment or be carried with treatment residuals; treated effluent can enter surface waters.</p><div class="pathway-tail"><span>Homes</span><span class="pathway-arrow">→</span><span>Wastewater plant</span><span class="pathway-arrow">→</span><span>Waterway</span></div></div>
-        </article>
-        <article class="pathway-card">
-          <div class="pathway-art"><svg viewBox="0 0 220 94" role="img" aria-label="Rain carrying road dust and tire-wear particles into a storm drain and stream"><path d="M0 64 H220 V94 H0Z" fill="#cfe5e3"/><path d="M0 49 H129 V66 H0Z" fill="#77847f"/><path d="M8 57 H120" stroke="#f1ead8" stroke-width="2" stroke-dasharray="12 8"/><path d="M51 33 q13 -12 26 0 v13 H51Z" fill="#58746d"/><circle cx="60" cy="48" r="5" fill="#253b38"/><circle cx="82" cy="48" r="5" fill="#253b38"/><path d="M133 48 h25 v18 h-25z" fill="#718784"/><path d="M138 53 h15 M138 58 h15 M138 63 h15" stroke="#dce8d8" stroke-width="1.5"/><path d="M29 18 v20 M43 16 v20 M57 19 v16" stroke="#7c9ba2" stroke-width="2"/><circle cx="119" cy="47" r="2" fill="#bf8a4c"/><circle cx="165" cy="58" r="2" fill="#bf8a4c"/><circle cx="177" cy="70" r="2" fill="#bf8a4c"/><path d="M159 57 C178 57 183 63 191 70" fill="none" stroke="#547184" stroke-width="2" stroke-dasharray="4 3"/></svg></div>
-          <div class="pathway-copy"><h3>Stormwater and road runoff</h3><p>Rain can wash road dust, tire-wear particles, and plastic litter from streets and parking areas into storm drains, streams, and rivers.</p><div class="pathway-tail"><span>Roads</span><span class="pathway-arrow">→</span><span>Storm drains</span><span class="pathway-arrow">→</span><span>Streams</span></div></div>
-        </article>
-        <article class="pathway-card">
-          <div class="pathway-art"><svg viewBox="0 0 220 94" role="img" aria-label="Industrial plastic pellets or fragments directly released near a waterway"><path d="M0 65 H220 V94 H0Z" fill="#cfe5e3"/><path d="M0 71 Q30 62 60 71 T120 71 T180 71 T240 71" fill="none" stroke="#6cb4a5" stroke-width="3"/><path d="M36 35 h87 v30 H36z" fill="#dce8d8" stroke="#547184" stroke-width="2"/><path d="M44 35 V18 h21 v17 M72 35 V13 h23 v22 M104 35 V23 h12 v12" fill="#e9f0ea" stroke="#547184" stroke-width="2"/><path d="M145 18 v31" stroke="#547184" stroke-width="3"/><path d="M140 44 l5 9 5 -9" fill="none" stroke="#547184" stroke-width="2"/><circle cx="142" cy="60" r="3" fill="#bf8a4c"/><circle cx="154" cy="64" r="3" fill="#bf8a4c"/><circle cx="166" cy="58" r="3" fill="#bf8a4c"/><path d="M181 28 l12 5 -4 10 -12 -5z M198 49 l10 3 -3 8 -10 -3z" fill="#bf8a4c"/><path d="M171 33 l7 -8 6 7 -6 7z" fill="#bf8a4c"/></svg></div>
-          <div class="pathway-copy"><h3>Direct releases</h3><p>Plastic manufacturing pellets or other plastic materials can spill during handling or transport and enter nearby waterways. These are potential pathways, not confirmed sources for the records shown.</p><div class="pathway-tail"><span>Handling / spills</span><span class="pathway-arrow">→</span><span>Nearby water</span></div></div>
-        </article>
-      </div>
-      <div class="pathway-destination"><svg viewBox="0 0 40 30" aria-hidden="true"><path d="M0 17 Q10 10 20 17 T40 17 V30 H0Z" fill="#6cb4a5"/><path d="M0 12 Q10 5 20 12 T40 12" fill="none" stroke="#176b58" stroke-width="2"/><circle cx="12" cy="21" r="2" fill="#bf8a4c"/><circle cx="27" cy="25" r="2" fill="#bf8a4c"/></svg><span>Water flows can carry particles downstream. Depending on particle properties and water conditions, they may float, remain suspended, or settle into sediment.</span></div>
-      <p class="pathway-caveat"><b>Important:</b> this overview describes general pathways reported by NOAA and EPA. It does not identify which source contributed particles to a particular river or prove a source for any concentration record in this app.</p>
-      <p class="pathway-sources"><b>Sources:</b> <a href="https://marinedebris.noaa.gov/what-marine-debris/microplastics" target="_blank" rel="noopener">NOAA Marine Debris Program: Microplastics</a> · <a href="https://www.epa.gov/plastics/impacts-plastic-pollution" target="_blank" rel="noopener">U.S. EPA: Impacts of plastic pollution</a> · <a href="https://www.epa.gov/nutrientpollution/sources-and-solutions-stormwater" target="_blank" rel="noopener">U.S. EPA: Stormwater</a> · <a href="https://pubs.usgs.gov/publication/cir1521/full" target="_blank" rel="noopener">USGS: Microplastic transport and fate</a></p>
     </section>
     <section class="project" aria-labelledby="studentTitle">
       <div class="projecthead"><div><h2 id="studentTitle">Related treatment prototype: Mia Heller’s ferrofluid system</h2><p>A 2025 science-fair project tested a magnetic-liquid approach for capturing microplastics.</p></div><span class="tag">Student project result</span></div>
@@ -1235,15 +1254,22 @@ body { min-height: 100vh; }
         </table>
       </div>`;
     }
-    function renderBrowseRecords(){saveBrowseFilters();const found=visibleBrowseRecords();renderCoverage();renderComparison();const measured=found.filter(r=>r.resultType==="concentration").length;recordCount.textContent=measured+" concentration / abundance records · "+(found.length-measured)+" other records";downloadCsv.disabled=!found.length;if(!found.length){recordList.innerHTML='<div class="filter-empty">'+(filterState.value==="Virginia" && filterRiver.value && !stateRecords().some(r=>r.river===filterRiver.value) ? 'No verified microplastic data added yet for this river. This does not mean the river is free of microplastics.' : searchInput.value.trim() ? 'No matching records have been added yet for this search and active filters. Try another name or clear the filters; this does not indicate an absence of microplastics.' : filterState.value==="North Carolina" ? 'No records match the selected river and filters. A study record may not have been added yet.' : filterState.value && !["Maryland","Virginia","Washington, D.C."].includes(filterState.value) ? 'River lists and study records for this state have not been added yet.' : 'No records match these filters. Try a different year, sample type, or unit.')+'</div>';updateSelectionControls();return}const grouped=[['concentration','Concentrations and surface abundance'],['study','Other study details — not concentrations'],['other','Other particle measurements']];recordList.innerHTML=grouped.map(([kind,title])=>{const items=found.filter(r=>r.resultType===kind);return items.length ? renderStudyTable(title, items) : ''}).join('');recordList.querySelectorAll('[data-record-id]').forEach(box=>box.addEventListener('change',()=>{const id=Number(box.dataset.recordId);if(box.checked)selectedBrowseIds.add(id);else selectedBrowseIds.delete(id);updateSelectionControls()}));updateSelectionControls()}
+    function renderBrowseRecords(){saveBrowseFilters();const found=visibleBrowseRecords();renderCoverage();renderComparison();const measured=found.filter(r=>r.resultType==="concentration").length;recordCount.textContent=measured+" concentration / abundance records · "+(found.length-measured)+" other records";downloadCsv.disabled=!found.length;if(!found.length){recordList.innerHTML='<div class="filter-empty">'+(filterState.value==="Virginia" && filterRiver.value && !stateRecords().some(r=>r.river===filterRiver.value) ? 'No verified microplastic data added yet for this river. This does not mean the river is free of microplastics.' : searchInput.value.trim() ? 'No matching records have been added yet for this search and active filters. Try another name or clear the filters; this does not indicate an absence of microplastics.' : filterState.value==="North Carolina" ? 'No records match the selected river and filters. A study record may not have been added yet.' : filterState.value && !["Maryland","Virginia","Washington, D.C."].includes(filterState.value) ? 'River lists and study records for this state have not been added yet.' : 'No records match these filters. Try a different year, sample type, or unit.')+'</div>';updateSelectionControls();return}const grouped=[['concentration','Reported concentration / abundance values'],['study','Other study details — not concentrations'],['other','Other particle measurements']];recordList.innerHTML=grouped.map(([kind,title])=>{const items=found.filter(r=>r.resultType===kind);return items.length ? renderStudyTable(title, items) : ''}).join('');recordList.querySelectorAll('[data-record-id]').forEach(box=>box.addEventListener('change',()=>{const id=Number(box.dataset.recordId);if(box.checked)selectedBrowseIds.add(id);else selectedBrowseIds.delete(id);updateSelectionControls()}));updateSelectionControls()}
     function csvCell(value){return '"'+String(value??"").replace(/"/g,'""')+'"'}
     function downloadBlob(filename,content,type){const blob=new Blob(["\uFEFF"+content],{type}),url=URL.createObjectURL(blob),link=document.createElement("a");link.href=url;link.download=filename;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
     function exportCsv(found,filename){const headers=["Water body","State / study region","Result type","Evidence source type","Study site/scope","Sampling period","Sampling year(s)","Sample type","Metric","Reported value","Unit","Method","Sampling volume or mass","Particle size range","Identification method","Quality checks","Latitude","Longitude","Coordinate source","Full reference","Source links"],rows=[headers,...found.map(r=>[r.river,r.state,r.resultLabel,r.evidence,r.site,r.period,r.years.length?r.years.join("; "):"Not stated in current summary",r.matrix,r.metric,r.value,r.unit,r.method,r.methods.samplingVolume,r.methods.sizeRange,r.methods.identification,r.methods.qualityChecks,r.latitude??"",r.longitude??"",r.coordinateSource||"",r.citation,r.links.map(a=>a[0]+": "+a[1]).join(" | ")])].map(row=>row.map(csvCell).join(","));downloadBlob(filename,rows.join("\r\n"),"text/csv;charset=utf-8")}
     function exportRis(found){const ris=found.map(r=>["TY  - GEN","TI  - "+r.river+" — "+r.metric,"N1  - "+r.citation,"N1  - Result type: "+r.resultLabel,"N1  - Evidence source: "+r.evidence,"N1  - Sample type: "+r.matrix,"N1  - Scope: "+r.site,...r.links.flatMap(a=>["UR  - "+a[1],"N1  - "+a[0]]),...(r.latitude!=null&&r.longitude!=null?["N1  - Published coordinates: "+r.latitude+", "+r.longitude+(r.coordinateSource?" ("+r.coordinateSource+")":"")]:[]),"ER  - "].join("\r\n")).join("\r\n\r\n");downloadBlob("microplastics-selected-records.ris",ris,"application/x-research-info-systems;charset=utf-8")}
     document.getElementById("compareMetric").addEventListener("change",renderComparison);
     filterState.addEventListener("change",()=>updateState());
+    function scrollToCompareResults(){
+      requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById("compareTitle").scrollIntoView({behavior:"smooth",block:"start"})));
+    }
     filterRiver.addEventListener("change",()=>{updateSiteOptions();renderBrowseRecords()});
-    [filterSite,filterYear,filterMatrix,filterUnit,filterResultType,filterEvidence].forEach(select=>select.addEventListener("change",renderBrowseRecords));
+    filterSite.addEventListener("change",()=>{
+      renderBrowseRecords();
+      if(filterSite.value)scrollToCompareResults();
+    });
+    [filterYear,filterMatrix,filterUnit,filterResultType,filterEvidence].forEach(select=>select.addEventListener("change",renderBrowseRecords));
     selectVisible.addEventListener("change",()=>{for(const r of visibleBrowseRecords()){if(selectVisible.checked)selectedBrowseIds.add(r.id);else selectedBrowseIds.delete(r.id)}renderBrowseRecords()});
     document.querySelectorAll(".map-marker").forEach(marker=>{const choose=()=>{if(filterState.value==="Maryland" && marker.dataset.mapWaterbody==="Nash Run"){return}filterRiver.value=marker.dataset.mapWaterbody;updateSiteOptions();renderBrowseRecords();document.getElementById("explorerTitle").scrollIntoView({behavior:"smooth",block:"start"})};marker.addEventListener("click",choose);marker.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();choose()}})});
     downloadCsv.addEventListener("click",()=>exportCsv(visibleBrowseRecords(),"microplastics-filtered-records.csv"));
@@ -1273,14 +1299,34 @@ body { min-height: 100vh; }
     updateSiteOptions();
     renderBrowseRecords();
     function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+    const finderTab=document.getElementById("findRecordsTab"),measurementsTab=document.getElementById("measurementsTab");
+    const finderPanel=document.getElementById("recordFinderPanel"),measurementPanel=document.getElementById("measurementPanel");
+    function activateRecordTab(showMeasurements){
+      finderTab.setAttribute("aria-selected",String(!showMeasurements));
+      finderTab.tabIndex=showMeasurements?-1:0;
+      measurementsTab.setAttribute("aria-selected",String(showMeasurements));
+      measurementsTab.tabIndex=showMeasurements?0:-1;
+      finderPanel.hidden=showMeasurements;
+      measurementPanel.hidden=!showMeasurements;
+    }
+    finderTab.addEventListener("click",()=>activateRecordTab(false));
+    measurementsTab.addEventListener("click",()=>activateRecordTab(true));
+    document.querySelectorAll('a[href="#recordList"]').forEach(link=>link.addEventListener("click",()=>activateRecordTab(true)));
+    [finderTab,measurementsTab].forEach((tab,index)=>tab.addEventListener("keydown",event=>{
+      if(event.key==="ArrowRight"||event.key==="ArrowLeft"){
+        event.preventDefault();const next=index===0?measurementsTab:finderTab;next.focus();next.click();
+      }
+    }));
     document.getElementById("searchForm").addEventListener("submit",event=>{
       event.preventDefault();
       // A new name search keeps the state scope and clears stale refinements.
       for(const filter of [filterRiver,filterSite,filterYear,filterMatrix,filterUnit,filterResultType,filterEvidence])filter.value="";
       updateSiteOptions();renderBrowseRecords();
-      document.getElementById("recordCount").scrollIntoView({behavior:"smooth",block:"center"});
+      activateRecordTab(true);
+      scrollToCompareResults();
     });
     searchInput.addEventListener("input",renderBrowseRecords);
+    searchInput.addEventListener("change",()=>{if(searchInput.value.trim())scrollToCompareResults()});
     document.getElementById("clearSearch").addEventListener("click",()=>{searchInput.value="";renderBrowseRecords();searchInput.focus()});
     const chatForm=document.getElementById("chatForm"),chatQuestion=document.getElementById("chatQuestion"),chatLog=document.getElementById("chatLog"),chatSend=document.getElementById("chatSend");
 

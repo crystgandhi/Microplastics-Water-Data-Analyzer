@@ -115,6 +115,16 @@ body { min-height: 100vh; }
 @media(max-width:850px){.md-pathway-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.md-summary{padding:14px}.md-summary-grid,.md-pathway-grid,.md-summary-notes{grid-template-columns:1fr}.md-detection-stats li{flex:1 1 42%}}
 </style>
+<style>
+.record-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.record-tab-button{appearance:none;border:1px solid #b8d4e6;border-radius:9px;background:#f5faff;color:var(--ink);font:700 13px system-ui,sans-serif;padding:10px 14px;cursor:pointer}
+.record-tab-button[aria-selected="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.record-tab-button:focus-visible{outline:3px solid #76b7de;outline-offset:2px}
+.record-tabpanel[hidden]{display:none!important}
+#measurementPanel .explorer-layout{grid-template-columns:minmax(0,1fr)}
+.measurement-panel-title{font-size:18px;margin:8px 0 4px;color:var(--ink)}
+@media(max-width:620px){.record-tabs{display:grid;grid-template-columns:1fr}.record-tab-button{text-align:left}}
+</style>
 </head>
 <body>
   <main class="shell">
@@ -150,8 +160,13 @@ body { min-height: 100vh; }
 </div>
 
 <section class="explorer" aria-labelledby="explorerTitle">
-      <h2 id="explorerTitle">Find study records</h2>
-      <p class="explorer-intro">Filter concentration records and other study details by state, water body, sampling year, sample type, result type and evidence source. Years refer to sampling years; when a source summary gives only a publication year, the sampling year is shown as not stated.</p>
+      <h2 id="explorerTitle">Virginia study records</h2>
+      <div class="record-tabs" role="tablist" aria-label="Virginia record sections">
+        <button id="findRecordsTab" class="record-tab-button" type="button" role="tab" aria-selected="true" aria-controls="recordFinderPanel" tabindex="0">Find study records</button>
+        <button id="measurementsTab" class="record-tab-button" type="button" role="tab" aria-selected="false" aria-controls="measurementPanel" tabindex="-1">Concentrations and surface abundance</button>
+      </div>
+      <div id="recordFinderPanel" class="record-tabpanel" role="tabpanel" aria-labelledby="findRecordsTab">
+<p class="explorer-intro">Filter concentration records and other study details by state, water body, sampling year, sample type, result type and evidence source. Years refer to sampling years; when a source summary gives only a publication year, the sampling year is shown as not stated.</p>
       <p class="metadata-legend"><b>Metadata coverage:</b> Detailed (6–8 of 8 fields), Partial (3–5), or Limited (0–2). The badge counts documented sampling period, sample type, unit, method, particle size, identification, quality checks, and a source link. It describes information recorded in this app; it does not rate study quality or establish that two results are comparable. Check the study details before comparing.</p>
       <form class="searchbox" id="searchForm" role="search">
         <label for="query">Search Virginia study records</label>
@@ -168,13 +183,6 @@ body { min-height: 100vh; }
       <p class="explorer-intro" id="stateNotice" aria-live="polite">Select Maryland to browse its available study water bodies. Other states will be added one at a time.</p>
       <p class="explorer-intro" id="ncSource" hidden>North Carolina river list: <a href="https://www.deq.nc.gov/mitigation-services/publicfolder/library/meetings/interbasin-transfer/download" target="_blank" rel="noopener">NC Department of Environmental Quality basin and sub-basin map</a>. This is a starting list, not every river in the state.</p>
 
-      <div class="explorer-layout">
-
-        <div class="record-results">
-          <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select up to 5 visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled>Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled>Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div>
-          <div id="recordList" class="record-list" aria-live="polite"></div>
-        </div>
-      </div>
       <details class="refine-filters" id="studyMapPanel"><summary>Optional map: Maryland study water bodies</summary>        <aside class="map-card" aria-labelledby="mapTitle">
           <h3 id="mapTitle">Study water bodies in Maryland</h3>
           <p>Choose a marker to filter records by water body. These are schematic river locations, not sample points.</p>
@@ -200,6 +208,20 @@ body { min-height: 100vh; }
         </aside></details>
       <p class="record-meta" id="mapAvailability" hidden>An exact sampling-point map is not available for this state in the app yet. No locations are guessed.</p>
       <details class="maryland-evidence"><summary><b>State coverage and remaining gaps</b></summary><div id="coverageStatus" aria-live="polite"></div></details>
+    
+      </div>
+      <div id="measurementPanel" class="record-tabpanel" role="tabpanel" aria-labelledby="measurementsTab" hidden>
+        <h3 class="measurement-panel-title">Concentrations and surface abundance</h3>
+        <p class="explorer-intro">Review the Virginia records matching your search and filters. Filters remain active when you switch between these sections.</p>
+<div class="explorer-layout">
+
+        <div class="record-results">
+          <div class="record-toolbar"><span id="recordCount" class="record-count" aria-live="polite"></span><label class="select-visible"><input id="selectVisible" type="checkbox"> Select up to 5 visible records</label><button id="downloadCsv" class="download-button secondary-download" type="button">Download filtered CSV</button><button id="downloadSelectedCsv" class="download-button" type="button" disabled>Download selected CSV</button><button id="downloadSelectedRis" class="download-button" type="button" disabled>Export selected RIS</button></div><div id="selectionStatus" class="selection-status" aria-live="polite"></div>
+          <div id="recordList" class="record-list" aria-live="polite"></div>
+        </div>
+      </div>
+      
+      </div>
     </section>
     <section class="explorer" aria-labelledby="regionalTitle">
       <h2 id="regionalTitle">State research summary</h2>
@@ -1915,8 +1937,9 @@ body { min-height: 100vh; }
     function exportRis(found){const ris=found.map(r=>["TY  - GEN","TI  - "+r.river+" — "+r.metric,"N1  - "+r.citation,"N1  - Result type: "+r.resultLabel,"N1  - Evidence source: "+r.evidence,"N1  - Sample type: "+r.matrix,"N1  - Scope: "+r.site,...r.links.flatMap(a=>["UR  - "+a[1],"N1  - "+a[0]]),...(r.latitude!=null&&r.longitude!=null?["N1  - Published coordinates: "+r.latitude+", "+r.longitude+(r.coordinateSource?" ("+r.coordinateSource+")":"")]:[]),"ER  - "].join("\r\n")).join("\r\n\r\n");downloadBlob("microplastics-selected-records.ris",ris,"application/x-research-info-systems;charset=utf-8")}
     document.getElementById("compareMetric").addEventListener("change",renderComparison);
     filterState.addEventListener("change",()=>updateState());
-    filterRiver.addEventListener("change",()=>{updateSiteOptions();renderBrowseRecords()});
-    [filterSite,filterYear,filterMatrix,filterUnit,filterResultType,filterEvidence].forEach(select=>select.addEventListener("change",renderBrowseRecords));
+    filterRiver.addEventListener("change",()=>{updateSiteOptions();renderBrowseRecords();if(filterRiver.value)showFilteredResults()});
+    filterSite.addEventListener("change",()=>{renderBrowseRecords();if(filterSite.value)showFilteredResults()});
+    [filterYear,filterMatrix,filterUnit,filterResultType,filterEvidence].forEach(select=>select.addEventListener("change",renderBrowseRecords));
     selectVisible.addEventListener("change",()=>{const visible=visibleBrowseRecords();if(selectVisible.checked){for(const r of visible){if(selectedBrowseIds.size>=MAX_COMPARE_SELECTIONS)break;selectedBrowseIds.add(r.id)}}else{for(const r of visible)selectedBrowseIds.delete(r.id)}renderBrowseRecords()});
     document.querySelectorAll(".map-marker").forEach(marker=>{const choose=()=>{if(filterState.value==="Maryland" && marker.dataset.mapWaterbody==="Nash Run"){return}filterRiver.value=marker.dataset.mapWaterbody;updateSiteOptions();renderBrowseRecords();document.getElementById("explorerTitle").scrollIntoView({behavior:"smooth",block:"start"})};marker.addEventListener("click",choose);marker.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();choose()}})});
     downloadCsv.addEventListener("click",()=>exportCsv(visibleBrowseRecords(),"microplastics-filtered-records.csv"));
@@ -1946,12 +1969,28 @@ body { min-height: 100vh; }
     updateSiteOptions();
     renderBrowseRecords();
     function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+    const finderTab=document.getElementById("findRecordsTab"),measurementsTab=document.getElementById("measurementsTab");
+    const finderPanel=document.getElementById("recordFinderPanel"),measurementPanel=document.getElementById("measurementPanel");
+    function activateRecordTab(showMeasurements){
+      finderTab.setAttribute("aria-selected",String(!showMeasurements));finderTab.tabIndex=showMeasurements?-1:0;
+      measurementsTab.setAttribute("aria-selected",String(showMeasurements));measurementsTab.tabIndex=showMeasurements?0:-1;
+      finderPanel.hidden=showMeasurements;measurementPanel.hidden=!showMeasurements;
+    }
+    function showFilteredResults(){
+      activateRecordTab(true);
+      requestAnimationFrame(()=>requestAnimationFrame(()=>document.getElementById("recordCount").scrollIntoView({behavior:"smooth",block:"center"})));
+    }
+    finderTab.addEventListener("click",()=>activateRecordTab(false));
+    measurementsTab.addEventListener("click",()=>activateRecordTab(true));
+    document.querySelectorAll('a[href="#recordList"]').forEach(link=>link.addEventListener("click",()=>activateRecordTab(true)));
+    [finderTab,measurementsTab].forEach((tab,index)=>tab.addEventListener("keydown",event=>{
+      if(event.key==="ArrowRight"||event.key==="ArrowLeft"){event.preventDefault();const next=index===0?measurementsTab:finderTab;next.focus();next.click();}
+    }));
     document.getElementById("searchForm").addEventListener("submit",event=>{
       event.preventDefault();
-      // A new name search keeps the state scope and clears stale refinements.
+      // A new name search keeps the Virginia state scope and clears stale refinements.
       for(const filter of [filterRiver,filterSite,filterYear,filterMatrix,filterUnit,filterResultType,filterEvidence])filter.value="";
-      updateSiteOptions();renderBrowseRecords();
-      document.getElementById("recordCount").scrollIntoView({behavior:"smooth",block:"center"});
+      updateSiteOptions();renderBrowseRecords();showFilteredResults();
     });
     searchInput.addEventListener("input",renderBrowseRecords);
     document.getElementById("clearSearch").addEventListener("click",()=>{searchInput.value="";renderBrowseRecords();searchInput.focus()});
